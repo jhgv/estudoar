@@ -1,18 +1,27 @@
 package estudoar.cin.ufpe.br.estudoar;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.parse.Parse;
+import android.view.View;
 
+import com.parse.Parse;
 
 public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Parse.initialize(this, "YUXgV0oMFzoDWkh7hgvw5T9TwRC49vvEBhZWqEQo", "PCCHPtCstEbqBu3Xn5KIgNv9mEWu3OanByDsOZ01");
+
+        //Permitir o armazenamento local das variaveis de identificacao
+        Parse.enableLocalDatastore(this);
+        //App e Client id
+        String appId = "YUXgV0oMFzoDWkh7hgvw5T9TwRC49vvEBhZWqEQo";
+        String clientId = "PCCHPtCstEbqBu3Xn5KIgNv9mEWu3OanByDsOZ01";
+        //Inicializa conexao com o Parse.com
+        Parse.initialize(this, appId, clientId);
         setContentView(R.layout.activity_main);
     }
 
@@ -36,5 +45,10 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void goToSignup(View view){
+        Intent i = new Intent(this, RegisterActivity.class);
+        startActivity(i);
     }
 }

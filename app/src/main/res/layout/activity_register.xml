@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="estudoar.cin.ufpe.br.estudoar.RegisterActivity">
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/uLogin"
+        android:hint="Login"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/uEmail"
+        android:layout_below="@+id/uLogin"
+        android:hint="Email"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:id="@+id/uPassword"
+        android:layout_below="@+id/uEmail"
+        android:hint="Password"/>
+
+    <Button
+        style="@style/BtnDefault"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/uPassword"
+        android:id="@+id/btnSignup"
+        android:text="Cadastrar"
+        android:onClick="signupUser"
+        />
+
+</RelativeLayout>
