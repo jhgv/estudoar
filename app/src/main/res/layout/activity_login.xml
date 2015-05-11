@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:hint="Senha"
         android:id="@+id/authPassword"
+        android:inputType="textPassword"
         android:layout_below="@+id/authLogin"/>
 
     <Button
@@ -31,6 +32,7 @@
         android:layout_height="wrap_content"
         android:text="Entrar"
         android:layout_below="@+id/authPassword"
+        android:onClick="normalLogin"
         android:id="@+id/btnLogin"/>
 
     <TextView
@@ -47,7 +49,17 @@
         android:layout_height="wrap_content"
         android:text="Cadastrar"
         android:onClick="goToSignup"
+        android:id="@+id/openSignup"
         android:layout_below="@id/loginDivText"/>
+
+    <Button
+        style="@style/FacebookButton"
+        android:layout_marginTop="30dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/openSignup"
+        android:onClick="facebookLogin"
+        android:text="Login com Facebook" />
 
 
 </RelativeLayout>
