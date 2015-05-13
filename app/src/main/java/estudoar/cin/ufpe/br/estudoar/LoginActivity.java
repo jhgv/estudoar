@@ -1,12 +1,12 @@
 package estudoar.cin.ufpe.br.estudoar;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +21,7 @@ import com.parse.ParseUser;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,7 @@ public class LoginActivity extends ActionBarActivity {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-            Intent i = new Intent(LoginActivity.this, HomePageActivity.class);
-            startActivity(i);
+            goToHomePage();
         }
 
     }
@@ -98,7 +97,6 @@ public class LoginActivity extends ActionBarActivity {
 
     public void facebookLogin(View view){
         final Dialog progressDialog = ProgressDialog.show(this, "", "Entrando...", true);
-       // List<String> permissions = Arrays.asList("public_profile", "email", "user_hometown");
         Collection<String> permissions = Arrays.asList("public_profile", "email", "user_hometown");
 
         ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
@@ -120,6 +118,7 @@ public class LoginActivity extends ActionBarActivity {
     public void goToHomePage(){
         Intent i = new Intent(LoginActivity.this, HomePageActivity.class);
         startActivity(i);
+        finish();//Tira LoginActivity da pilha de activities para o usuário não poder voltar para a tela de login
     }
 
     public void goToSignup(View view){
