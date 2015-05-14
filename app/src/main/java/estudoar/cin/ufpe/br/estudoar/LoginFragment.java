@@ -16,15 +16,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.Collection;
 
-public class LoginFragment extends Fragment implements View.OnClickListener{
+public class LoginFragment extends Fragment implements View.OnClickListener {
 
     private EditText loginInput;
     private EditText passwordInput;
@@ -42,12 +48,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         View loginView = inflater.inflate(R.layout.fragment_login, container, false);
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
 
         }
 
         ParseUser currentUser = ParseUser.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             goToHomePage();
         }
 
@@ -68,10 +74,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        if(savedInstanceState != null){
-
-        }
     }
 
     @Override
@@ -84,7 +86,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         int key = v.getId();
 
-        switch (key){
+        switch (key) {
             case R.id.btnLogin:
                 normalLogin(v);
                 break;
@@ -97,7 +99,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    public void normalLogin(View view){
+    public void normalLogin(View view) {
         final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Entrando...", true);
 
         String username = loginInput.getText().toString().trim();
@@ -126,19 +128,18 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         });
     }
 
-    public void facebookLogin(View view){
-        final Dialog progressDialog = ProgressDialog.show(getActivity() , "", "Entrando...", true);
+    public void facebookLogin(View view) {
+        final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Entrando...", true);
         Collection<String> permissions = Arrays.asList("public_profile", "email", "user_hometown");
 
         ParseFacebookUtils.logInWithReadPermissionsInBackground(getActivity(), permissions, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException err) {
                 progressDialog.dismiss();
-
                 if (user == null) {
                     Log.d("MyApp", "Login com Facebook falhou");
                 } else if (user.isNew()) {
-                    goToHomePage();
+                    requestFacebookUserDetails();
                 } else {
                     goToHomePage();
                 }
@@ -146,17 +147,48 @@ public class LoginFragment extends Fragment implements View.OnClickListener{
         });
     }
 
-    public void goToHomePage(){
+    public void requestFacebookUserDetails() {
+        GraphRequest request = GraphRequest.newMeRequest(
+                AccessToken.getCurrentAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(
+                            JSONObject profile,
+                            GraphResponse response) {
+                        //JSONObject userProfile = new JSONObject();
+                        if (profile == null) {
+                            Log.wtf("FIRST", "PROFILE VAZIO");
+                        } else {
+                            ParseUser currentUser = ParseUser.getCurrentUser();
+                            try {
+                                currentUser.put("name", profile.get("name"));
+                                currentUser.saveInBackground();
+                                goToHomePage();
+                            } catch (JSONException e) {
+                                Log.wtf("ERROR DETAIL", "Erro ao pegar detalhes");
+                            }
+                        }
+
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,picture,name,link");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    public void goToHomePage() {
         Intent i = new Intent(getActivity(), HomePageActivity.class);
         startActivity(i);
         getActivity().finish();//Tira LoginActivity da pilha de activities para o usuário não poder voltar para a tela de login
     }
 
-    public void goToSignup(View view){
+    public void goToSignup(View view) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-        transaction.replace(R.id.fragment_login_signup,  new RegisterFragment()); //Container -> R.id.contentFragment
+        transaction.replace(R.id.fragment_login_signup, new RegisterFragment()); //Container -> R.id.contentFragment
         transaction.addToBackStack(null);
         transaction.commit();
     }
