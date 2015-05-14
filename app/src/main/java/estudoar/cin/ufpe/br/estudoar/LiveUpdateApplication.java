@@ -2,6 +2,7 @@ package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.Application;
 
+import com.facebook.FacebookSdk;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 
@@ -21,5 +22,6 @@ public class LiveUpdateApplication extends Application {
         //Inicializa a integracao do parse com o facebook
         //FacebookSdk.sdkInitialize(getApplicationContext());
         ParseFacebookUtils.initialize(this);
+        FacebookSdk.sdkInitialize(this);
     }
 }

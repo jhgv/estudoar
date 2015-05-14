@@ -24,6 +24,7 @@ public class LoginActivity extends Activity {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+
         if(savedInstanceState != null){
             fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
         }else{
@@ -70,6 +71,7 @@ public class LoginActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 
 }

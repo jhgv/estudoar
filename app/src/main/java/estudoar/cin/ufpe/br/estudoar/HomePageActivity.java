@@ -11,18 +11,19 @@ import com.parse.ParseUser;
 
 
 public class HomePageActivity extends ActionBarActivity {
+    protected TextView welcomeUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        setContentView(R.layout.activity_home_page);
+        welcomeUsername = (TextView) findViewById(R.id.welcomeUsername);
+
+        final ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
-            TextView welcomeUsername = (TextView) findViewById(R.id.welcomeUsername);
-            welcomeUsername.setText("Bem vindo, " + currentUser.getUsername() + "!");
-        } else {
+            welcomeUsername.setText("Bem vindo, " + currentUser.get("name") + "!");
+        }else {
             redirectToLogin();
         }
 
@@ -45,7 +46,6 @@ public class HomePageActivity extends ActionBarActivity {
 
         switch (id){
             case R.id.user_logout:
-                ParseUser.logOut();
                 redirectToLogin();
                 break;
         }
@@ -53,9 +53,13 @@ public class HomePageActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     public void redirectToLogin(){
+        ParseUser.logOut();
         Intent i = new Intent(HomePageActivity.this, LoginActivity.class);
         startActivity(i);
+        finish();
     }
 
 }

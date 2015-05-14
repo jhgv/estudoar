@@ -1,65 +1,15 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
 
-    <TextView android:text="Bem vindos ao EstuDoar!"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:id="@+id/welcomeText"/>
+    <FrameLayout
+        android:id="@+id/fragment_login_signup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Login"
-        android:id="@+id/authLogin"
-        android:layout_below="@+id/welcomeText"/>
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Senha"
-        android:id="@+id/authPassword"
-        android:inputType="textPassword"
-        android:layout_below="@+id/authLogin"/>
-
-    <Button
-        style="@style/BtnDefault"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Entrar"
-        android:layout_below="@+id/authPassword"
-        android:onClick="normalLogin"
-        android:id="@+id/btnLogin"/>
-
-    <TextView
-        android:text="ou"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:id="@+id/loginDivText"
-        android:layout_below="@+id/btnLogin"/>
-
-    <Button
-        style="@style/BtnDefault"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Cadastrar"
-        android:onClick="goToSignup"
-        android:id="@+id/openSignup"
-        android:layout_below="@id/loginDivText"/>
-
-    <Button
-        style="@style/FacebookButton"
-        android:layout_marginTop="30dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/openSignup"
-        android:onClick="facebookLogin"
-        android:text="Login com Facebook" />
-
-
-</RelativeLayout>
+</LinearLayout>

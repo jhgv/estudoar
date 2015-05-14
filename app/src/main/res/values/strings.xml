@@ -6,4 +6,20 @@
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_home_page">HomePageActivity</string>
     <string name="facebook_app_id">1638841173016859</string>
+    <!--Login screen strings-->
+    <string name="login_welcome">Bem vindo ao EstuDoar!</string>
+    <string name="login_name">Nome</string>
+    <string name="login_username">Login</string>
+    <string name="login_password">Senha</string>
+    <string name="login_signin">Entrar</string>
+    <string name="login_div_text">ou</string>
+    <string name="login_go_signup">Cadastrar</string>
+    <string name="login_facebook">Login com Facebook</string>
+    <!--Singup screen string-->
+    <string name="signup_text">Cadastro de usuário</string>
+    <string name="signup_email">Email</string>
+    <string name="signup_btn">Cadastrar</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
