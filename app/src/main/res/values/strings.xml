@@ -13,10 +13,12 @@
     <string name="login_password">Senha</string>
     <string name="login_signin">Entrar</string>
     <string name="login_div_text">ou</string>
+    <string name="login_signup_text">Criar uma conta</string>
     <string name="login_go_signup">Cadastrar</string>
-    <string name="login_facebook">Login com Facebook</string>
+    <string name="login_facebook">Entrar com Facebook</string>
+    <string name="login_forgot">Esqueci minha senha</string>
     <!--Singup screen string-->
-    <string name="signup_text">Cadastro de usuário</string>
+    <string name="signup_text">NOVO USUÁRIO</string>
     <string name="signup_email">Email</string>
     <string name="signup_btn">Cadastrar</string>
 

@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
@@ -35,7 +36,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private EditText loginInput;
     private EditText passwordInput;
     private Button loginBtn;
-    private Button openSignupBtn;
+    private TextView openSignupBtn;
     private Button facebookBtn;
 
     public LoginFragment() {
@@ -61,7 +62,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         passwordInput = (EditText) loginView.findViewById(R.id.authPassword);
 
         loginBtn = (Button) loginView.findViewById(R.id.btnLogin);
-        openSignupBtn = (Button) loginView.findViewById(R.id.openSignup);
+        openSignupBtn = (TextView) loginView.findViewById(R.id.openSignup);
         facebookBtn = (Button) loginView.findViewById(R.id.facebookBtn);
 
         loginBtn.setOnClickListener(this);
@@ -181,7 +182,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void goToHomePage() {
         Intent i = new Intent(getActivity(), HomePageActivity.class);
         startActivity(i);
-        getActivity().finish();//Tira LoginActivity da pilha de activities para o usuário não poder voltar para a tela de login
+        getActivity().finish();//Tira LoginActivity da pilha de activities para o usuario não poder voltar para a tela de login
     }
 
     public void goToSignup(View view) {
