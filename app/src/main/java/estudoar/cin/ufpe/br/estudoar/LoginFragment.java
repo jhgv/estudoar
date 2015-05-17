@@ -37,6 +37,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     private EditText passwordInput;
     private Button loginBtn;
     private TextView openSignupBtn;
+    private TextView openForgotPassword;
     private Button facebookBtn;
 
     public LoginFragment() {
@@ -64,10 +65,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         loginBtn = (Button) loginView.findViewById(R.id.btnLogin);
         openSignupBtn = (TextView) loginView.findViewById(R.id.openSignup);
         facebookBtn = (Button) loginView.findViewById(R.id.facebookBtn);
+        openForgotPassword = (TextView) loginView.findViewById(R.id.openForgotPassword);
 
         loginBtn.setOnClickListener(this);
         openSignupBtn.setOnClickListener(this);
         facebookBtn.setOnClickListener(this);
+        facebookBtn.setOnClickListener(this);
+        openForgotPassword.setOnClickListener(this);
 
         return loginView;
     }
@@ -96,6 +100,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.facebookBtn:
                 facebookLogin(v);
+                break;
+            case R.id.openForgotPassword:
+                goToForgotPassword(v);
                 break;
         }
     }
@@ -178,6 +185,25 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         request.setParameters(parameters);
         request.executeAsync();
     }
+
+    public void goToForgotPassword(View view){
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+        transaction.replace(R.id.fragment_login_signup, new ForgotPasswordFragment());
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    /*public void goToLoginPage(){
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+        transaction.replace(R.id.fragment_login_signup, new LoginFragment()); //Container -> R.id.contentFragment
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }*/
+
 
     public void goToHomePage() {
         Intent i = new Intent(getActivity(), HomePageActivity.class);
