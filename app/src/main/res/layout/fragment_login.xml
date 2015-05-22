@@ -44,7 +44,10 @@
             android:id="@+id/authLogin"
             android:layout_width="fill_parent"
             android:hint="@string/login_username"
-            android:drawableLeft="@drawable/ic_username" />
+            android:drawableLeft="@drawable/ic_username"
+            android:inputType="text">
+            <requestFocus />
+        </EditText>
 
         <EditText
             style="@style/LoginSignupEditText"
@@ -52,7 +55,8 @@
             android:layout_width="fill_parent"
             android:hint="@string/login_password"
             android:inputType="textPassword"
-            android:drawableLeft="@drawable/ic_password"/>
+            android:drawableLeft="@drawable/ic_password">
+        </EditText>
 
         <Button
             style="@style/BtnDefault"
@@ -67,7 +71,7 @@
             android:textColor="@color/bright_foreground_inverse_material_light"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/loginForgot"
+            android:id="@+id/openForgotPassword"
             android:gravity="center_horizontal"/>
 
     </LinearLayout>
