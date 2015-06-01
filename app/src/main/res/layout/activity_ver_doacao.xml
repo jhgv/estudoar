@@ -1,0 +1,22 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2C3D4F"
+    tools:context="estudoar.cin.ufpe.br.estudoar.VerDoacaoActivity">
+
+    <FrameLayout
+        android:id="@+id/fragment_ver_doacao"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+    <FrameLayout
+        android:id="@+id/fragment_contato_doador"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+</LinearLayout>
