@@ -77,7 +77,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+      public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -208,7 +208,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void goToHomePage() {
         Intent i = new Intent(getActivity(), HomePageActivity.class);
         startActivity(i);
-        getActivity().finish();//Tira LoginActivity da pilha de activities para o usuario não poder voltar para a tela de login
+        getActivity().finish();//Tira LoginActivity da pilha de activities para o usuario nï¿½o poder voltar para a tela de login
     }
 
     public void goToSignup(View view) {

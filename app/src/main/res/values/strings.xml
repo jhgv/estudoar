@@ -36,5 +36,25 @@
     <!--Forgor Password strings-->
     <string name="forgot_helptext">Digite seu email cadastrado</string>
     <string name="forgot_request">Requisitar senha</string>
+    <string name="home_doar">Doar</string>
+    <string name="home_procurar">Procurar</string>
+    <string name="title_activity_doar">DoarActivity</string>
+    <string name="doar_nome">Nome do material</string>
+    <string name="doar_foto">Publicar Foto</string>
+    <string name="doar_cadastrar">Doar</string>
+    <string name="spinner_categoria">Escolha uma categoria</string>
+    <string name="assunto_doar">Assunto</string>
+    <string name="descricao_doar">Descricao</string>
+
+    <string-array name="categorias_array">
+        <item>Livro</item>
+        <item>Xerox</item>
+        <item>Caderno</item>
+    </string-array>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_ver_doacao">VerDoacaoActivity</string>
 
 </resources>
+

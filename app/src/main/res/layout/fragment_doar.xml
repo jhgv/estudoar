@@ -1,0 +1,98 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="estudoar.cin.ufpe.br.estudoar.DoarFragment"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/linear_layout_doar"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            style="@style/LoginSignupEditText"
+            android:id="@+id/nome_doar"
+            android:layout_width="fill_parent"
+            android:hint="@string/doar_nome"
+            android:inputType="text"
+            >
+            <requestFocus />
+        </EditText>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/fotoView"
+            android:layout_marginTop="25dp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_horizontal"
+            android:background="#E8E8E8"
+            />
+
+        <Button
+            style="@style/BtnDefault"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/doar_foto"
+            android:id="@+id/btnFoto"
+            android:layout_marginTop="50px"
+        />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Categoria"
+            android:id="@+id/categoria_label"
+            android:layout_marginTop="25dp"
+            android:textSize="18dp"
+            android:textColor="#FFF"
+        />
+
+        <Spinner
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:id="@+id/spinner_doar"
+            android:prompt="@string/spinner_categoria"
+            android:background="#FFF"
+            android:layout_marginTop="10dp"
+        />
+
+        <EditText
+            style="@style/LoginSignupEditText"
+            android:id="@+id/assunto_doar"
+            android:layout_width="fill_parent"
+            android:hint="@string/assunto_doar"
+            android:inputType="text"
+            android:layout_marginTop="50px"
+        />
+
+        <EditText
+            style="@style/LoginSignupEditText"
+            android:id="@+id/descricao_doar"
+            android:layout_width="fill_parent"
+            android:layout_height="300px"
+            android:hint="@string/descricao_doar"
+            android:inputType="text"
+            android:gravity="top"
+            android:layout_marginTop="50px"
+        />
+
+        <Button
+            style="@style/BtnDefault"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/doar_cadastrar"
+            android:id="@+id/btnDoar"
+            android:layout_marginTop="50px"
+        />
+
+    </LinearLayout>
+
+</ScrollView>
