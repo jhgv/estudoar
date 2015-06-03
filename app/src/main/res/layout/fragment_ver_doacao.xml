@@ -1,0 +1,131 @@
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="estudoar.cin.ufpe.br.estudoar.VerDoacaoFragment"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/linear_layout_doar"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_nome_doacao"
+            android:textSize="18dp"
+            android:textColor="#FFF"
+            android:text="Nome"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/nome_doacao"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="18dp"
+            android:textColor="#FFF">
+        </TextView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/labelfotoDoacao"
+            android:layout_marginTop="25dp"
+            android:textSize="18dp"
+            android:textColor="#FFF"
+            android:text="Foto">
+        </TextView>
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:id="@+id/foto_doacao"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_horizontal"
+            android:background="#E8E8E8"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_categoria_doacao"
+            android:layout_marginTop="25dp"
+            android:textSize="18dp"
+            android:textColor="#FFF"
+            android:text="Categoria"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/categoria_doacao"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="18dp"
+            android:textColor="#FFF"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/label_assunto_doacao"
+            android:layout_marginTop="25dp"
+            android:textSize="18dp"
+            android:textColor="#FFF"
+            android:text="Assunto"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/assunto_doacao"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="18dp"
+            android:textColor="#FFF"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/categoria"
+            android:layout_marginTop="25dp"
+            android:textSize="18dp"
+            android:textColor="#FFF"
+            android:text="Descrição"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/descricao_doacao"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:textSize="18dp"
+            android:textColor="#FFF"
+            />
+
+        <Button
+            style="@style/BtnDefault"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Contato Doador"
+            android:id="@+id/btnContatoDoador"
+            android:layout_marginTop="50px"
+            android:layout_marginBottom="50px"
+            />
+
+    </LinearLayout>
+
+</ScrollView>
