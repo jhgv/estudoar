@@ -73,63 +73,31 @@ public class HomePageActivity extends ActionBarActivity {
             case R.id.user_logout:
                 redirectToLogin();
                 break;
+            case R.id.user_profile:
+                goToMeuPerfilPage();
+                break;
+            case R.id.user_doacoes:
+                goToMinhasDoacoesPage();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
-/*
-    public void onClick(View v) {
-        int key = v.getId();
 
-        switch (key) {
-            case R.id.btnDoar:
-                goToDoarPage(v);
-                break;
-            case R.id.btnProcurar:
-                goToProcurarPage(v);
-                break;
-            case R.id.btnPrimeiraDoacao:
-                goToVerDoacaoPage(v);
-                break;
-        }
-    }
-*/
     public void redirectToLogin(){
         ParseUser.logOut();
         Intent i = new Intent(HomePageActivity.this, LoginActivity.class);
         startActivity(i);
         finish();
     }
-/*
-    public void goToDoarPage(View view) {
-        Intent i = new Intent(HomePageActivity.this, DoarActivity.class);
+
+    public void goToMeuPerfilPage(){
+        Intent i = new Intent(this, MeuPerfil.class);
         startActivity(i);
+    }
+
+    public void goToMinhasDoacoesPage(){
 
     }
 
-    public void goToProcurarPage(View view) {
-
-    }
-
-    public void goToVerDoacaoPage(View view){
-
-        Toast.makeText(this, "ID Desconhecido!", Toast.LENGTH_LONG).show();
-
-        final Intent i = new Intent(HomePageActivity.this, VerDoacaoActivity.class);
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
-        query.whereEqualTo("doador", currentUser);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject doacao, ParseException e) {
-                if (e == null) {
-                    i.putExtra("id_doacao", doacao.getObjectId());
-                    startActivity(i);
-                } else {
-                    Toast.makeText(HomePageActivity.this, "Você ainda não fez uma doação!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-    }
-*/
 }

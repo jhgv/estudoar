@@ -1,6 +1,5 @@
 package estudoar.cin.ufpe.br.estudoar;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -10,33 +9,46 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 
-public class DoarActivity extends ActionBarActivity {
+import java.util.List;
+
+
+public class MeuPerfil extends ActionBarActivity {
 
     protected Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doar);
+        setContentView(R.layout.activity_meu_perfil);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
 
-        final ParseUser currentUser = ParseUser.getCurrentUser();
+        ParseUser currentUser = ParseUser.getCurrentUser();
 
         if (currentUser != null) {
+
             if (savedInstanceState != null){
                 fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
             }else{
-                fragment = new DoarFragment();
-                ft.add(R.id.fragment_doar_cadastro,fragment);
+                fragment = new MeuPerfilFragment();
+                ft.add(R.id.fragment_meu_perfil,fragment);
                 ft.commit();
             }
+
         }else {
             redirectToLogin();
         }
@@ -72,20 +84,9 @@ public class DoarActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        try {
-            getFragmentManager().putFragment(outState, "fragment", fragment);
-        }catch (Exception e){
-            Log.d("My App", e.getMessage());
-        }
-    }
-
     public void redirectToLogin(){
         ParseUser.logOut();
-        Intent i = new Intent(DoarActivity.this, LoginActivity.class);
+        Intent i = new Intent(MeuPerfil.this, LoginActivity.class);
         startActivity(i);
         finish();
     }

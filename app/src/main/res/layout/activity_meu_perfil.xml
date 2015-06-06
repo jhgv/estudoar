@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#2C3D4F"
-    tools:context="estudoar.cin.ufpe.br.estudoar.VerDoacaoActivity">
+    tools:context="estudoar.cin.ufpe.br.estudoar.MeuPerfil">
 
     <FrameLayout
-        android:id="@+id/fragment_ver_doacao"
+        android:id="@+id/fragment_meu_perfil"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
     />

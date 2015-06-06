@@ -21,7 +21,7 @@
             android:id="@+id/btnDoar"
             android:layout_marginTop="100px"
 
-            />
+        />
 
         <Button
             style="@style/BtnDefault"
@@ -38,6 +38,15 @@
             android:layout_height="wrap_content"
             android:text="Minha Primeira Doação"
             android:id="@+id/btnPrimeiraDoacao"
+            android:layout_marginTop="100px"
+        />
+
+        <Button
+            style="@style/BtnDefault"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Meu Perfil"
+            android:id="@+id/btnVerMeuPerfil"
             android:layout_marginTop="100px"
         />
 

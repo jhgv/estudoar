@@ -58,6 +58,10 @@
             android:name=".VerDoacaoActivity"
             android:label="@string/title_activity_ver_doacao" >
         </activity>
+        <activity
+            android:name=".MeuPerfil"
+            android:label="@string/title_activity_meu_perfil" >
+        </activity>
     </application>
 
 </manifest>

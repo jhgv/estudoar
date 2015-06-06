@@ -58,6 +58,8 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
         foto = (ImageView) doacaoView.findViewById(R.id.foto_doacao);
 
+        contatoBtn = (Button) doacaoView.findViewById(R.id.btnContatoDoador);
+
         Intent intent = getActivity().getIntent();
 
         String id_doacao = intent.getExtras().getString("id_doacao");
@@ -112,7 +114,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         int key = v.getId();
 
         switch (key) {
-            case R.id.btnDoar:
+            case R.id.btnContatoDoador:
                 goToContatoDoador(v);
                 break;
         }
@@ -133,7 +135,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-        transaction.replace(R.id.fragment_contato_doador, new RegisterFragment());
+        transaction.replace(R.id.fragment_ver_doacao, new ContatoDoadorFragment());
         transaction.addToBackStack(null);
         transaction.commit();
     }

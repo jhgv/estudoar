@@ -23,9 +23,12 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+import com.parse.SignUpCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -167,11 +170,18 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
 
             doacao.put("doador", currentUser);
 
-            doacao.saveInBackground();
+            doacao.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e == null) {
+                        Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_LONG).show();
+                        getActivity().finish();
+                    } else {
+                        Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
 
-            Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_LONG).show();
-
-            getActivity().finish();
         }
     }
 

@@ -23,6 +23,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
     private Button doarBtn;
     private Button procurarBtn;
     private Button primeiraDoacao;
+    //private Button verMeuPerfilBtn;
 
 
     public HomePageFragment() {
@@ -45,7 +46,10 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
 
         primeiraDoacao = (Button) homeView.findViewById(R.id.btnPrimeiraDoacao);
         primeiraDoacao.setOnClickListener(this);
-
+/*
+        verMeuPerfilBtn = (Button) homeView.findViewById(R.id.btnVerMeuPerfil);
+        verMeuPerfilBtn.setOnClickListener(this);
+*/
         return homeView;
     }
 
@@ -74,6 +78,10 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
             case R.id.btnPrimeiraDoacao:
                 goToVerDoacaoPage(v);
                 break;
+/*            case R.id.btnVerMeuPerfil:
+                goToMeuPerfil(v);
+                break;
+*/
         }
     }
 
@@ -115,5 +123,10 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
         });
 
     }
-
+/*
+    public void goToMeuPerfil(View view){
+        Intent i = new Intent(getActivity(), MeuPerfil.class);
+        startActivity(i);
+    }
+*/
 }

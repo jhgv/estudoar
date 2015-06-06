@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.parse.ParseUser;
 
-public class ContatoDoadorFragment extends Fragment {
+public class ContatoDoadorFragment extends Fragment{
 
     private TextView nome_doador;
     private TextView email_doador;
@@ -43,7 +43,7 @@ public class ContatoDoadorFragment extends Fragment {
 
         return contatoDoadorView;
     }
-
+/*
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -55,5 +55,5 @@ public class ContatoDoadorFragment extends Fragment {
 
     }
 
-
+*/
 }
