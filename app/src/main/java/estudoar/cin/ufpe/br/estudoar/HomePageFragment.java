@@ -1,10 +1,8 @@
 package estudoar.cin.ufpe.br.estudoar;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +33,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
         View homeView = inflater.inflate(R.layout.fragment_home_page, container, false);
 
         if(savedInstanceState == null){
+            
         }
 
         doarBtn = (Button) homeView.findViewById(R.id.btnDoar);
@@ -92,7 +91,8 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
     }
 
     public void goToProcurarPage(View view) {
-
+        Intent i = new Intent(getActivity(), DoacoesActivity.class);
+        startActivity(i);
     }
 
     public void goToVerDoacaoPage(View view){
