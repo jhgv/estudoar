@@ -33,7 +33,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
         View homeView = inflater.inflate(R.layout.fragment_home_page, container, false);
 
         if(savedInstanceState == null){
-            
+
         }
 
         doarBtn = (Button) homeView.findViewById(R.id.btnDoar);
