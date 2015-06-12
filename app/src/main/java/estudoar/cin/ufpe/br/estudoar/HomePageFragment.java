@@ -23,8 +23,6 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
     private Button doarBtn;
     private Button procurarBtn;
     private Button primeiraDoacao;
-    //private Button verMeuPerfilBtn;
-
 
     public HomePageFragment() {
         // Required empty public constructor
@@ -46,10 +44,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
 
         primeiraDoacao = (Button) homeView.findViewById(R.id.btnPrimeiraDoacao);
         primeiraDoacao.setOnClickListener(this);
-/*
-        verMeuPerfilBtn = (Button) homeView.findViewById(R.id.btnVerMeuPerfil);
-        verMeuPerfilBtn.setOnClickListener(this);
-*/
+
         return homeView;
     }
 
@@ -78,10 +73,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
             case R.id.btnPrimeiraDoacao:
                 goToVerDoacaoPage(v);
                 break;
-/*            case R.id.btnVerMeuPerfil:
-                goToMeuPerfil(v);
-                break;
-*/
+
         }
     }
 
@@ -114,7 +106,9 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject doacao, ParseException e) {
                 if (e == null) {
+                    ParseUser doador = (ParseUser) doacao.get("doador");
                     i.putExtra("id_doacao", doacao.getObjectId());
+                    i.putExtra("id_doador", doador.getObjectId());
                     startActivity(i);
                 } else {
                     Toast.makeText(getActivity(), "Você ainda não fez uma doação!", Toast.LENGTH_SHORT).show();
@@ -123,10 +117,4 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
         });
 
     }
-/*
-    public void goToMeuPerfil(View view){
-        Intent i = new Intent(getActivity(), MeuPerfil.class);
-        startActivity(i);
-    }
-*/
 }

@@ -135,7 +135,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         if(currentUser == null){
-            Toast.makeText(getActivity(), "Usuario nao logado", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Usuario não logado", Toast.LENGTH_LONG).show();
         }else {
 
             String nome = nomeImput.getText().toString().trim();
