@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://$PROJECT_DIR$/EstuDoar.iml" filepath="$PROJECT_DIR$/EstuDoar.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-    </modules>
-  </component>
-</project>
-=======
-      <module fileurl="file://$PROJECT_DIR$/Estudoar.iml" filepath="$PROJECT_DIR$/Estudoar.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/estudoar.iml" filepath="$PROJECT_DIR$/estudoar.iml" />
     </modules>
   </component>
 </project>
 
->>>>>>> nicolas
