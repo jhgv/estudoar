@@ -47,9 +47,6 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
         procurarBtn = (Button) homeView.findViewById(R.id.btnProcurar);
         procurarBtn.setOnClickListener(this);
 
-        primeiraDoacao = (Button) homeView.findViewById(R.id.btnPrimeiraDoacao);
-        primeiraDoacao.setOnClickListener(this);
-
         return homeView;
     }
 
@@ -75,20 +72,8 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
             case R.id.btnProcurar:
                 goToProcurarPage(v);
                 break;
-            case R.id.btnPrimeiraDoacao:
-                goToVerDoacaoPage(v);
-                break;
         }
     }
-
-/*
-    public void redirectToLogin(){
-        ParseUser.logOut();
-        Intent i = new Intent(getActivity(), LoginActivity.class);
-        startActivity(i);
-        getActivity().finish();
-    }
-*/
 
     public void goToDoarPage(View view) {
         Intent i = new Intent(getActivity(), DoarActivity.class);
@@ -97,9 +82,10 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
 
     public void goToProcurarPage(View view) {
         Intent i = new Intent(getActivity(), DoacoesActivity.class);
+        i.putExtra("id_doador",0);
         startActivity(i);
     }
-
+/*
     public void goToVerDoacaoPage(View view){
         ParseUser currentUser = ParseUser.getCurrentUser();
 
@@ -110,8 +96,6 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject doacao, ParseException e) {
                 if (e == null) {
-                    i.putExtra("id_doacao", doacao.getObjectId());
-
                     ParseUser doador = (ParseUser) doacao.get("doador");
                     i.putExtra("id_doacao", doacao.getObjectId());
                     i.putExtra("id_doador", doador.getObjectId());
@@ -123,5 +107,5 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-    }
+    }*/
 }

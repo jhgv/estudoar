@@ -99,7 +99,9 @@ public class VerDoacaoActivity extends ActionBarActivity {
     }
 
     public void goToMinhasDoacoesPage(){
-
+        Intent i = new Intent(this, DoacoesActivity.class);
+        i.putExtra("id_doador",1);
+        startActivity(i);
     }
 }
 

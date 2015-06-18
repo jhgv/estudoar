@@ -1,12 +1,18 @@
 package estudoar.cin.ufpe.br.estudoar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 public class ContatoDoadorFragment extends Fragment{
@@ -26,20 +32,27 @@ public class ContatoDoadorFragment extends Fragment{
         if(savedInstanceState == null){
         }
 
-        View contatoDoadorView = inflater.inflate(R.layout.fragment_contato_doador,container,false);
+        final View contatoDoadorView = inflater.inflate(R.layout.fragment_contato_doador,container,false);
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        Intent intent = getActivity().getIntent();
+        String id_doador = intent.getExtras().getString("id_doador");
 
-        if(currentUser != null){
-            nome_doador = (TextView) contatoDoadorView.findViewById(R.id.nome_doador);
-            email_doador = (TextView) contatoDoadorView.findViewById(R.id.email_doador);
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("objectId", id_doador);
+        query.getFirstInBackground(new GetCallback<ParseUser>() {
+            public void done(ParseUser usuario, ParseException e) {
+                if (e == null) {
+                    nome_doador = (TextView) contatoDoadorView.findViewById(R.id.nome_doador);
+                    email_doador = (TextView) contatoDoadorView.findViewById(R.id.email_doador);
 
-            nome_doador.setText(currentUser.getString("name"));
-            email_doador.setText(currentUser.getEmail());
+                    nome_doador.setText(usuario.getString("name"));
+                    email_doador.setText(usuario.getEmail());
 
-        }else{
-            // Voltar pra tela de login?
-        }
+                } else {
+                    Toast.makeText(getActivity(), "Erro ao tentar acessar o doador", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         return contatoDoadorView;
     }

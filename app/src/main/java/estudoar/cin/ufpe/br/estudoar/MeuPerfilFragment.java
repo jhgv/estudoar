@@ -3,6 +3,7 @@ package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -78,8 +79,9 @@ public class MeuPerfilFragment extends Fragment implements View.OnClickListener 
     }
 
     public void goToMinhasDoacoesPage(View v) {
-        //Intent i = new Intent(getActivity(), MinhasDoacoesActivity.class);
-        //startActivity(i);
+        Intent i = new Intent(getActivity(), DoacoesActivity.class);
+        i.putExtra("id_doador",1);
+        startActivity(i);
     }
 
     public void goToEditarPerfilPage(View v) {
