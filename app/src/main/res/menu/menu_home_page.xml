@@ -3,13 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="estudoar.cin.ufpe.br.estudoar.HomePageActivity">
 
-<<<<<<< HEAD
-=======
     <item android:id="@+id/user_profile" android:title="Meu Perfil"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/user_doacoes" android:title="Minhas Doacoes"
         android:orderInCategory="100" app:showAsAction="never" />
->>>>>>> nicolas
     <item android:id="@+id/user_logout" android:title="Sair"
         android:orderInCategory="100" app:showAsAction="never" />
 

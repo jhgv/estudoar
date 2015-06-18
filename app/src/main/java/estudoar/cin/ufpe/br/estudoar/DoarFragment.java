@@ -23,18 +23,17 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-<<<<<<< HEAD
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
-=======
+
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
->>>>>>> nicolas
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -141,11 +140,9 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
         ParseUser currentUser = ParseUser.getCurrentUser();
 
         if(currentUser == null){
-<<<<<<< HEAD
-            Toast.makeText(getActivity(), "Usuario nao logado", Toast.LENGTH_LONG).show();
-=======
+
             Toast.makeText(getActivity(), "Usuario não logado", Toast.LENGTH_LONG).show();
->>>>>>> nicolas
+
         }else {
 
             String nome = nomeImput.getText().toString().trim();
@@ -180,13 +177,6 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
 
             doacao.put("doador", currentUser);
 
-<<<<<<< HEAD
-            doacao.saveInBackground();
-
-            Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_LONG).show();
-
-            getActivity().finish();
-=======
             doacao.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -199,7 +189,6 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 }
             });
 
->>>>>>> nicolas
         }
     }
 

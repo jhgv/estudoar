@@ -62,21 +62,18 @@ public class VerDoacaoActivity extends ActionBarActivity {
             case R.id.user_logout:
                 redirectToLogin();
                 break;
-<<<<<<< HEAD
-=======
             case R.id.user_profile:
                 goToMeuPerfilPage();
                 break;
             case R.id.user_doacoes:
                 goToMinhasDoacoesPage();
                 break;
->>>>>>> nicolas
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-<<<<<<< HEAD
+
 /*
     public void onClick(View v) {
         int key = v.getId();
@@ -88,17 +85,13 @@ public class VerDoacaoActivity extends ActionBarActivity {
         }
     }
 */
-=======
->>>>>>> nicolas
+
     public void redirectToLogin(){
         ParseUser.logOut();
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
     }
-<<<<<<< HEAD
-}
-=======
 
     public void goToMeuPerfilPage(){
         Intent i = new Intent(this, MeuPerfil.class);
@@ -110,4 +103,4 @@ public class VerDoacaoActivity extends ActionBarActivity {
     }
 }
 
->>>>>>> nicolas
+
