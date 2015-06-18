@@ -43,7 +43,10 @@ public class DoarActivity extends ActionBarActivity {
 
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> nicolas
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -62,6 +65,15 @@ public class DoarActivity extends ActionBarActivity {
             case R.id.user_logout:
                 redirectToLogin();
                 break;
+<<<<<<< HEAD
+=======
+            case R.id.user_profile:
+                goToMeuPerfilPage();
+                break;
+            case R.id.user_doacoes:
+                goToMinhasDoacoesPage();
+                break;
+>>>>>>> nicolas
         }
 
         return super.onOptionsItemSelected(item);
@@ -84,4 +96,16 @@ public class DoarActivity extends ActionBarActivity {
         startActivity(i);
         finish();
     }
+<<<<<<< HEAD
+=======
+
+    public void goToMeuPerfilPage(){
+        Intent i = new Intent(this, MeuPerfil.class);
+        startActivity(i);
+    }
+
+    public void goToMinhasDoacoesPage(){
+    }
+
+>>>>>>> nicolas
 }

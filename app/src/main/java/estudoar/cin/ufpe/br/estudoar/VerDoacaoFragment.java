@@ -38,6 +38,12 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
     private Button contatoBtn;
 
+<<<<<<< HEAD
+=======
+    private ParseUser currentUser;
+    boolean minhaDoacao = false;
+
+>>>>>>> nicolas
     public VerDoacaoFragment() {
         // Required empty public constructor
     }
@@ -51,6 +57,11 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
         View doacaoView = inflater.inflate(R.layout.fragment_ver_doacao,container,false);
 
+<<<<<<< HEAD
+=======
+        currentUser = ParseUser.getCurrentUser();
+
+>>>>>>> nicolas
         nome = (TextView) doacaoView.findViewById(R.id.nome_doacao);
         categoria = (TextView) doacaoView.findViewById(R.id.categoria_doacao);
         assunto = (TextView) doacaoView.findViewById(R.id.assunto_doacao);
@@ -62,6 +73,16 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
         Intent intent = getActivity().getIntent();
 
+<<<<<<< HEAD
+=======
+        String id_doador = intent.getExtras().getString("id_doador");
+
+        if (id_doador.equals(currentUser.getObjectId())){
+            contatoBtn.setText("Editar Doação");
+            minhaDoacao = true;
+        }
+
+>>>>>>> nicolas
         String id_doacao = intent.getExtras().getString("id_doacao");
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
@@ -115,7 +136,15 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
         switch (key) {
             case R.id.btnContatoDoador:
+<<<<<<< HEAD
                 goToContatoDoador(v);
+=======
+                if(minhaDoacao)
+                    goToEditarDoacao(v);
+                else
+                    goToContatoDoador(v);
+
+>>>>>>> nicolas
                 break;
         }
     }
@@ -140,5 +169,16 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         transaction.commit();
     }
 
+<<<<<<< HEAD
+=======
+    public void goToEditarDoacao(View view){
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+        transaction.replace(R.id.fragment_ver_doacao, new EditarDoacaoFragment());
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+>>>>>>> nicolas
 
 }

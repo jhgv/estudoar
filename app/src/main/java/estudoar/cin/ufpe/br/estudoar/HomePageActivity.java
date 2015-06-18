@@ -73,10 +73,20 @@ public class HomePageActivity extends ActionBarActivity {
             case R.id.user_logout:
                 redirectToLogin();
                 break;
+<<<<<<< HEAD
+=======
+            case R.id.user_profile:
+                goToMeuPerfilPage();
+                break;
+            case R.id.user_doacoes:
+                goToMinhasDoacoesPage();
+                break;
+>>>>>>> nicolas
         }
 
         return super.onOptionsItemSelected(item);
     }
+<<<<<<< HEAD
 /*
     public void onClick(View v) {
         int key = v.getId();
@@ -94,12 +104,16 @@ public class HomePageActivity extends ActionBarActivity {
         }
     }
 */
+=======
+
+>>>>>>> nicolas
     public void redirectToLogin(){
         ParseUser.logOut();
         Intent i = new Intent(HomePageActivity.this, LoginActivity.class);
         startActivity(i);
         finish();
     }
+<<<<<<< HEAD
 /*
     public void goToDoarPage(View view) {
         Intent i = new Intent(HomePageActivity.this, DoarActivity.class);
@@ -132,4 +146,16 @@ public class HomePageActivity extends ActionBarActivity {
 
     }
 */
+=======
+
+    public void goToMeuPerfilPage(){
+        Intent i = new Intent(this, MeuPerfil.class);
+        startActivity(i);
+    }
+
+    public void goToMinhasDoacoesPage(){
+
+    }
+
+>>>>>>> nicolas
 }

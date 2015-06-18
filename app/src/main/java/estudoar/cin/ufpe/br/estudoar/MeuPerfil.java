@@ -4,23 +4,34 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 
-public class VerDoacaoActivity extends ActionBarActivity {
+import java.util.List;
+
+
+public class MeuPerfil extends ActionBarActivity {
 
     protected Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver_doacao);
+        setContentView(R.layout.activity_meu_perfil);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -33,16 +44,16 @@ public class VerDoacaoActivity extends ActionBarActivity {
             if (savedInstanceState != null){
                 fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
             }else{
-                fragment = new VerDoacaoFragment();
-                ft.add(R.id.fragment_ver_doacao,fragment);
+                fragment = new MeuPerfilFragment();
+                ft.add(R.id.fragment_meu_perfil,fragment);
                 ft.commit();
             }
 
         }else {
             redirectToLogin();
         }
-    }
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -62,43 +73,23 @@ public class VerDoacaoActivity extends ActionBarActivity {
             case R.id.user_logout:
                 redirectToLogin();
                 break;
-<<<<<<< HEAD
-=======
             case R.id.user_profile:
                 goToMeuPerfilPage();
                 break;
             case R.id.user_doacoes:
                 goToMinhasDoacoesPage();
                 break;
->>>>>>> nicolas
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-<<<<<<< HEAD
-/*
-    public void onClick(View v) {
-        int key = v.getId();
-
-        switch (key) {
-            case R.id.btnDoar:
-                goToDoarPage(v);
-                break;
-        }
-    }
-*/
-=======
->>>>>>> nicolas
     public void redirectToLogin(){
         ParseUser.logOut();
-        Intent i = new Intent(this, LoginActivity.class);
+        Intent i = new Intent(MeuPerfil.this, LoginActivity.class);
         startActivity(i);
         finish();
     }
-<<<<<<< HEAD
-}
-=======
 
     public void goToMeuPerfilPage(){
         Intent i = new Intent(this, MeuPerfil.class);
@@ -106,8 +97,6 @@ public class VerDoacaoActivity extends ActionBarActivity {
     }
 
     public void goToMinhasDoacoesPage(){
-
     }
-}
 
->>>>>>> nicolas
+}

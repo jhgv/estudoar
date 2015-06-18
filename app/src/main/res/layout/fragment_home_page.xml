@@ -21,7 +21,11 @@
             android:id="@+id/btnDoar"
             android:layout_marginTop="100px"
 
+<<<<<<< HEAD
             />
+=======
+        />
+>>>>>>> nicolas
 
         <Button
             style="@style/BtnDefault"

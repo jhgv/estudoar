@@ -48,7 +48,11 @@
         </activity>
         <activity
             android:name=".HomePageActivity"
+<<<<<<< HEAD
             android:label="@string/app_name" >
+=======
+            android:label="Página principal" >
+>>>>>>> nicolas
         </activity>
         <activity
             android:name=".DoarActivity"
@@ -59,8 +63,13 @@
             android:label="@string/title_activity_ver_doacao" >
         </activity>
         <activity
+<<<<<<< HEAD
             android:name=".DoacoesActivity"
             android:label="@string/title_activity_materiais" >
+=======
+            android:name=".MeuPerfil"
+            android:label="@string/title_activity_meu_perfil" >
+>>>>>>> nicolas
         </activity>
     </application>
 
