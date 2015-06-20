@@ -120,6 +120,16 @@
             style="@style/BtnDefault"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:text="Quero"
+            android:id="@+id/btnQuero"
+            android:layout_marginTop="50px"
+            android:layout_marginBottom="50px"
+            />
+
+        <Button
+            style="@style/BtnDefault"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:text="Contato Doador"
             android:id="@+id/btnContatoDoador"
             android:layout_marginTop="50px"

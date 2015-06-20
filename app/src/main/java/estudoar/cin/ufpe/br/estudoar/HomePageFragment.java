@@ -27,7 +27,7 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
 
     private Button doarBtn;
     private Button procurarBtn;
-    private Button primeiraDoacao;
+    private Button favoritosBtn;
 
     public HomePageFragment() {
         // Required empty public constructor
@@ -46,6 +46,9 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
 
         procurarBtn = (Button) homeView.findViewById(R.id.btnProcurar);
         procurarBtn.setOnClickListener(this);
+
+        favoritosBtn = (Button) homeView.findViewById(R.id.btnFavoritos);
+        favoritosBtn.setOnClickListener(this);
 
         return homeView;
     }
@@ -72,6 +75,9 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
             case R.id.btnProcurar:
                 goToProcurarPage(v);
                 break;
+            case R.id.btnFavoritos:
+                goToFavoritosPage(v);
+                break;
         }
     }
 
@@ -82,9 +88,16 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
 
     public void goToProcurarPage(View view) {
         Intent i = new Intent(getActivity(), DoacoesActivity.class);
-        i.putExtra("id_doador",0);
+        i.putExtra("filter",0);
         startActivity(i);
     }
+
+    public void goToFavoritosPage(View view) {
+        Intent i = new Intent(getActivity(), DoacoesActivity.class);
+        i.putExtra("filter",2);
+        startActivity(i);
+    }
+
 /*
     public void goToVerDoacaoPage(View view){
         ParseUser currentUser = ParseUser.getCurrentUser();

@@ -41,9 +41,18 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/doar_foto"
-            android:id="@+id/btnFoto"
+            android:id="@+id/btnFotoGaleria"
             android:layout_marginTop="50px"
         />
+
+        <Button
+            style="@style/BtnDefault"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Tirar Foto"
+            android:id="@+id/btnFotoCamera"
+            android:layout_marginTop="50px"
+            />
 
         <TextView
             android:layout_width="fill_parent"

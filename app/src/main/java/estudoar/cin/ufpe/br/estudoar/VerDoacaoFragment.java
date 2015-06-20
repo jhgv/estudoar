@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -26,6 +27,9 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.util.List;
 
 public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
@@ -36,9 +40,13 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
     private ImageView foto;
 
+    private Button queroBtn;
     private Button contatoBtn;
 
     private ParseUser currentUser;
+    private ParseObject doacaoAtual;
+    private String id_interessado;
+
     boolean minhaDoacao = false;
 
     public VerDoacaoFragment() {
@@ -63,13 +71,15 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
         foto = (ImageView) doacaoView.findViewById(R.id.foto_doacao);
 
+        queroBtn = (Button) doacaoView.findViewById(R.id.btnQuero);
+
         contatoBtn = (Button) doacaoView.findViewById(R.id.btnContatoDoador);
 
         Intent intent = getActivity().getIntent();
 
-        String id_doador = intent.getExtras().getString("id_doador");
+        id_interessado = intent.getExtras().getString("id_doador");
 
-        if (id_doador.equals(currentUser.getObjectId())){
+        if (id_interessado.equals(currentUser.getObjectId())){
             contatoBtn.setText("Editar Doação");
             minhaDoacao = true;
         }
@@ -80,12 +90,13 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         query.getInBackground(id_doacao, new GetCallback<ParseObject>() {
             public void done(ParseObject doacao, ParseException e) {
                 if (e == null) {
-                    nome.setText(doacao.getString("nome"));
-                    categoria.setText(doacao.getString("categoria"));
-                    assunto.setText(doacao.getString("assunto"));
-                    descricao.setText(doacao.getString("descricao"));
+                    doacaoAtual = doacao;
+                    nome.setText(doacaoAtual.getString("nome"));
+                    categoria.setText(doacaoAtual.getString("categoria"));
+                    assunto.setText(doacaoAtual.getString("assunto"));
+                    descricao.setText(doacaoAtual.getString("descricao"));
 
-                    final ParseFile image_file = (ParseFile) doacao.getParseFile("foto");
+                    final ParseFile image_file = (ParseFile) doacaoAtual.getParseFile("foto");
 
                     new Thread(new Runnable() {
                         public void run() {
@@ -110,12 +121,26 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                         }
                     }).start();
 
+                    ParseQuery<ParseObject> queryFavorito = ParseQuery.getQuery("Favoritos");
+                    queryFavorito.whereEqualTo("interessado", currentUser.getObjectId());
+                    queryFavorito.whereEqualTo("doacao", doacaoAtual.getObjectId());
+                    queryFavorito.getFirstInBackground(new GetCallback<ParseObject>() {
+                        public void done(ParseObject favorito, ParseException e) {
+                            if(favorito != null){
+                                queroBtn.setText("Não Quero");
+                            } else {
+                                //Toast.makeText(getActivity(), "Erro ao favoritar!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
                 } else {
                     Toast.makeText(getActivity(), "ID Desconhecido!", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
+        queroBtn.setOnClickListener(this);
         contatoBtn.setOnClickListener(this);
 
         return doacaoView;
@@ -126,14 +151,14 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         int key = v.getId();
 
         switch (key) {
+            case R.id.btnQuero:
+                marcarInteresse(v);
+                break;
             case R.id.btnContatoDoador:
-                goToContatoDoador(v);
-
                 if(minhaDoacao)
                     goToEditarDoacao(v);
                 else
                     goToContatoDoador(v);
-
                 break;
         }
     }
@@ -146,6 +171,42 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+    }
+
+    public void marcarInteresse(View view){
+        ParseQuery<ParseObject> queryFavorito = ParseQuery.getQuery("Favoritos");
+
+        queryFavorito.whereEqualTo("interessado", currentUser.getObjectId());
+        queryFavorito.whereEqualTo("doacao", doacaoAtual.getObjectId());
+
+        queryFavorito.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> favoritos, ParseException e) {
+                if (favoritos.size() != 0){
+                    ParseObject.deleteAllInBackground(favoritos);
+                    queroBtn.setText("Quero");
+                    Toast.makeText(getActivity(), "Deletado o favorito", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    ParseObject favorito = new ParseObject("Favoritos");
+
+                    favorito.put("interessado", currentUser.getObjectId());
+                    favorito.put("doacao", doacaoAtual.getObjectId());
+
+                    favorito.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                queroBtn.setText("Não Quero");
+                                Toast.makeText(getActivity(), "Feita a requisição", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(), "Erro ao enviar a requisição", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
+            }
+        });
 
     }
 
@@ -166,4 +227,5 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 }

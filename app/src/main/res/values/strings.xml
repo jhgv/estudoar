@@ -57,6 +57,7 @@
     <string name="title_activity_ver_doacao">VerDoacaoActivity</string>
     <string name="title_activity_materiais">MateriaisActivity</string>
     <string name="title_activity_meu_perfil">MeuPerfil</string>
+    <string name="title_activity_favoritos">FavoritosActivity</string>
 
 </resources>
 

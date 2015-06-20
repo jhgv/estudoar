@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,11 +37,17 @@ import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class DoarFragment extends Fragment implements View.OnClickListener {
 
@@ -49,7 +57,8 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
     private EditText assuntoImput;
     private EditText descricaoImput;
 
-    private Button fotoBtn;
+    private Button fotoGaleiraBtn;
+    private Button fotoCameraBtn;
     private Button doarBtn;
 
     private Spinner categorias_spinner;
@@ -74,10 +83,12 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
         assuntoImput = (EditText) doarView.findViewById(R.id.assunto_doar);
         descricaoImput = (EditText) doarView.findViewById(R.id.descricao_doar);
 
-        fotoBtn = (Button) doarView.findViewById(R.id.btnFoto);
+        fotoGaleiraBtn = (Button) doarView.findViewById(R.id.btnFotoGaleria);
+        fotoCameraBtn = (Button) doarView.findViewById(R.id.btnFotoCamera);
         doarBtn = (Button) doarView.findViewById(R.id.btnDoar);
 
-        fotoBtn.setOnClickListener(this);
+        fotoGaleiraBtn.setOnClickListener(this);
+        fotoCameraBtn.setOnClickListener(this);
         doarBtn.setOnClickListener(this);
 
         fotoView = (ImageView) doarView.findViewById(R.id.fotoView);
@@ -128,10 +139,12 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 doarMaterial(v);
                 break;
 
-            case R.id.btnFoto:
-                uploadFoto(v);
+            case R.id.btnFotoGaleria:
+                uploadFotoGaleria(v);
                 break;
-
+            case R.id.btnFotoCamera:
+                uploadFotoCamera(v);
+                break;
         }
     }
 
@@ -164,7 +177,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 // Convert it to byte
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 // Compress image to lower quality scale 1 - 100
-                foto.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                foto.compress(Bitmap.CompressFormat.JPEG, 50, stream);
                 byte[] image = stream.toByteArray();
 
                 // Create the ParseFile
@@ -192,8 +205,13 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void uploadFoto(View view){
+    public void uploadFotoGaleria(View view){
         startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
+
+    }
+
+    public void uploadFotoCamera(View view){
+        startActivityForResult(new Intent("android.media.action.IMAGE_CAPTURE"), 1);
 
     }
 
@@ -202,7 +220,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
 
         //Detects request codes
-        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+        if ((requestCode == GET_FROM_GALLERY) && resultCode == Activity.RESULT_OK) {
             Uri selectedImage = data.getData();
             Bitmap bitmap = null;
             try {
@@ -216,7 +234,10 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+        }else if( requestCode == 1 && resultCode == Activity.RESULT_OK){
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            fotoView.setImageBitmap(bitmap);
         }
-    }
 
+    }
 }

@@ -149,7 +149,7 @@ public class HomePageActivity extends ActionBarActivity {
 
     public void goToMinhasDoacoesPage(){
         Intent i = new Intent(this, DoacoesActivity.class);
-        i.putExtra("id_doador",1);
+        i.putExtra("filter",1);
         startActivity(i);
     }
 

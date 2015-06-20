@@ -26,45 +26,80 @@ public class DoacoesActivity extends ListActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        int filter = intent.getExtras().getInt("id_doador");
+        int filter = intent.getExtras().getInt("filter");
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
-
-        if(filter == 1) {
-            ParseUser currentUser = ParseUser.getCurrentUser();
-            query.whereEqualTo("doador", currentUser);
-        }
-
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
-                if (e == null) {
-                    mDoacoes = doacoes;
-                    DoacaoAdapter adapter = new DoacaoAdapter(getListView().getContext(), mDoacoes);
-                    setListAdapter(adapter);
-
-                    getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-                                                long arg3) {
-                            ParseObject doacao = (ParseObject) mDoacoes.get(position);
-
-                            Intent i = new Intent(DoacoesActivity.this, VerDoacaoActivity.class);
-
-                            ParseUser doador = (ParseUser) doacao.get("doador");
-                            i.putExtra("id_doacao", doacao.getObjectId());
-                            i.putExtra("id_doador", doador.getObjectId());
-
-                            startActivity(i);
-                        }
-                    });
-                } else {
-                    Log.d("doacao", "Error: " + e.getMessage());
-                }
+        if (filter == 1 || filter == 0) {
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
+            if (filter == 1) {
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                query.whereEqualTo("doador", currentUser);
             }
-        });
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
+                    if (e == null) {
+                        mDoacoes = doacoes;
+                        DoacaoAdapter adapter = new DoacaoAdapter(getListView().getContext(), mDoacoes);
+                        setListAdapter(adapter);
 
+                        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+                                                    long arg3) {
+                                ParseObject doacao = (ParseObject) mDoacoes.get(position);
 
+                                Intent i = new Intent(DoacoesActivity.this, VerDoacaoActivity.class);
+
+                                ParseUser doador = (ParseUser) doacao.get("doador");
+                                i.putExtra("id_doacao", doacao.getObjectId());
+                                i.putExtra("id_doador", doador.getObjectId());
+
+                                startActivity(i);
+                            }
+                        });
+                    } else {
+                        Log.d("doacao", "Error: " + e.getMessage());
+                    }
+                }
+            });
+
+        }else if (filter == 2){
+            ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
+            String usuarioAtual = ParseUser.getCurrentUser().getObjectId();
+            queryFavoritos.whereEqualTo("interessado", usuarioAtual);
+
+            ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
+            queryDoacoes.whereMatchesKeyInQuery("objectId", "doacao", queryFavoritos);
+
+            queryDoacoes.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
+                    if (e == null) {
+                        mDoacoes = doacoes;
+                        DoacaoAdapter adapter = new DoacaoAdapter(getListView().getContext(), mDoacoes);
+                        setListAdapter(adapter);
+
+                        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+                                                    long arg3) {
+                                ParseObject doacao = (ParseObject) mDoacoes.get(position);
+
+                                Intent i = new Intent(DoacoesActivity.this, VerDoacaoActivity.class);
+
+                                ParseUser doador = (ParseUser) doacao.get("doador");
+                                i.putExtra("id_doacao", doacao.getObjectId());
+                                i.putExtra("id_doador", doador.getObjectId());
+
+                                startActivity(i);
+                            }
+                        });
+                    } else {
+                        Log.d("doacao", "Error: " + e.getMessage());
+                    }
+                }
+            });
+        }
 
         setContentView(R.layout.activity_materiais);
     }
