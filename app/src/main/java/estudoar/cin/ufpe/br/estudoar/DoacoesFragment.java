@@ -72,10 +72,10 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         Intent intent = getActivity().getIntent();
         int filter = intent.getExtras().getInt("filter");
 
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            doQuerySearch(intent.getStringExtra(SearchManager.QUERY));
-        }
-        else if (filter == 1 || filter == 0) {
+//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+//            doQuerySearch(intent.getStringExtra(SearchManager.QUERY));
+//        }
+        if (filter == 1 || filter == 0) {
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
             if (filter == 1) {
                 ParseUser currentUser = ParseUser.getCurrentUser();

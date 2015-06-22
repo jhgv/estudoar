@@ -53,4 +53,10 @@ public class DoacoesActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //getSupportFragmentManager().putFragment(outState, "mContent", mContent);
+    }
 }
