@@ -27,6 +27,7 @@ import java.util.List;
 public class MeuPerfil extends ActionBarActivity {
 
     protected Fragment fragment;
+    private ParseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class MeuPerfil extends ActionBarActivity {
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        currentUser = ParseUser.getCurrentUser();
 
         if (currentUser != null) {
 
@@ -93,6 +94,7 @@ public class MeuPerfil extends ActionBarActivity {
 
     public void goToMeuPerfilPage(){
         Intent i = new Intent(this, MeuPerfil.class);
+        i.putExtra("id_usuario",currentUser.getObjectId());
         startActivity(i);
     }
 

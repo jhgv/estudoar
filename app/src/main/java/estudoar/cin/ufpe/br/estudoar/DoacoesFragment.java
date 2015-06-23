@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -75,6 +78,9 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             if (filter == 1) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 query.whereEqualTo("doador", currentUser);
+            }else if(filter == 3){
+                String id_usuario = intent.getExtras().getString("id_usuario");
+                query.whereEqualTo("doador", id_usuario);
             }
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
@@ -141,9 +147,39 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                     }
                 }
             });
+
+        }else if(filter == 3){
+            ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
+            queryDoacoes.whereEqualTo("doador", ParseUser.getCurrentUser());
+
+            ParseQuery<ParseObject> queryInteressados = ParseQuery.getQuery("Favoritos");
+            queryInteressados.whereMatchesKeyInQuery("doacao", "objectId", queryDoacoes);
+
+            queryInteressados.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> favts, com.parse.ParseException e) {
+                    if (e == null) {
+                        final List<ParseObject> favoritos = favts;
+                        InteressadosAdapter adapter = new InteressadosAdapter(mListView.getContext(), favoritos);
+                        ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
+
+                        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+                                                    long arg3) {
+                                ParseObject favorito = (ParseObject) favoritos.get(position);
+
+                                Intent i = new Intent(getActivity(), MeuPerfil.class);
+                                i.putExtra("id_usuario", (String) favorito.get("interessado"));
+                                startActivity(i);
+                            }
+                        });
+                    } else {
+                        Log.d("doacao", "Error: " + e.getMessage());
+                    }
+                }
+            });
         }
-
-
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
