@@ -33,16 +33,7 @@ public class DoacoesActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_materiais, menu);
 
-        // Associate searchable configuration with the SearchView
-//        SearchManager searchManager =
-//                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//        SearchView searchView =
-//                (SearchView) menu.findItem(R.id.search).getActionView();
-//        searchView.setSearchableInfo(
-//                searchManager.getSearchableInfo(getComponentName()));
-
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -57,13 +48,15 @@ public class DoacoesActivity extends ActionBarActivity {
         switch (id){
             case R.id.action_settings:
                 break;
-
-            case R.id.search:
-                onSearchRequested();
-                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //getSupportFragmentManager().putFragment(outState, "mContent", mContent);
+    }
 }

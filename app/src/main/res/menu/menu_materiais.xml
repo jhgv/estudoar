@@ -6,11 +6,12 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 
-    <item android:id="@+id/search"
-        android:title="@string/search_title"
-        android:icon="@drawable/ic_search"
-        android:actionViewClass="android.widget.SearchView"
-        app:showAsAction="ifRoom"/>
+   <item
+       android:id="@+id/action_search"
+       android:title="@string/search_title"
+       app:showAsAction="ifRoom"
+       app:actionViewClass="android.widget.SearchView"
+       />
 
     <item android:id="@+id/local_search" android:title="Busca Local"
         android:icon="@android:drawable/ic_menu_mylocation"

@@ -175,7 +175,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                 if(minhaDoacao)
                     goToEditarDoacao(v);
                 else
-                    goToContatoDoador(v);
+                    goToContatoDoador();
                 break;
         }
     }
@@ -246,13 +246,16 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
     }
 
-    public void goToContatoDoador(View view){
-        FragmentManager fm = getFragmentManager();
+    public void goToContatoDoador(){
+        Intent i = new Intent(getActivity(), MeuPerfil.class);
+        i.putExtra("id_usuario",id_doador);
+        startActivity(i);
+        /*FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
         transaction.replace(R.id.fragment_ver_doacao, new ContatoDoadorFragment());
         transaction.addToBackStack(null);
-        transaction.commit();
+        transaction.commit();*/
     }
 
     public void goToEditarDoacao(View view){
