@@ -12,18 +12,20 @@ import android.view.MenuItem;
 public class DoacoesActivity extends ActionBarActivity {
 
     protected Fragment fragment;
+    protected FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        FragmentManager fm = getFragmentManager();
+        fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
         fragment = new DoacoesFragment();
-        ft.add(R.id.fragment_doacoes,fragment);
-        ft.commit();
+
+        if (!fragment.isInLayout()) {
+            fm.beginTransaction().replace(R.id.fragment_doacoes, fragment, "mContent").commit();
+        }
 
         setContentView(R.layout.activity_materiais);
     }
@@ -53,10 +55,11 @@ public class DoacoesActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        //getSupportFragmentManager().putFragment(outState, "mContent", mContent);
-    }
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//
+//        fm.putFragment(outState, "mContent", fragment);
+//
+//    }
 }

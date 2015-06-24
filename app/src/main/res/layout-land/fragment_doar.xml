@@ -97,15 +97,6 @@
             style="@style/BtnDefault"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/doar_add_endereco"
-            android:id="@+id/btnAddAddress"
-            android:layout_marginTop="50px"
-            />
-
-        <Button
-            style="@style/BtnDefault"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
             android:text="@string/doar_cadastrar"
             android:id="@+id/btnDoar"
             android:layout_marginTop="50px"

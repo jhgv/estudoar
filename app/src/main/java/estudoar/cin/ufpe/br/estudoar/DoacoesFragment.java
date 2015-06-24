@@ -1,8 +1,6 @@
 package estudoar.cin.ufpe.br.estudoar;
 
-import android.app.Dialog;
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 
 import com.parse.FindCallback;
@@ -26,89 +25,52 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Large screen devices (such as tablets) are supported by replacing the ListView
- * with a GridView.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
- * interface.
- */
 public class DoacoesFragment extends Fragment implements AbsListView.OnItemClickListener{
-
-    protected Dialog progressDialog;
-
+    protected int filter;
+    private ProgressBar spinner;
     protected List<ParseObject> mDoacoes;
-
     private OnFragmentInteractionListener mListener;
-
-    /**
-     * ListView/GridView do fragment
-     */
     private AbsListView mListView;
+    Bundle extras;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public DoacoesFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         setHasOptionsMenu(true);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        Intent intent = getActivity().getIntent();
+        if (extras == null) {
+            extras = intent.getExtras();
+        }
+
+        filter = extras.getInt("filter");
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_doacoes, container, false);
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
 
-        Intent intent = getActivity().getIntent();
-        int filter = intent.getExtras().getInt("filter");
+        spinner = (ProgressBar) getActivity().findViewById(R.id.loadingProgress);
 
-//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-//            doQuerySearch(intent.getStringExtra(SearchManager.QUERY));
-//        }
         if (filter == 1 || filter == 0) {
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
             if (filter == 1) {
                 ParseUser currentUser = ParseUser.getCurrentUser();
                 query.whereEqualTo("doador", currentUser);
             }
-            query.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
-                    if (e == null) {
-                        mDoacoes = doacoes;
-                        DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes);
-                        ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
-
-                        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-                                                    long arg3) {
-                                ParseObject doacao = (ParseObject) mDoacoes.get(position);
-
-                                Intent i = new Intent(getActivity(), VerDoacaoActivity.class);
-
-                                ParseUser doador = (ParseUser) doacao.get("doador");
-                                i.putExtra("id_doacao", doacao.getObjectId());
-                                i.putExtra("id_doador", doador.getObjectId());
-
-                                startActivity(i);
-                            }
-                        });
-                    } else {
-                        Log.d("doacao", "Error: " + e.getMessage());
-                    }
-                }
-            });
+            doQuery(query);
 
         } else if (filter == 2) {
             ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
@@ -118,36 +80,9 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
             queryDoacoes.whereMatchesKeyInQuery("objectId", "doacao", queryFavoritos);
 
-            queryDoacoes.findInBackground(new FindCallback<ParseObject>() {
-                @Override
-                public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
-                    if (e == null) {
-                        mDoacoes = doacoes;
-                        DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes);
-                        ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
+            doQuery(queryDoacoes);
 
-                        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-                                                    long arg3) {
-                                ParseObject doacao = (ParseObject) mDoacoes.get(position);
-
-                                Intent i = new Intent(getActivity(), VerDoacaoActivity.class);
-
-                                ParseUser doador = (ParseUser) doacao.get("doador");
-                                i.putExtra("id_doacao", doacao.getObjectId());
-                                i.putExtra("id_doador", doador.getObjectId());
-
-                                startActivity(i);
-                            }
-                        });
-                    } else {
-                        Log.d("doacao", "Error: " + e.getMessage());
-                    }
-                }
-            });
         }
-
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -177,25 +112,59 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
-                if( newText.length() == 4){
-                    progressDialog = ProgressDialog.show(getActivity(), "", "Carregando...", true);
-                    doQuerySearch(newText);
+                if(newText.length() == 0){
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
+                    doQuery(query);
                 }
-                else if( newText.length() > 4 ){
-                    doQuerySearch(newText);
-                }else{
+                else if (newText.length() >= 4) {
                     mListView.setVisibility(View.INVISIBLE);
+                    doQuerySearch(newText);
                 }
                 return true;
             }
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d("MyApp", "submeteu: " + query);
+                doQuerySearch(query);
                 return true;
             }
         });
 
+    }
+
+    public void doQuery(ParseQuery<ParseObject> query){
+        spinner.setVisibility(View.VISIBLE);
+        mListView.setVisibility(View.INVISIBLE);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
+                if (e == null) {
+                    spinner.setVisibility(View.INVISIBLE);
+                    mListView.setVisibility(View.VISIBLE);
+                    mDoacoes = doacoes;
+                    DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes);
+                    ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
+
+                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+                                                long arg3) {
+                            ParseObject doacao = (ParseObject) mDoacoes.get(position);
+
+                            Intent i = new Intent(getActivity(), VerDoacaoActivity.class);
+
+                            ParseUser doador = (ParseUser) doacao.get("doador");
+                            i.putExtra("id_doacao", doacao.getObjectId());
+                            i.putExtra("id_doador", doador.getObjectId());
+
+                            startActivity(i);
+                        }
+                    });
+                } else {
+                    Log.d("doacao", "Error: " + e.getMessage());
+                }
+            }
+        });
     }
 
     private void doQuerySearch(String querySearch) {
@@ -220,38 +189,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
         ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
 
-        mainQuery.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
-                mListView.setVisibility(View.VISIBLE);
-                progressDialog.dismiss();
-                if (e == null) {
-                    mDoacoes = doacoes;
-                    DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes);
-                    ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
-
-                    getActivity().getIntent().removeExtra("filter");
-
-                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-                                                long arg3) {
-                            ParseObject doacao = (ParseObject) mDoacoes.get(position);
-
-                            Intent i = new Intent(getActivity(), VerDoacaoActivity.class);
-
-                            ParseUser doador = (ParseUser) doacao.get("doador");
-                            i.putExtra("id_doacao", doacao.getObjectId());
-                            i.putExtra("id_doador", doador.getObjectId());
-
-                            startActivity(i);
-                        }
-                    });
-                } else {
-                    Log.d("doacao", "Error: " + e.getMessage());
-                }
-            }
-        });
+        doQuery(mainQuery);
 
     }
 

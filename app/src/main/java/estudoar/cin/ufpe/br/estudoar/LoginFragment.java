@@ -195,15 +195,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         transaction.commit();
     }
 
-    /*public void goToLoginPage(){
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-        transaction.replace(R.id.fragment_login_signup, new LoginFragment()); //Container -> R.id.contentFragment
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }*/
-
 
     public void goToHomePage() {
         Intent i = new Intent(getActivity(), HomePageActivity.class);

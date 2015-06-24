@@ -18,6 +18,7 @@
     <string name="title_activity_home_page">HomePageActivity</string>
     <string name="go_back">Voltar</string>
     <string name="facebook_app_id">1638841173016859</string>
+    <string name="google_maps_api_key">AIzaSyAlmozzrKd9FV-o72EvrXQdqGmjjlC5tMo</string>
     <!--Login screen strings-->
     <string name="login_welcome">Bem vindo ao EstuDoar!</string>
     <string name="login_name">Nome</string>
@@ -42,6 +43,9 @@
     <string name="doar_nome">Nome do material</string>
     <string name="doar_foto">Publicar Foto</string>
     <string name="doar_cadastrar">Doar</string>
+    <string name="doar_add_endereco">Adicionar Endereço</string>
+    <string name="add_local_address">Local Atual</string>
+    <string name="add_address">Endereco de entrega</string>
     <string name="spinner_categoria">Escolha uma categoria</string>
     <string name="assunto_doar">Assunto</string>
     <string name="descricao_doar">Descricao</string>
@@ -63,6 +67,7 @@
     <string name="title_activity_meu_perfil">MeuPerfil</string>
     <string name="title_activity_favoritos">FavoritosActivity</string>
     <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_add_endereco">AddEnderecoActivity</string>
 
 </resources>
 
