@@ -220,7 +220,7 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
             doacao_editada.put("foto", file);
         }
 
-        doacao_editada.put("doador", currentUser);
+        doacao_editada.put("doador", currentUser.getObjectId());
 
         doacao_editada.saveInBackground(new SaveCallback() {
             @Override

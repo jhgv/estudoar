@@ -188,7 +188,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 doacao.put("foto", file);
             }
 
-            doacao.put("doador", currentUser);
+            doacao.put("doador", currentUser.getObjectId());
 
             doacao.saveInBackground(new SaveCallback() {
                 @Override

@@ -46,6 +46,8 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     private OnFragmentInteractionListener mListener;
 
     private int filter = 0;
+
+    private String currentUser = ParseUser.getCurrentUser().getObjectId();
     private String id_usuario = "";
 
     /**
@@ -84,25 +86,10 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             final ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
             if (filter == 1) {
-                ParseUser currentUser = ParseUser.getCurrentUser();
                 query.whereEqualTo("doador", currentUser);
             }else if(filter == 4){
                 id_usuario = intent.getExtras().getString("id_usuario");
-                final UsuarioParse usuario = new UsuarioParse();
-
-                ParseQuery<ParseUser> queryUser = ParseUser.getQuery();
-                queryUser.whereEqualTo("objectId", id_usuario);
-                queryUser.getFirstInBackground(new GetCallback<ParseUser>() {
-                    public void done(ParseUser doador, ParseException e) {
-                        if (e == null) {
-                            usuario.setUsuario(doador);
-                        } else {
-                            Toast.makeText(getActivity(), "Erro ao tentar acessar o doador", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-                query.whereEqualTo("doador", usuario.getUsuario());
+                query.whereEqualTo("doador", id_usuario);
             }
 
             query.findInBackground(new FindCallback<ParseObject>() {
@@ -121,9 +108,9 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
                                 Intent i = new Intent(getActivity(), VerDoacaoActivity.class);
 
-                                ParseUser doador = (ParseUser) doacao.get("doador");
+                                String doador = (String) doacao.get("doador");
                                 i.putExtra("id_doacao", doacao.getObjectId());
-                                i.putExtra("id_doador", doador.getObjectId());
+                                i.putExtra("id_doador", doador);
 
                                 startActivity(i);
                             }
@@ -136,8 +123,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
         } else if (filter == 2) {
             ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
-            String usuarioAtual = ParseUser.getCurrentUser().getObjectId();
-            queryFavoritos.whereEqualTo("interessado", usuarioAtual);
+            queryFavoritos.whereEqualTo("interessado", currentUser);
 
             ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
             queryDoacoes.whereMatchesKeyInQuery("objectId", "doacao", queryFavoritos);
@@ -158,9 +144,9 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
                                 Intent i = new Intent(getActivity(), VerDoacaoActivity.class);
 
-                                ParseUser doador = (ParseUser) doacao.get("doador");
+                                String doador = (String) doacao.get("doador");
                                 i.putExtra("id_doacao", doacao.getObjectId());
-                                i.putExtra("id_doador", doador.getObjectId());
+                                i.putExtra("id_doador", doador);
 
                                 startActivity(i);
                             }
@@ -173,7 +159,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
         }else if(filter == 3){
             ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
-            queryDoacoes.whereEqualTo("doador", ParseUser.getCurrentUser());
+            queryDoacoes.whereEqualTo("doador", currentUser);
 
             ParseQuery<ParseObject> queryInteressados = ParseQuery.getQuery("Favoritos");
             queryInteressados.whereMatchesKeyInQuery("doacao", "objectId", queryDoacoes);
@@ -283,14 +269,12 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
 
         if (filter == 1) {
-            ParseUser currentUser = ParseUser.getCurrentUser();
             mainQuery.whereEqualTo("doador", currentUser);
         }else if (filter == 4){
             mainQuery.whereEqualTo("doador", id_usuario);
         }else if (filter == 2){
             ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
-            String usuarioAtual = ParseUser.getCurrentUser().getObjectId();
-            queryFavoritos.whereEqualTo("interessado", usuarioAtual);
+            queryFavoritos.whereEqualTo("interessado", currentUser);
             mainQuery.whereMatchesKeyInQuery("objectId", "doacao", queryFavoritos);
         }
 
@@ -314,9 +298,9 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
                             Intent i = new Intent(getActivity(), VerDoacaoActivity.class);
 
-                            ParseUser doador = (ParseUser) doacao.get("doador");
+                            String doador = (String) doacao.get("doador");
                             i.putExtra("id_doacao", doacao.getObjectId());
-                            i.putExtra("id_doador", doador.getObjectId());
+                            i.putExtra("id_doador", doador);
 
                             startActivity(i);
                         }
@@ -349,7 +333,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         queries.add(queryNome);
 
         ParseQuery<ParseObject> queryDoacoes = ParseQuery.or(queries);
-        queryDoacoes.whereEqualTo("doador", ParseUser.getCurrentUser());
+        queryDoacoes.whereEqualTo("doador", currentUser);
 
         ParseQuery<ParseObject> queryDoacoesFavoritadas = ParseQuery.getQuery("Favoritos");
         queryDoacoesFavoritadas.whereMatchesKeyInQuery("doacao", "objectId", queryDoacoes);
@@ -396,16 +380,3 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     }
 }
 
-class UsuarioParse{
-    public ParseUser usuario;
-
-    UsuarioParse(){}
-
-    public void setUsuario(ParseUser usuario){
-        this.usuario = usuario;
-    }
-
-    public ParseUser getUsuario(){
-        return this.usuario;
-    }
-}

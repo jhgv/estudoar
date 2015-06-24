@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
@@ -53,6 +54,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
     private Button queroBtn;
     private Button contatoBtn;
+    private Button deletarBtn;
 
     private ParseUser currentUser;
     private ParseObject doacaoAtual;
@@ -86,8 +88,8 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         foto = (ImageView) doacaoView.findViewById(R.id.foto_doacao);
 
         queroBtn = (Button) doacaoView.findViewById(R.id.btnQuero);
-
         contatoBtn = (Button) doacaoView.findViewById(R.id.btnContatoDoador);
+        deletarBtn = (Button) doacaoView.findViewById(R.id.btnDeletarDoacao);
 
         Intent intent = getActivity().getIntent();
 
@@ -97,6 +99,8 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
             contatoBtn.setText("Editar Doação");
             queroBtn.setVisibility(View.GONE);
             minhaDoacao = true;
+        }else{
+            deletarBtn.setVisibility(View.GONE);
         }
 
         String id_doacao = intent.getExtras().getString("id_doacao");
@@ -137,6 +141,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                     }).start();
 
                     if(!minhaDoacao) {
+
                         ParseQuery<ParseObject> queryFavorito = ParseQuery.getQuery("Favoritos");
                         queryFavorito.whereEqualTo("interessado", currentUser.getObjectId());
                         queryFavorito.whereEqualTo("doacao", doacaoAtual.getObjectId());
@@ -159,6 +164,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
         queroBtn.setOnClickListener(this);
         contatoBtn.setOnClickListener(this);
+        deletarBtn.setOnClickListener(this);
 
         return doacaoView;
     }
@@ -176,6 +182,9 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                     goToEditarDoacao(v);
                 else
                     goToContatoDoador();
+                break;
+            case R.id.btnDeletarDoacao:
+                deletarDoacao();
                 break;
         }
     }
@@ -197,20 +206,28 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         queryFavorito.whereEqualTo("interessado", currentUser.getObjectId());
         queryFavorito.whereEqualTo("doacao", doacaoAtual.getObjectId());
 
-        queryFavorito.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> favoritos, ParseException e) {
-                if (favoritos.size() != 0){
-                    ParseObject.deleteAllInBackground(favoritos);
+        queryFavorito.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject favorito, ParseException e) {
+                if (favorito != null){
+                    favorito.deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e == null){
+                                Toast.makeText(getActivity(), "Favorito deletado com sucesso", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getActivity(), "Erro ao deletar o favorito", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                     queroBtn.setText("Quero");
-                    Toast.makeText(getActivity(), "Deletado o favorito", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    ParseObject favorito = new ParseObject("Favoritos");
+                    ParseObject fvt = new ParseObject("Favoritos");
 
-                    favorito.put("interessado", currentUser.getObjectId());
-                    favorito.put("doacao", doacaoAtual.getObjectId());
+                    fvt.put("interessado", currentUser.getObjectId());
+                    fvt.put("doacao", doacaoAtual.getObjectId());
 
-                    favorito.saveInBackground(new SaveCallback() {
+                    fvt.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
@@ -265,6 +282,20 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         transaction.replace(R.id.fragment_ver_doacao, new EditarDoacaoFragment());
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public void deletarDoacao(){
+        doacaoAtual.deleteInBackground(new DeleteCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e == null){
+                    Toast.makeText(getActivity(), "Doação deletada com sucesso", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getActivity(), "Erro ao deletar a doação", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        getActivity().finish();
     }
 
 }
