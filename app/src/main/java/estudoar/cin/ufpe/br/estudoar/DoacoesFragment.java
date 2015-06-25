@@ -362,7 +362,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             double longitude = myLocation.getLongitude();
             double latitude = myLocation.getLatitude();
             ParseGeoPoint currentPoint = new ParseGeoPoint(latitude, longitude);
-            query.whereWithinKilometers("localizacao", currentPoint, 10.0);
+            query.whereWithinKilometers("localizacao", currentPoint, 15.0);
 
             doQuery(query);
 
