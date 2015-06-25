@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="estudoar.cin.ufpe.br.estudoar" >
+    package="estudoar.cin.ufpe.br.estudoar">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <!--Para o google maps-->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!--
       IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
       to match your app's package name + ".permission.C2D_MESSAGE".
     -->
-    <permission android:name="br.ufpe.estudoar.permission.MAPS_RECEIVE"
+    <permission
+        android:name="br.ufpe.estudoar.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <permission
-        android:name="br.ufpe.cin.estudoar.permission.C2D_MESSAGE"
+        android:name="estudoar.cin.ufpe.br.estudoar.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
-
-    <uses-permission android:name="br.ufpe.cin.estudoar.permission.C2D_MESSAGE" />
+    <!--br.ufpe.cin.estudoar.permission -->
+    <uses-permission android:name="estudoar.cin.ufpe.br.estudoar.permission.C2D_MESSAGE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
-        android:required="true"/>
+        android:required="true" />
 
     <application
         android:name=".LiveUpdateApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -50,7 +51,10 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_api_key"/>
+            android:value="@string/google_maps_api_key" />
+        <meta-data
+            android:name="com.parse.push.notification_icon"
+            android:resource="@mipmap/ic_launcher" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -59,7 +63,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -68,23 +72,27 @@
         </activity>
         <activity
             android:name=".HomePageActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
+
         </activity>
         <activity
             android:name=".DoarActivity"
-            android:label="@string/title_activity_doar" >
+            android:label="@string/title_activity_doar">
+
         </activity>
         <activity
             android:name=".VerDoacaoActivity"
-            android:label="@string/title_activity_ver_doacao" >
+            android:label="@string/title_activity_ver_doacao">
+
         </activity>
         <activity
             android:name=".MeuPerfil"
-            android:label="@string/title_activity_meu_perfil" >
+            android:label="@string/title_activity_meu_perfil">
+
         </activity>
         <activity
             android:name=".DoacoesActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -95,12 +103,45 @@
         </activity>
         <activity
             android:name=".SearchResultsActivity"
-            android:label="@string/title_activity_search" >
+            android:label="@string/title_activity_search">
+
         </activity>
         <activity
             android:name=".AddEnderecoActivity"
-            android:label="@string/title_activity_add_endereco" >
-        </activity>
-    </application>
+            android:label="@string/title_activity_add_endereco">
 
+        </activity>
+
+
+        <service android:name="com.parse.PushService" />
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="estudoar.cin.ufpe.br.estudoar" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".PushNotificationReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.parse.push.intent.RECEIVE" />
+                <action android:name="com.parse.push.intent.DELETE" />
+                <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>

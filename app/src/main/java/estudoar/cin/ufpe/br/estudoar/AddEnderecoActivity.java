@@ -2,6 +2,7 @@ package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,7 +18,8 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.parse.ParseGeoPoint;
+
+import java.util.ArrayList;
 
 
 public class AddEnderecoActivity extends Activity implements OnMapReadyCallback {
@@ -40,7 +42,14 @@ public class AddEnderecoActivity extends Activity implements OnMapReadyCallback 
         btnAddLocal.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                ParseGeoPoint gp = new ParseGeoPoint(latitude, longitude);
+                Intent i = new Intent();
+                //ParseGeoPoint gp = new ParseGeoPoint(latitude, longitude);
+                ArrayList<Double> coordenadas = new ArrayList<Double>();
+                coordenadas.add(latitude);
+                coordenadas.add(longitude);
+                i.putExtra("coordenadas", coordenadas);
+                setResult(Activity.RESULT_OK, i);
+                finish();
 
             }
         });
@@ -74,8 +83,8 @@ public class AddEnderecoActivity extends Activity implements OnMapReadyCallback 
         LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
         myLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        double longitude = myLocation.getLongitude();
-        double latitude = myLocation.getLatitude();
+        longitude = myLocation.getLongitude();
+        latitude = myLocation.getLatitude();
         LatLng location = new LatLng(latitude, longitude);
 
         map.setMyLocationEnabled(true);

@@ -11,17 +11,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 public class MeuPerfilFragment extends Fragment implements View.OnClickListener {
 
     private Button editarBtn;
-    private Button minhasDoacoesBtn;
+    private Button usuarioDoacoesBtn;
+
+    private String id_usuario;
 
     private TextView nome;
     private TextView email;
 
+    private boolean meu_perfil = false;
 
     public MeuPerfilFragment() {
         // Required empty public constructor
@@ -35,19 +42,39 @@ public class MeuPerfilFragment extends Fragment implements View.OnClickListener 
         if(savedInstanceState == null){
         }
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        Intent intent = getActivity().getIntent();
+        id_usuario = intent.getExtras().getString("id_usuario");
 
         nome = (TextView) meuPerfilView.findViewById(R.id.nome_usuario);
         email = (TextView) meuPerfilView.findViewById(R.id.email_usuario);
 
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("objectId", id_usuario);
+        query.getFirstInBackground(new GetCallback<ParseUser>() {
+            public void done(ParseUser usuario, ParseException e) {
+                if (e == null) {
+                    nome.setText(usuario.getString("name"));
+                    email.setText(usuario.getEmail());
+
+                } else {
+                    Toast.makeText(getActivity(), "Erro ao tentar acessar o doador", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        String current_user = ParseUser.getCurrentUser().getObjectId();
+
         editarBtn = (Button) meuPerfilView.findViewById(R.id.btnEditarPerfil);
-        minhasDoacoesBtn = (Button) meuPerfilView.findViewById(R.id.btnMinhasDoacoes);
+        usuarioDoacoesBtn = (Button) meuPerfilView.findViewById(R.id.btnMinhasDoacoes);
 
-        nome.setText(currentUser.getString("name"));
-        email.setText(currentUser.getEmail());
+        if(current_user.equals(id_usuario)){
+            meu_perfil = true;
+            editarBtn.setOnClickListener(this);
+        }else{
+            editarBtn.setVisibility(View.GONE);
+        }
 
-        editarBtn.setOnClickListener(this);
-        minhasDoacoesBtn.setOnClickListener(this);
+        usuarioDoacoesBtn.setOnClickListener(this);
 
         return meuPerfilView;
     }
@@ -80,7 +107,12 @@ public class MeuPerfilFragment extends Fragment implements View.OnClickListener 
 
     public void goToMinhasDoacoesPage(View v) {
         Intent i = new Intent(getActivity(), DoacoesActivity.class);
-        i.putExtra("id_doador",1);
+        if(meu_perfil){
+            i.putExtra("filter",1);
+        }else{
+            i.putExtra("filter",4);
+            i.putExtra("id_usuario",id_usuario);
+        }
         startActivity(i);
     }
 

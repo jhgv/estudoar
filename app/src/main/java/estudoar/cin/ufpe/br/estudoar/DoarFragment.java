@@ -25,13 +25,14 @@ import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class DoarFragment extends Fragment implements View.OnClickListener {
 
@@ -45,6 +46,11 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
     private Button fotoCameraBtn;
     private Button doarBtn;
     private Button addEndBtn;
+
+    private ParseGeoPoint localizacao;
+
+    private final int GET_PICTURE_CODE = 1;
+    private final int GET_LOCATION_CODE = 2;
 
     private Spinner categorias_spinner;
     private String categoriaSelecionada = "Livro";
@@ -178,7 +184,11 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 doacao.put("foto", file);
             }
 
-            doacao.put("doador", currentUser);
+            doacao.put("doador", currentUser.getObjectId());
+
+            if(localizacao != null){
+                doacao.put("localizacao", localizacao);
+            }
 
             doacao.saveInBackground(new SaveCallback() {
                 @Override
@@ -210,24 +220,27 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
 
         //Detects request codes
-        if ((requestCode == GET_FROM_GALLERY) && resultCode == Activity.RESULT_OK) {
-            Uri selectedImage = data.getData();
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+        if( resultCode == Activity.RESULT_OK){
+            if ((requestCode == GET_FROM_GALLERY)) {
+                Uri selectedImage = data.getData();
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImage);
+                    fotoView.setImageBitmap(bitmap);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            } else if (requestCode == 1) {
+                Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 fotoView.setImageBitmap(bitmap);
-
-            } catch (FileNotFoundException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            }else if (requestCode == GET_LOCATION_CODE){
+                //double[] result = data.getDoubleArrayExtra("position");
+                ArrayList<Double> coordenadas = (ArrayList<Double>) data.getSerializableExtra("coordenadas");
+                localizacao = new ParseGeoPoint(coordenadas.get(0), coordenadas.get(1));
             }
-        } else if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            fotoView.setImageBitmap(bitmap);
         }
+
 
     }
 
@@ -238,7 +251,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             buildAlertMessageNoGps();
         } else {
             Intent i = new Intent(getActivity(), AddEnderecoActivity.class);
-            startActivity(i);
+            startActivityForResult(i, GET_LOCATION_CODE);
         }
     }
 
