@@ -54,6 +54,8 @@
         <item>Livro</item>
         <item>Xerox</item>
         <item>Caderno</item>
+        <item>Apostila</item>
+        <item>Outro</item>
     </string-array>
 
     <!-- Doacoes -->

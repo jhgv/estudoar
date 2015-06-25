@@ -14,6 +14,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class DoarFragment extends Fragment implements View.OnClickListener {
@@ -180,7 +182,8 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 byte[] image = stream.toByteArray();
 
                 // Create the ParseFile
-                ParseFile file = new ParseFile(nome + ".jpg", image);
+                String fileName = nome + ".jpg";
+                ParseFile file = new ParseFile(fileName.replaceAll("\\s+",""), image);
                 // Upload the image into Parse Cloud
                 file.saveInBackground();
 
@@ -200,7 +203,9 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                         Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_LONG).show();
                         getActivity().finish();
                     } else {
+                        Log.i("12",e.getMessage());
                         Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_LONG).show();
+                        getActivity().finish();
                     }
                 }
             });
