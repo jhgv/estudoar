@@ -2,11 +2,13 @@ package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -15,6 +17,7 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -240,6 +243,28 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 localizacao = new ParseGeoPoint(coordenadas.get(0), coordenadas.get(1));
             }
         }
+
+        fotoView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final Dialog nagDialog = new Dialog(getActivity(),android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+                nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                nagDialog.setCancelable(false);
+                nagDialog.setContentView(R.layout.preview_image);
+                Button btnClose = (Button)nagDialog.findViewById(R.id.btnIvClose);
+                ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.iv_preview_image);
+                ivPreview.setImageDrawable(fotoView.getDrawable());
+                ivPreview.setBackgroundColor(Color.BLACK);
+
+                btnClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+
+                        nagDialog.dismiss();
+                    }
+                });
+                nagDialog.show();
+            }
+        });
 
 
     }

@@ -1,6 +1,7 @@
 package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.NotificationManager;
@@ -10,6 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -18,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -159,6 +163,28 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                 } else {
                     Toast.makeText(getActivity(), "ID Desconhecido!", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        foto.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final Dialog nagDialog = new Dialog(getActivity(),android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+                nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                nagDialog.setCancelable(false);
+                nagDialog.setContentView(R.layout.preview_image);
+                Button btnClose = (Button)nagDialog.findViewById(R.id.btnIvClose);
+                ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.iv_preview_image);
+                ivPreview.setImageDrawable(foto.getDrawable());
+                ivPreview.setBackgroundColor(Color.BLACK);
+
+                btnClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+
+                        nagDialog.dismiss();
+                    }
+                });
+                nagDialog.show();
             }
         });
 
