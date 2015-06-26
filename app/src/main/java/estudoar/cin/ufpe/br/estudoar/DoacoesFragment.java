@@ -82,39 +82,15 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         Intent intent = getActivity().getIntent();
         filter = intent.getExtras().getInt("filter");
 
+        if (filter == 4) {
+            id_usuario = intent.getExtras().getString("id_usuario");
+        }
+
 //        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 //            doQuerySearch(intent.getStringExtra(SearchManager.QUERY));
 //        }
-        if (filter == 1 || filter == 0 || filter == 4) {
-            final ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
-            if (filter == 1) {
-                query.whereEqualTo("doador", currentUser);
-            } else if (filter == 4) {
-                id_usuario = intent.getExtras().getString("id_usuario");
-                query.whereEqualTo("doador", id_usuario);
-            }
-
-            doQuery(query);
-
-        } else if (filter == 2) {
-            ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
-            queryFavoritos.whereEqualTo("interessado", currentUser);
-
-            ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
-            queryDoacoes.whereMatchesKeyInQuery("objectId", "doacao", queryFavoritos);
-
-            doQuery(queryDoacoes);
-
-        } else if (filter == 3) {
-            ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
-            queryDoacoes.whereEqualTo("doador", currentUser);
-
-            ParseQuery<ParseObject> queryInteressados = ParseQuery.getQuery("Favoritos");
-            queryInteressados.whereMatchesKeyInQuery("doacao", "objectId", queryDoacoes);
-
-            doQueryInteressados(queryInteressados);
-        }
+        doSimpleSearch();
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -153,7 +129,6 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
         if(filter == 2 || filter == 3){
-            menu.findItem(R.id.local_search).setEnabled(false);
             menu.findItem(R.id.local_search).setVisible(false);
         }
 
@@ -164,12 +139,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() == 0) {
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
-                    if (filter == 3) {
-                        doQueryInteressados(query);
-                    } else {
-                        doQuery(query);
-                    }
+                    doSimpleSearch();
                 } else if (newText.length() >= 4) {
                     if (filter == 3) {
                         doQuerySearchFavoritos(newText);
@@ -186,6 +156,38 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                 return true;
             }
         });
+
+    }
+
+    private void doSimpleSearch(){
+        if ( filter == 0 || filter == 1 || filter == 4) {
+            final ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
+
+            if (filter == 1) {
+                query.whereEqualTo("doador", currentUser);
+            } else if (filter == 4) {
+                query.whereEqualTo("doador", id_usuario);
+            }
+            doQuery(query);
+
+        } else if (filter == 2) {
+            ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
+            queryFavoritos.whereEqualTo("interessado", currentUser);
+
+            ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
+            queryDoacoes.whereMatchesKeyInQuery("objectId", "doacao", queryFavoritos);
+
+            doQuery(queryDoacoes);
+
+        } else if (filter == 3) {
+            ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
+            queryDoacoes.whereEqualTo("doador", currentUser);
+
+            ParseQuery<ParseObject> queryInteressados = ParseQuery.getQuery("Favoritos");
+            queryInteressados.whereMatchesKeyInQuery("doacao", "objectId", queryDoacoes);
+
+            doQueryInteressados(queryInteressados);
+        }
 
     }
 

@@ -64,12 +64,12 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_ver_doacao">VerDoacaoActivity</string>
+    <string name="title_activity_ver_doacao">Doação</string>
     <string name="title_activity_materiais">MateriaisActivity</string>
-    <string name="title_activity_meu_perfil">MeuPerfil</string>
-    <string name="title_activity_favoritos">FavoritosActivity</string>
-    <string name="title_activity_search">SearchActivity</string>
-    <string name="title_activity_add_endereco">AddEnderecoActivity</string>
+    <string name="title_activity_meu_perfil">Perfil</string>
+    <string name="title_activity_favoritos">Doações Favoritas</string>
+    <string name="title_activity_search">Procurar Doações</string>
+    <string name="title_activity_add_endereco">Adicionar Endereço</string>
 
 </resources>
 

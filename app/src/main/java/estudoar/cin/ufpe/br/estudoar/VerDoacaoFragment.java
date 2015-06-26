@@ -325,7 +325,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                 }
             }
         });
-        
+
         getActivity().finish();
     }
 
