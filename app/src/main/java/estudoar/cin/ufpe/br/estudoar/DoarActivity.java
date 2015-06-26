@@ -86,7 +86,7 @@ public class DoarActivity extends ActionBarActivity {
 
     public void redirectToLogin(){
         ParseUser.logOut();
-        Intent i = new Intent(DoarActivity.this, LoginActivity.class);
+        Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
     }
