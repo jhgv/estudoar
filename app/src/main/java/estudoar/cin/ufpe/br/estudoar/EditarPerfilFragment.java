@@ -1,8 +1,10 @@
 package estudoar.cin.ufpe.br.estudoar;
 
 
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,10 +84,11 @@ public class EditarPerfilFragment extends Fragment implements View.OnClickListen
     }
 
     public void editar(View v) {
+        final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Salvando...", true);
 
         String new_name = nome.getText().toString().trim();
         String new_email = email.getText().toString().trim();
-        String new_telefone = telefone.toString().trim();
+        String new_telefone = telefone.getText().toString().trim();
 
         currentUser.put("name", new_name);
         currentUser.setEmail(new_email);
@@ -93,11 +97,12 @@ public class EditarPerfilFragment extends Fragment implements View.OnClickListen
         currentUser.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
+                progressDialog.dismiss();
                 if (e == null) {
-                    Toast.makeText(getActivity(), "As modificações foram salvas com sucesso", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Perfil Editado", Toast.LENGTH_SHORT).show();
                     goToMeuPerfil();
                 } else {
-                    Toast.makeText(getActivity(), "Erro ao Editar", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Erro ao Editar Perfil", Toast.LENGTH_SHORT).show();
                 }
             }
         });

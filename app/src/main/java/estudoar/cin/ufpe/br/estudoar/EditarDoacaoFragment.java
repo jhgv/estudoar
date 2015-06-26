@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -205,6 +206,8 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
     }
 
     public void salvarMudancas(){
+        final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Salvando...", true);
+
         String nome = nomeImput.getText().toString().trim();
         String assunto = assuntoImput.getText().toString().trim();
         String descricao = descricaoImput.getText().toString().trim();
@@ -234,8 +237,6 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
             doacao_editada.put("foto", file);
         }
 
-        //doacao_editada.put("doador", currentUser.getObjectId());
-
         if(localizacao != null){
             doacao_editada.put("localizacao", localizacao);
         }
@@ -243,11 +244,12 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
         doacao_editada.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
+                progressDialog.dismiss();
                 if (e == null) {
-                    Toast.makeText(getActivity(), "Doação modificada", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Doação Modificada", Toast.LENGTH_SHORT).show();
                     goToVerDoacao();
                 } else {
-                    Toast.makeText(getActivity(), "Erro ao salvar alterações", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Erro ao salvar alterações", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
@@ -311,16 +312,20 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
     }
 
     public void deletarDoacao(){
+        final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Excluindo...", true);
+
         doacaoAtual.deleteInBackground(new DeleteCallback() {
             @Override
             public void done(ParseException e) {
+                progressDialog.dismiss();
                 if(e == null){
-                    Toast.makeText(getActivity(), "Doação deletada com sucesso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Doação Excluída", Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(getActivity(), "Erro ao deletar a doação", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+        
         getActivity().finish();
     }
 

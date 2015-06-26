@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -160,6 +161,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(), "Usuario não logado", Toast.LENGTH_LONG).show();
 
         } else {
+            final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Salvando...", true);
 
             String nome = nomeImput.getText().toString().trim();
             String assunto = assuntoImput.getText().toString().trim();
@@ -201,12 +203,13 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             doacao.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
+                    progressDialog.dismiss();
                     if (e == null) {
-                        Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_SHORT).show();
                         goToVerDoacao();
                         getActivity().finish();
                     } else {
-                        Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
