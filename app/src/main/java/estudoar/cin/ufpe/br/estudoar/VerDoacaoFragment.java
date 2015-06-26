@@ -279,7 +279,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                                 androidPush.sendInBackground();
 
                             } else {
-                                Toast.makeText(getActivity(), "Erro ao salvar a doação", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Erro ao favoritar doação", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

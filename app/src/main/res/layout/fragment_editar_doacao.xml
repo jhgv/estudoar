@@ -41,7 +41,16 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Alterar Foto"
-            android:id="@+id/btnFotoEditar"
+            android:id="@+id/btnFotoGaleriaEditar"
+            android:layout_marginTop="50px"
+            />
+
+        <Button
+            style="@style/BtnDefault"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Tirar Foto"
+            android:id="@+id/btnFotoCameraEditar"
             android:layout_marginTop="50px"
             />
 
@@ -81,6 +90,15 @@
             android:hint="@string/descricao_doar"
             android:inputType="text"
             android:gravity="top"
+            android:layout_marginTop="50px"
+            />
+
+        <Button
+            style="@style/BtnDefault"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/doar_add_endereco"
+            android:id="@+id/btnEditAddress"
             android:layout_marginTop="50px"
             />
 

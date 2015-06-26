@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -137,6 +138,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
         switch (id){
             case R.id.local_search:
+                item.setChecked(true);
                 doGpsQuerySearch();
                 break;
         }
@@ -150,6 +152,12 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+
+        if(filter == 2 || filter == 3){
+            menu.findItem(R.id.local_search).setEnabled(false);
+            menu.findItem(R.id.local_search).setVisible(false);
+        }
+
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 
@@ -181,8 +189,6 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         });
 
     }
-
-
 
     private void doQuerySearchDoacoes(String querySearch) {
         ParseQuery<ParseObject> queryNome = ParseQuery.getQuery("Doacao");
@@ -356,6 +362,12 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             buildAlertMessageNoGps();
         } else {
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
+
+            if (filter == 1) {
+                query.whereEqualTo("doador", currentUser);
+            } else if (filter == 4) {
+                query.whereEqualTo("doador", id_usuario);
+            }
 
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
             Location myLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);

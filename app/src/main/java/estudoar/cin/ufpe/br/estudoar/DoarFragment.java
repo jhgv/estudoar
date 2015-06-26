@@ -62,6 +62,9 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
 
     private ImageView fotoView;
 
+    ParseObject doacao;
+    ParseUser currentUser;
+
     public DoarFragment() {
         // Required empty public constructor
     }
@@ -71,6 +74,8 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View doarView = inflater.inflate(R.layout.fragment_doar, container, false);
+
+        currentUser = ParseUser.getCurrentUser();
 
         if (savedInstanceState == null) {
         }
@@ -143,15 +148,12 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 uploadFotoCamera(v);
                 break;
             case R.id.btnAddAddress:
-
                 openMaps(v);
                 break;
         }
     }
 
     public void doarMaterial(View view) {
-
-        ParseUser currentUser = ParseUser.getCurrentUser();
 
         if (currentUser == null) {
 
@@ -165,7 +167,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
 
             Bitmap foto = ((BitmapDrawable) fotoView.getDrawable()).getBitmap();
 
-            ParseObject doacao = new ParseObject("Doacao");
+            doacao = new ParseObject("Doacao");
 
             doacao.put("nome", nome);
             doacao.put("categoria", categoriaSelecionada);
@@ -201,11 +203,10 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 public void done(ParseException e) {
                     if (e == null) {
                         Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_LONG).show();
+                        goToVerDoacao();
                         getActivity().finish();
                     } else {
-                        Log.i("12",e.getMessage());
                         Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_LONG).show();
-                        getActivity().finish();
                     }
                 }
             });
@@ -302,5 +303,12 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 });
         final AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void goToVerDoacao(){
+        Intent i = new Intent(getActivity(), VerDoacaoActivity.class);
+        i.putExtra("id_doacao", doacao.getObjectId());
+        i.putExtra("id_doador", currentUser.getObjectId());
+        startActivity(i);
     }
 }
