@@ -34,18 +34,6 @@ public class DoacoesActivity extends ActionBarActivity {
 
         currentUser = ParseUser.getCurrentUser();
 
-        if (currentUser != null) {
-            if (savedInstanceState != null){
-                fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
-            }else{
-                fragment = new DoarFragment();
-                ft.add(R.id.fragment_doar_cadastro,fragment);
-                ft.commit();
-            }
-        }else {
-            redirectToLogin();
-        }
-
         setContentView(R.layout.activity_materiais);
     }
 
