@@ -138,7 +138,6 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
         switch (id){
             case R.id.local_search:
-                item.setChecked(true);
                 doGpsQuerySearch();
                 break;
         }

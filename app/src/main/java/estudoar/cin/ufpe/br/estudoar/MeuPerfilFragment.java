@@ -27,6 +27,7 @@ public class MeuPerfilFragment extends Fragment implements View.OnClickListener 
 
     private TextView nome;
     private TextView email;
+    private TextView telefone;
 
     private boolean meu_perfil = false;
 
@@ -47,34 +48,41 @@ public class MeuPerfilFragment extends Fragment implements View.OnClickListener 
 
         nome = (TextView) meuPerfilView.findViewById(R.id.nome_usuario);
         email = (TextView) meuPerfilView.findViewById(R.id.email_usuario);
+        telefone = (TextView) meuPerfilView.findViewById(R.id.telefone_usuario);
 
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("objectId", id_usuario);
-        query.getFirstInBackground(new GetCallback<ParseUser>() {
-            public void done(ParseUser usuario, ParseException e) {
-                if (e == null) {
-                    nome.setText(usuario.getString("name"));
-                    email.setText(usuario.getEmail());
+        ParseUser current_user = ParseUser.getCurrentUser();
 
-                } else {
-                    Toast.makeText(getActivity(), "Erro ao tentar acessar o doador", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        String current_user = ParseUser.getCurrentUser().getObjectId();
+        usuarioDoacoesBtn = (Button) meuPerfilView.findViewById(R.id.btnMinhasDoacoes);
+        usuarioDoacoesBtn.setOnClickListener(this);
 
         editarBtn = (Button) meuPerfilView.findViewById(R.id.btnEditarPerfil);
-        usuarioDoacoesBtn = (Button) meuPerfilView.findViewById(R.id.btnMinhasDoacoes);
 
-        if(current_user.equals(id_usuario)){
+        if(current_user.getObjectId().equals(id_usuario)){
             meu_perfil = true;
             editarBtn.setOnClickListener(this);
+
+            nome.setText(current_user.getString("name"));
+            email.setText(current_user.getEmail());
+            telefone.setText(current_user.getString("telefone"));
+
         }else{
             editarBtn.setVisibility(View.GONE);
-        }
 
-        usuarioDoacoesBtn.setOnClickListener(this);
+            ParseQuery<ParseUser> query = ParseUser.getQuery();
+            query.whereEqualTo("objectId", id_usuario);
+            query.getFirstInBackground(new GetCallback<ParseUser>() {
+                public void done(ParseUser usuario, ParseException e) {
+                    if (e == null) {
+                        nome.setText(usuario.getString("name"));
+                        email.setText(usuario.getEmail());
+                        telefone.setText(usuario.getString("telefone"));
+
+                    } else {
+                        Toast.makeText(getActivity(), "Erro ao tentar acessar o doador", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
 
         return meuPerfilView;
     }

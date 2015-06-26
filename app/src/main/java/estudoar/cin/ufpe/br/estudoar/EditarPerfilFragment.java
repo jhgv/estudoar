@@ -24,6 +24,7 @@ public class EditarPerfilFragment extends Fragment implements View.OnClickListen
 
     private EditText nome;
     private EditText email;
+    private TextView telefone;
 
     private ParseUser currentUser;
 
@@ -43,11 +44,13 @@ public class EditarPerfilFragment extends Fragment implements View.OnClickListen
 
         nome = (EditText) editarPerfilView.findViewById(R.id.nome_editar);
         email = (EditText) editarPerfilView.findViewById(R.id.email_editar);
+        telefone = (TextView) editarPerfilView.findViewById(R.id.telefone_editar);
 
         editarBtn = (Button) editarPerfilView.findViewById(R.id.btnEditar);
 
         nome.setText(currentUser.getString("name"));
         email.setText(currentUser.getEmail());
+        telefone.setText(currentUser.getString("telefone"));
 
         editarBtn.setOnClickListener(this);
 
@@ -81,9 +84,11 @@ public class EditarPerfilFragment extends Fragment implements View.OnClickListen
 
         String new_name = nome.getText().toString().trim();
         String new_email = email.getText().toString().trim();
+        String new_telefone = telefone.toString().trim();
 
         currentUser.put("name", new_name);
         currentUser.setEmail(new_email);
+        currentUser.put("telefone",new_telefone);
 
         currentUser.saveInBackground(new SaveCallback() {
             @Override
@@ -96,7 +101,6 @@ public class EditarPerfilFragment extends Fragment implements View.OnClickListen
                 }
             }
         });
-
     }
 
     public void goToMeuPerfil(){
