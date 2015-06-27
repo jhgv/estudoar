@@ -69,23 +69,13 @@ public class VerDoacaoActivity extends ActionBarActivity {
             case R.id.user_doacoes:
                 goToMinhasDoacoesPage();
                 break;
+            case R.id.user_favoritos:
+                goToMeusFavoritosPage();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
-/*
-    public void onClick(View v) {
-        int key = v.getId();
-
-        switch (key) {
-            case R.id.btnDoar:
-                goToDoarPage(v);
-                break;
-        }
-    }
-*/
 
     public void redirectToLogin(){
         ParseUser.logOut();
@@ -103,6 +93,12 @@ public class VerDoacaoActivity extends ActionBarActivity {
     public void goToMinhasDoacoesPage(){
         Intent i = new Intent(this, DoacoesActivity.class);
         i.putExtra("filter",1);
+        startActivity(i);
+    }
+
+    public void goToMeusFavoritosPage(){
+        Intent i = new Intent(this, DoacoesActivity.class);
+        i.putExtra("filter",2);
         startActivity(i);
     }
 }

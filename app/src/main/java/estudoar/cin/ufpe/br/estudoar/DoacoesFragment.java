@@ -1,11 +1,13 @@
 package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -298,7 +300,37 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
                 mListView.setVisibility(View.VISIBLE);
                 spinner.setVisibility(View.INVISIBLE);
-                if (e == null) {
+
+                if (doacoes.size() == 0){
+                    AlertDialog.Builder dig = new AlertDialog.Builder(getActivity());
+                    switch (filter) {
+                        case 0:
+                            dig.setMessage("Nenhum usuario publicou doacoes!");
+                            break;
+                        case 1:
+                            dig.setMessage("Voce ainda nao publicou doacoes!");
+                            break;
+                        case 2:
+                            dig.setMessage("Voce ainda nao tem favoritos!");
+                            break;
+                        case 4:
+                            dig.setMessage("Este usuario ainda nao publicou doacoes!");
+                            break;
+                    }
+
+                    dig.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
+                        }
+                    });
+                    dig.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    });
+                    dig.show();
+
+                } else if (e == null) {
                     mDoacoes = doacoes;
                     DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes);
                     ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
@@ -318,6 +350,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                             startActivity(i);
                         }
                     });
+
                 } else {
                     Log.d("doacao", "Error: " + e.getMessage());
                 }
@@ -333,24 +366,42 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             public void done(List<ParseObject> favts, com.parse.ParseException e) {
                 mListView.setVisibility(View.VISIBLE);
                 spinner.setVisibility(View.INVISIBLE);
-                if (e == null) {
-                    final List<ParseObject> favoritos = favts;
-                    InteressadosAdapter adapter = new InteressadosAdapter(mListView.getContext(), favoritos);
-                    ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
 
-                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-                                                long arg3) {
-                            ParseObject favorito = (ParseObject) favoritos.get(position);
-
-                            Intent i = new Intent(getActivity(), MeuPerfil.class);
-                            i.putExtra("id_usuario", (String) favorito.get("interessado"));
-                            startActivity(i);
+                if(favts.size() == 0) {
+                    new AlertDialog.Builder(getActivity())
+                    .setMessage("Ninguém se interessou ainda por suas doações!")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
                         }
-                    });
-                } else {
-                    Log.d("doacao", "Error: " + e.getMessage());
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .show();
+
+                }else {
+                    if (e == null) {
+                        final List<ParseObject> favoritos = favts;
+                        InteressadosAdapter adapter = new InteressadosAdapter(mListView.getContext(), favoritos);
+                        ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
+
+                        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+                                                    long arg3) {
+                                ParseObject favorito = (ParseObject) favoritos.get(position);
+
+                                Intent i = new Intent(getActivity(), MeuPerfil.class);
+                                i.putExtra("id_usuario", (String) favorito.get("interessado"));
+                                startActivity(i);
+                            }
+                        });
+                    } else {
+                        Log.d("doacao", "Error: " + e.getMessage());
+                    }
                 }
             }
         });

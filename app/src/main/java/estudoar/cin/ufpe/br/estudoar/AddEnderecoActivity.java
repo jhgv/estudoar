@@ -91,7 +91,7 @@ public class AddEnderecoActivity extends Activity implements OnMapReadyCallback 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 13));
         map.addMarker(new MarkerOptions()
                 .title("Voce!")
-                .snippet("Sua atual localização.")
+                .snippet("Sua atual localizacao.")
                 .position(location));
     }
 

@@ -1,6 +1,7 @@
 package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -312,21 +314,31 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
     }
 
     public void deletarDoacao(){
-        final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Excluindo...", true);
-
-        doacaoAtual.deleteInBackground(new DeleteCallback() {
-            @Override
-            public void done(ParseException e) {
-                progressDialog.dismiss();
-                if(e == null){
-                    Toast.makeText(getActivity(), "Doação Excluída", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getActivity(), "Erro ao deletar a doação", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        getActivity().finish();
+        new AlertDialog.Builder(getActivity())
+                //.setTitle("Opa!")
+                .setMessage("Você deseja deletar esta doação?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        doacaoAtual.deleteInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if(e == null){
+                                    Toast.makeText(getActivity(), "Doação Excluída", Toast.LENGTH_SHORT).show();
+                                    getActivity().finish();
+                                }else{
+                                    Toast.makeText(getActivity(), "Erro ao Deletar", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .show();
     }
 
 }

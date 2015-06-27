@@ -141,7 +141,6 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             case R.id.btnDoar:
                 doarMaterial(v);
                 break;
-
             case R.id.btnFotoGaleria:
                 uploadFotoGaleria(v);
                 break;
@@ -156,66 +155,61 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
 
     public void doarMaterial(View view) {
 
-        if (currentUser == null) {
-            Toast.makeText(getActivity(), "Usuario não logado", Toast.LENGTH_LONG).show();
-        } else {
-            String nome = nomeImput.getText().toString().trim();
+        String nome = nomeImput.getText().toString().trim();
 
-            if (nome.equals("")) {
-                Toast.makeText(getActivity(), "Campo 'Nome' Obrigatório!", Toast.LENGTH_SHORT).show();
+        if (nome.equals("")) {
+            Toast.makeText(getActivity(), "Campo 'Nome' Obrigatório!", Toast.LENGTH_SHORT).show();
 
-            }else {
-                final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Salvando...", true);
+        }else {
+            final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Salvando...", true);
 
-                String assunto = assuntoImput.getText().toString().trim();
-                String descricao = descricaoImput.getText().toString().trim();
+            String assunto = assuntoImput.getText().toString().trim();
+            String descricao = descricaoImput.getText().toString().trim();
 
-                doacao = new ParseObject("Doacao");
+            doacao = new ParseObject("Doacao");
 
-                doacao.put("nome", nome);
-                doacao.put("categoria", categoriaSelecionada);
-                doacao.put("assunto", assunto);
-                doacao.put("descricao", descricao);
+            doacao.put("nome", nome);
+            doacao.put("categoria", categoriaSelecionada);
+            doacao.put("assunto", assunto);
+            doacao.put("descricao", descricao);
 
-                if (fotoView.getDrawable() == null) {
-                    //fotoView.setImageResource(R.drawable.doacao_icon);
-                }
+            if (fotoView.getDrawable() == null) {
+                //fotoView.setImageResource(R.drawable.doacao_icon);
+            }
 
-                Bitmap foto = ((BitmapDrawable) fotoView.getDrawable()).getBitmap();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                // Compress image to lower quality scale 1 - 100
-                foto.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                byte[] image = stream.toByteArray();
+            Bitmap foto = ((BitmapDrawable) fotoView.getDrawable()).getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            // Compress image to lower quality scale 1 - 100
+            foto.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+            byte[] image = stream.toByteArray();
 
-                // Create the ParseFile
-                String fileName = nome + ".jpg";
-                ParseFile file = new ParseFile(fileName.replaceAll("\\s+",""), image);
-                // Upload the image into Parse Cloud
-                file.saveInBackground();
+            // Create the ParseFile
+            String fileName = nome + ".jpg";
+            ParseFile file = new ParseFile(fileName.replaceAll("\\s+",""), image);
+            // Upload the image into Parse Cloud
+            file.saveInBackground();
 
-                doacao.put("foto", file);
+            doacao.put("foto", file);
 
+            doacao.put("doador", currentUser.getObjectId());
 
-                doacao.put("doador", currentUser.getObjectId());
+            if(localizacao != null){
+                doacao.put("localizacao", localizacao);
+            }
 
-                if(localizacao != null){
-                    doacao.put("localizacao", localizacao);
-                }
-
-                doacao.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        progressDialog.dismiss();
-                        if (e == null) {
-                            Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_SHORT).show();
-                            goToVerDoacao();
-                            getActivity().finish();
-                        } else {
-                            Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
-                        }
+            doacao.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    progressDialog.dismiss();
+                    if (e == null) {
+                        Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_SHORT).show();
+                        goToVerDoacao();
+                        getActivity().finish();
+                    } else {
+                        Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
                     }
-                });
-             }
+                }
+            });
         }
     }
 

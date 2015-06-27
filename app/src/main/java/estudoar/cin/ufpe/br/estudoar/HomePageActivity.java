@@ -49,7 +49,6 @@ public class HomePageActivity extends ActionBarActivity {
                 ft.add(R.id.fragment_home_page,fragment);
                 ft.commit();
             }
-
         }else {
             redirectToLogin();
         }
@@ -80,28 +79,13 @@ public class HomePageActivity extends ActionBarActivity {
             case R.id.user_doacoes:
                 goToMinhasDoacoesPage();
                 break;
+            case R.id.user_favoritos:
+                goToMeusFavoritosPage();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-/*
-    public void onClick(View v) {
-        int key = v.getId();
-
-        switch (key) {
-            case R.id.btnDoar:
-                goToDoarPage(v);
-                break;
-            case R.id.btnProcurar:
-                goToProcurarPage(v);
-                break;
-            case R.id.btnPrimeiraDoacao:
-                goToVerDoacaoPage(v);
-                break;
-        }
-    }
-*/
 
     public void redirectToLogin(){
         ParseUser.logOut();
@@ -109,18 +93,25 @@ public class HomePageActivity extends ActionBarActivity {
         startActivity(i);
         finish();
     }
+    public void goToMeuPerfilPage(){
+        Intent i = new Intent(this, MeuPerfil.class);
+        i.putExtra("id_usuario",currentUser.getObjectId());
+        startActivity(i);
+    }
+
+    public void goToMinhasDoacoesPage(){
+        Intent i = new Intent(this, DoacoesActivity.class);
+        i.putExtra("filter",1);
+        startActivity(i);
+    }
+
+    public void goToMeusFavoritosPage(){
+        Intent i = new Intent(this, DoacoesActivity.class);
+        i.putExtra("filter",2);
+        startActivity(i);
+    }
 
 /*
-    public void goToDoarPage(View view) {
-        Intent i = new Intent(HomePageActivity.this, DoarActivity.class);
-        startActivity(i);
-
-    }
-
-    public void goToProcurarPage(View view) {
-
-    }
-
     public void goToVerDoacaoPage(View view){
 
         Toast.makeText(this, "ID Desconhecido!", Toast.LENGTH_LONG).show();
@@ -139,20 +130,7 @@ public class HomePageActivity extends ActionBarActivity {
                 }
             }
         });
-
     }
 */
-
-    public void goToMeuPerfilPage(){
-        Intent i = new Intent(this, MeuPerfil.class);
-        i.putExtra("id_usuario",currentUser.getObjectId());
-        startActivity(i);
-    }
-
-    public void goToMinhasDoacoesPage(){
-        Intent i = new Intent(this, DoacoesActivity.class);
-        i.putExtra("filter",1);
-        startActivity(i);
-    }
 
 }
