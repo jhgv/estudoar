@@ -36,6 +36,7 @@ public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
                             .setSmallIcon(R.drawable.ic_icon)
+                            .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
                             .setAutoCancel(true)
                             .setContentTitle("Alguém curtiu uma de suas doações!")
                             .setContentText("O usuário : " + name_interessado + " se interessou pela sua doação!");

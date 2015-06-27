@@ -259,7 +259,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                         public void done(ParseException e) {
                             if (e == null) {
                                 queroBtn.setText("Não Quero");
-                                Toast.makeText(getActivity(), "Doação Salva", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Doação Salva em Favoritos", Toast.LENGTH_SHORT).show();
 
                                 ParseQuery queryNotify = ParseInstallation.getQuery();
                                 //queryNotify.whereEqualTo("objectId",currentUser.getObjectId()); //id_doador

@@ -157,29 +157,31 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
     public void doarMaterial(View view) {
 
         if (currentUser == null) {
-
             Toast.makeText(getActivity(), "Usuario não logado", Toast.LENGTH_LONG).show();
-
         } else {
-            final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Salvando...", true);
-
             String nome = nomeImput.getText().toString().trim();
-            String assunto = assuntoImput.getText().toString().trim();
-            String descricao = descricaoImput.getText().toString().trim();
 
-            Bitmap foto = ((BitmapDrawable) fotoView.getDrawable()).getBitmap();
+            if (nome.equals("")) {
+                Toast.makeText(getActivity(), "Campo 'Nome' Obrigatório!", Toast.LENGTH_SHORT).show();
 
-            doacao = new ParseObject("Doacao");
+            }else {
+                final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Salvando...", true);
 
-            doacao.put("nome", nome);
-            doacao.put("categoria", categoriaSelecionada);
-            doacao.put("assunto", assunto);
-            doacao.put("descricao", descricao);
+                String assunto = assuntoImput.getText().toString().trim();
+                String descricao = descricaoImput.getText().toString().trim();
 
-            if (foto == null) {
-                doacao.put("foto", "");
-            } else {
-                // Convert it to byte
+                doacao = new ParseObject("Doacao");
+
+                doacao.put("nome", nome);
+                doacao.put("categoria", categoriaSelecionada);
+                doacao.put("assunto", assunto);
+                doacao.put("descricao", descricao);
+
+                if (fotoView.getDrawable() == null) {
+                    //fotoView.setImageResource(R.drawable.doacao_icon);
+                }
+
+                Bitmap foto = ((BitmapDrawable) fotoView.getDrawable()).getBitmap();
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 // Compress image to lower quality scale 1 - 100
                 foto.compress(Bitmap.CompressFormat.JPEG, 50, stream);
@@ -192,28 +194,28 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 file.saveInBackground();
 
                 doacao.put("foto", file);
-            }
 
-            doacao.put("doador", currentUser.getObjectId());
 
-            if(localizacao != null){
-                doacao.put("localizacao", localizacao);
-            }
+                doacao.put("doador", currentUser.getObjectId());
 
-            doacao.saveInBackground(new SaveCallback() {
-                @Override
-                public void done(ParseException e) {
-                    progressDialog.dismiss();
-                    if (e == null) {
-                        Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_SHORT).show();
-                        goToVerDoacao();
-                        getActivity().finish();
-                    } else {
-                        Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
-                    }
+                if(localizacao != null){
+                    doacao.put("localizacao", localizacao);
                 }
-            });
 
+                doacao.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        progressDialog.dismiss();
+                        if (e == null) {
+                            Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_SHORT).show();
+                            goToVerDoacao();
+                            getActivity().finish();
+                        } else {
+                            Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+             }
         }
     }
 
