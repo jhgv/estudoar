@@ -4,12 +4,12 @@
     tools:context="estudoar.cin.ufpe.br.estudoar.HomePageActivity">
 
     <item android:id="@+id/user_profile" android:title="Meu Perfil"
-        android:orderInCategory="100" app:showAsAction="never" android:icon="@drawable/ic_username" />
+        android:orderInCategory="100" app:showAsAction="never"/>
     <item android:id="@+id/user_doacoes" android:title="Minhas Doacoes"
-        android:orderInCategory="100" app:showAsAction="never" android:icon="@drawable/doacao_icon" />
-    <item android:id="@+id/user_favoritos" android:title="Favoritos" android:icon="@drawable/abc_btn_rating_star_off_mtrl_alpha"
+        android:orderInCategory="100" app:showAsAction="never"/>
+    <item android:id="@+id/user_favoritos" android:title="Favoritos"
         android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/user_logout" android:title="Sair" android:icon="@drawable/common_full_open_on_phone"
+    <item android:id="@+id/user_logout" android:title="Sair"
         android:orderInCategory="100" app:showAsAction="never" />
 
 </menu>

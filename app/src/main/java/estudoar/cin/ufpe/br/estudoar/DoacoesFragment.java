@@ -369,7 +369,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
                 if(favts.size() == 0) {
                     new AlertDialog.Builder(getActivity())
-                    .setMessage("Ninguém se interessou ainda por suas doações!")
+                    .setMessage("Ninguem se interessou ainda por suas doacoes!")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             getActivity().finish();
