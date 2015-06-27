@@ -2,19 +2,24 @@ package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,6 +37,7 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class DoarFragment extends Fragment implements View.OnClickListener {
@@ -57,6 +63,9 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
 
     private ImageView fotoView;
 
+    ParseObject doacao;
+    ParseUser currentUser;
+
     public DoarFragment() {
         // Required empty public constructor
     }
@@ -66,6 +75,8 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View doarView = inflater.inflate(R.layout.fragment_doar, container, false);
+
+        currentUser = ParseUser.getCurrentUser();
 
         if (savedInstanceState == null) {
         }
@@ -130,7 +141,6 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             case R.id.btnDoar:
                 doarMaterial(v);
                 break;
-
             case R.id.btnFotoGaleria:
                 uploadFotoGaleria(v);
                 break;
@@ -138,7 +148,6 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 uploadFotoCamera(v);
                 break;
             case R.id.btnAddAddress:
-
                 openMaps(v);
                 break;
         }
@@ -146,43 +155,41 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
 
     public void doarMaterial(View view) {
 
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        String nome = nomeImput.getText().toString().trim();
 
-        if (currentUser == null) {
+        if (nome.equals("")) {
+            Toast.makeText(getActivity(), "Campo 'Nome' Obrigatório!", Toast.LENGTH_SHORT).show();
 
-            Toast.makeText(getActivity(), "Usuario não logado", Toast.LENGTH_LONG).show();
+        }else {
+            final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Salvando...", true);
 
-        } else {
-
-            String nome = nomeImput.getText().toString().trim();
             String assunto = assuntoImput.getText().toString().trim();
             String descricao = descricaoImput.getText().toString().trim();
 
-            Bitmap foto = ((BitmapDrawable) fotoView.getDrawable()).getBitmap();
-
-            ParseObject doacao = new ParseObject("Doacao");
+            doacao = new ParseObject("Doacao");
 
             doacao.put("nome", nome);
             doacao.put("categoria", categoriaSelecionada);
             doacao.put("assunto", assunto);
             doacao.put("descricao", descricao);
 
-            if (foto == null) {
-                doacao.put("foto", "");
-            } else {
-                // Convert it to byte
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                // Compress image to lower quality scale 1 - 100
-                foto.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-                byte[] image = stream.toByteArray();
-
-                // Create the ParseFile
-                ParseFile file = new ParseFile(nome + ".jpg", image);
-                // Upload the image into Parse Cloud
-                file.saveInBackground();
-
-                doacao.put("foto", file);
+            if (fotoView.getDrawable() == null) {
+                //fotoView.setImageResource(R.drawable.doacao_icon);
             }
+
+            Bitmap foto = ((BitmapDrawable) fotoView.getDrawable()).getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            // Compress image to lower quality scale 1 - 100
+            foto.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+            byte[] image = stream.toByteArray();
+
+            // Create the ParseFile
+            String fileName = nome + ".jpg";
+            ParseFile file = new ParseFile(fileName.replaceAll("\\s+",""), image);
+            // Upload the image into Parse Cloud
+            file.saveInBackground();
+
+            doacao.put("foto", file);
 
             doacao.put("doador", currentUser.getObjectId());
 
@@ -193,15 +200,16 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             doacao.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
+                    progressDialog.dismiss();
                     if (e == null) {
-                        Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Doacao cadastrada", Toast.LENGTH_SHORT).show();
+                        goToVerDoacao();
                         getActivity().finish();
                     } else {
-                        Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
         }
     }
 
@@ -241,6 +249,28 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             }
         }
 
+        fotoView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final Dialog nagDialog = new Dialog(getActivity(),android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+                nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                nagDialog.setCancelable(false);
+                nagDialog.setContentView(R.layout.preview_image);
+                Button btnClose = (Button)nagDialog.findViewById(R.id.btnIvClose);
+                ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.iv_preview_image);
+                ivPreview.setImageDrawable(fotoView.getDrawable());
+                ivPreview.setBackgroundColor(Color.BLACK);
+
+                btnClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+
+                        nagDialog.dismiss();
+                    }
+                });
+                nagDialog.show();
+            }
+        });
+
 
     }
 
@@ -272,5 +302,12 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 });
         final AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private void goToVerDoacao(){
+        Intent i = new Intent(getActivity(), VerDoacaoActivity.class);
+        i.putExtra("id_doacao", doacao.getObjectId());
+        i.putExtra("id_doador", currentUser.getObjectId());
+        startActivity(i);
     }
 }

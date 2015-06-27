@@ -6,7 +6,15 @@
     android:layout_height="match_parent"
     android:background="#2C3D4F"
     tools:context="estudoar.cin.ufpe.br.estudoar.MeuPerfil">
-
+    <!--
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        style="?android:attr/progressBarStyleLarge"
+        android:id="@+id/savingProgress"
+        android:layout_gravity="center_horizontal|top" />
+    -->
     <FrameLayout
         android:id="@+id/fragment_meu_perfil"
         android:layout_width="match_parent"

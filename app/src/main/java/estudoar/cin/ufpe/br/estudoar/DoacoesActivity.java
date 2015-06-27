@@ -3,16 +3,21 @@ package estudoar.cin.ufpe.br.estudoar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.parse.ParseUser;
 
 
 public class DoacoesActivity extends ActionBarActivity {
 
     protected Fragment fragment;
     protected FragmentManager fm;
+
+    private ParseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +31,8 @@ public class DoacoesActivity extends ActionBarActivity {
         if (!fragment.isInLayout()) {
             fm.beginTransaction().replace(R.id.fragment_doacoes, fragment, "mContent").commit();
         }
+
+        currentUser = ParseUser.getCurrentUser();
 
         setContentView(R.layout.activity_materiais);
     }
@@ -51,18 +58,47 @@ public class DoacoesActivity extends ActionBarActivity {
             case R.id.action_settings:
                 break;
             case R.id.local_search:
-
+                break;
+            case R.id.user_logout:
+                redirectToLogin();
+                break;
+            case R.id.user_profile:
+                goToMeuPerfilPage();
+                break;
+            case R.id.user_doacoes:
+                goToMinhasDoacoesPage();
+                break;
+            case R.id.user_favoritos:
+                goToMeusFavoritosPage();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//
-//        fm.putFragment(outState, "mContent", fragment);
-//
-//    }
+    public void redirectToLogin(){
+        ParseUser.logOut();
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+        finish();
+    }
+
+    public void goToMeuPerfilPage(){
+        Intent i = new Intent(this, MeuPerfil.class);
+        i.putExtra("id_usuario",currentUser.getObjectId());
+        startActivity(i);
+    }
+
+    public void goToMinhasDoacoesPage(){
+        Intent i = new Intent(this, DoacoesActivity.class);
+        i.putExtra("filter",1);
+        startActivity(i);
+    }
+
+    public void goToMeusFavoritosPage(){
+        Intent i = new Intent(this, DoacoesActivity.class);
+        i.putExtra("filter",2);
+        startActivity(i);
+    }
+
 }

@@ -68,6 +68,9 @@ public class DoarActivity extends ActionBarActivity {
             case R.id.user_doacoes:
                 goToMinhasDoacoesPage();
                 break;
+            case R.id.user_favoritos:
+                goToMeusFavoritosPage();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -86,7 +89,7 @@ public class DoarActivity extends ActionBarActivity {
 
     public void redirectToLogin(){
         ParseUser.logOut();
-        Intent i = new Intent(DoarActivity.this, LoginActivity.class);
+        Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
     }
@@ -100,6 +103,12 @@ public class DoarActivity extends ActionBarActivity {
     public void goToMinhasDoacoesPage(){
         Intent i = new Intent(this, DoacoesActivity.class);
         i.putExtra("filter",1);
+        startActivity(i);
+    }
+
+    public void goToMeusFavoritosPage(){
+        Intent i = new Intent(this, DoacoesActivity.class);
+        i.putExtra("filter",2);
         startActivity(i);
     }
 

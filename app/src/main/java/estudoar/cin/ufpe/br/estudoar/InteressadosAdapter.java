@@ -36,9 +36,10 @@ public class InteressadosAdapter extends ArrayAdapter {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.materiais_custom, null);
+
             holder = new ViewHolder();
-            holder.assuntoDoacao = (TextView) convertView.findViewById(R.id.materialName);
-            holder.descricaoDoacao = (TextView) convertView.findViewById(R.id.materialDesc);
+            holder.nomeDoador = (TextView) convertView.findViewById(R.id.materialName);
+            holder.nomeDoacao = (TextView) convertView.findViewById(R.id.materialDesc);
             holder.imagemDoacao = (ImageView) convertView.findViewById(R.id.materialImage);
             convertView.setTag(holder);
         } else {
@@ -53,7 +54,7 @@ public class InteressadosAdapter extends ArrayAdapter {
         queryUser.getFirstInBackground(new GetCallback<ParseUser>() {
             public void done(ParseUser interessado, ParseException e) {
                 if (e == null) {
-                    holder.assuntoDoacao.setText(interessado.getUsername());
+                    holder.nomeDoador.setText(interessado.getUsername());
                 } else {
                     Toast.makeText(context, "Erro ao recuperar usuário interessado", Toast.LENGTH_SHORT).show();
                 }
@@ -65,7 +66,7 @@ public class InteressadosAdapter extends ArrayAdapter {
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject doacao, ParseException e) {
                 if (e == null) {
-                    holder.descricaoDoacao.setText((String) doacao.get("nome"));
+                    holder.nomeDoacao.setText((String) doacao.get("nome"));
                     ParseFile foto = (ParseFile) doacao.get("foto");
                     Log.d("foto", foto.getName() + " " + foto.getUrl());
                     Picasso.with(context)
@@ -82,8 +83,8 @@ public class InteressadosAdapter extends ArrayAdapter {
     }
 
     public static class ViewHolder {
-        TextView assuntoDoacao;
-        TextView descricaoDoacao;
+        TextView nomeDoador;
+        TextView nomeDoacao;
         ImageView imagemDoacao;
     }
 

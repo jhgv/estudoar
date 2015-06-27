@@ -1,11 +1,13 @@
 package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -81,39 +84,15 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         Intent intent = getActivity().getIntent();
         filter = intent.getExtras().getInt("filter");
 
+        if (filter == 4) {
+            id_usuario = intent.getExtras().getString("id_usuario");
+        }
+
 //        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 //            doQuerySearch(intent.getStringExtra(SearchManager.QUERY));
 //        }
-        if (filter == 1 || filter == 0 || filter == 4) {
-            final ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
-            if (filter == 1) {
-                query.whereEqualTo("doador", currentUser);
-            } else if (filter == 4) {
-                id_usuario = intent.getExtras().getString("id_usuario");
-                query.whereEqualTo("doador", id_usuario);
-            }
-
-            doQuery(query);
-
-        } else if (filter == 2) {
-            ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
-            queryFavoritos.whereEqualTo("interessado", currentUser);
-
-            ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
-            queryDoacoes.whereMatchesKeyInQuery("objectId", "doacao", queryFavoritos);
-
-            doQuery(queryDoacoes);
-
-        } else if (filter == 3) {
-            ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
-            queryDoacoes.whereEqualTo("doador", currentUser);
-
-            ParseQuery<ParseObject> queryInteressados = ParseQuery.getQuery("Favoritos");
-            queryInteressados.whereMatchesKeyInQuery("doacao", "objectId", queryDoacoes);
-
-            doQueryInteressados(queryInteressados);
-        }
+        doSimpleSearch();
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
@@ -150,6 +129,11 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+
+        if(filter == 2 || filter == 3){
+            menu.findItem(R.id.local_search).setVisible(false);
+        }
+
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
 
@@ -157,12 +141,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() == 0) {
-                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
-                    if (filter == 3) {
-                        doQueryInteressados(query);
-                    } else {
-                        doQuery(query);
-                    }
+                    doSimpleSearch();
                 } else if (newText.length() >= 4) {
                     if (filter == 3) {
                         doQuerySearchFavoritos(newText);
@@ -182,7 +161,37 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
     }
 
+    private void doSimpleSearch(){
+        if ( filter == 0 || filter == 1 || filter == 4) {
+            final ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
+            if (filter == 1) {
+                query.whereEqualTo("doador", currentUser);
+            } else if (filter == 4) {
+                query.whereEqualTo("doador", id_usuario);
+            }
+            doQuery(query);
+
+        } else if (filter == 2) {
+            ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
+            queryFavoritos.whereEqualTo("interessado", currentUser);
+
+            ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
+            queryDoacoes.whereMatchesKeyInQuery("objectId", "doacao", queryFavoritos);
+
+            doQuery(queryDoacoes);
+
+        } else if (filter == 3) {
+            ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
+            queryDoacoes.whereEqualTo("doador", currentUser);
+
+            ParseQuery<ParseObject> queryInteressados = ParseQuery.getQuery("Favoritos");
+            queryInteressados.whereMatchesKeyInQuery("doacao", "objectId", queryDoacoes);
+
+            doQueryInteressados(queryInteressados);
+        }
+
+    }
 
     private void doQuerySearchDoacoes(String querySearch) {
         ParseQuery<ParseObject> queryNome = ParseQuery.getQuery("Doacao");
@@ -291,7 +300,37 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
                 mListView.setVisibility(View.VISIBLE);
                 spinner.setVisibility(View.INVISIBLE);
-                if (e == null) {
+
+                if (doacoes.size() == 0){
+                    AlertDialog.Builder dig = new AlertDialog.Builder(getActivity());
+                    switch (filter) {
+                        case 0:
+                            dig.setMessage("Nenhum usuario publicou doacoes!");
+                            break;
+                        case 1:
+                            dig.setMessage("Voce ainda nao publicou doacoes!");
+                            break;
+                        case 2:
+                            dig.setMessage("Voce ainda nao tem favoritos!");
+                            break;
+                        case 4:
+                            dig.setMessage("Este usuario ainda nao publicou doacoes!");
+                            break;
+                    }
+
+                    dig.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
+                        }
+                    });
+                    dig.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    });
+                    dig.show();
+
+                } else if (e == null) {
                     mDoacoes = doacoes;
                     DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes);
                     ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
@@ -311,6 +350,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                             startActivity(i);
                         }
                     });
+
                 } else {
                     Log.d("doacao", "Error: " + e.getMessage());
                 }
@@ -326,24 +366,42 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             public void done(List<ParseObject> favts, com.parse.ParseException e) {
                 mListView.setVisibility(View.VISIBLE);
                 spinner.setVisibility(View.INVISIBLE);
-                if (e == null) {
-                    final List<ParseObject> favoritos = favts;
-                    InteressadosAdapter adapter = new InteressadosAdapter(mListView.getContext(), favoritos);
-                    ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
 
-                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-                                                long arg3) {
-                            ParseObject favorito = (ParseObject) favoritos.get(position);
-
-                            Intent i = new Intent(getActivity(), MeuPerfil.class);
-                            i.putExtra("id_usuario", (String) favorito.get("interessado"));
-                            startActivity(i);
+                if(favts.size() == 0) {
+                    new AlertDialog.Builder(getActivity())
+                    .setMessage("Ninguem se interessou ainda por suas doacoes!")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
                         }
-                    });
-                } else {
-                    Log.d("doacao", "Error: " + e.getMessage());
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .show();
+
+                }else {
+                    if (e == null) {
+                        final List<ParseObject> favoritos = favts;
+                        InteressadosAdapter adapter = new InteressadosAdapter(mListView.getContext(), favoritos);
+                        ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
+
+                        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+                                                    long arg3) {
+                                ParseObject favorito = (ParseObject) favoritos.get(position);
+
+                                Intent i = new Intent(getActivity(), MeuPerfil.class);
+                                i.putExtra("id_usuario", (String) favorito.get("interessado"));
+                                startActivity(i);
+                            }
+                        });
+                    } else {
+                        Log.d("doacao", "Error: " + e.getMessage());
+                    }
                 }
             }
         });
@@ -356,6 +414,12 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             buildAlertMessageNoGps();
         } else {
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
+
+            if (filter == 1) {
+                query.whereEqualTo("doador", currentUser);
+            } else if (filter == 4) {
+                query.whereEqualTo("doador", id_usuario);
+            }
 
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
             Location myLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);

@@ -109,6 +109,7 @@
             android:text="@string/doar_cadastrar"
             android:id="@+id/btnDoar"
             android:layout_marginTop="50px"
+            android:layout_marginBottom="25px"
         />
 
     </LinearLayout>

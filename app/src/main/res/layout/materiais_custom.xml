@@ -18,14 +18,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/materialName"
-            android:text="material"
             android:textSize="25dp"/>
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/materialDesc"
-            android:text="descricao"/>
+            android:id="@+id/materialDesc"/>
 
     </LinearLayout>
 

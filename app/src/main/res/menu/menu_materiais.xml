@@ -7,6 +7,8 @@
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/user_doacoes" android:title="Minhas Doacoes"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/user_favoritos" android:title="Favoritos"
+        android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/user_logout" android:title="Sair"
         android:orderInCategory="100" app:showAsAction="never" />
 

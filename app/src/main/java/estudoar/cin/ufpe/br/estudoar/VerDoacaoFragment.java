@@ -1,15 +1,21 @@
 package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.TaskStackBuilder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -18,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -162,6 +169,28 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
             }
         });
 
+        foto.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final Dialog nagDialog = new Dialog(getActivity(),android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+                nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                nagDialog.setCancelable(false);
+                nagDialog.setContentView(R.layout.preview_image);
+                Button btnClose = (Button)nagDialog.findViewById(R.id.btnIvClose);
+                ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.iv_preview_image);
+                ivPreview.setImageDrawable(foto.getDrawable());
+                ivPreview.setBackgroundColor(Color.BLACK);
+
+                btnClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+
+                        nagDialog.dismiss();
+                    }
+                });
+                nagDialog.show();
+            }
+        });
+
         queroBtn.setOnClickListener(this);
         contatoBtn.setOnClickListener(this);
         deletarBtn.setOnClickListener(this);
@@ -232,7 +261,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                         public void done(ParseException e) {
                             if (e == null) {
                                 queroBtn.setText("Não Quero");
-                                Toast.makeText(getActivity(), "Doação Salva", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Doação Salva em Favoritos", Toast.LENGTH_SHORT).show();
 
                                 ParseQuery queryNotify = ParseInstallation.getQuery();
                                 //queryNotify.whereEqualTo("objectId",currentUser.getObjectId()); //id_doador
@@ -253,7 +282,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                                 androidPush.sendInBackground();
 
                             } else {
-                                Toast.makeText(getActivity(), "Erro ao salvar a doação", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Erro ao favoritar doação", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -285,17 +314,31 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
     }
 
     public void deletarDoacao(){
-        doacaoAtual.deleteInBackground(new DeleteCallback() {
-            @Override
-            public void done(ParseException e) {
-                if(e == null){
-                    Toast.makeText(getActivity(), "Doação deletada com sucesso", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getActivity(), "Erro ao deletar a doação", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        getActivity().finish();
+        new AlertDialog.Builder(getActivity())
+                //.setTitle("Opa!")
+                .setMessage("Você deseja deletar esta doação?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        doacaoAtual.deleteInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if(e == null){
+                                    Toast.makeText(getActivity(), "Doação Excluída", Toast.LENGTH_SHORT).show();
+                                    getActivity().finish();
+                                }else{
+                                    Toast.makeText(getActivity(), "Erro ao Deletar", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .show();
     }
 
 }
