@@ -15,7 +15,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -37,7 +37,6 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class DoarFragment extends Fragment implements View.OnClickListener {
@@ -52,6 +51,8 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
     private Button fotoCameraBtn;
     private Button doarBtn;
     private Button addEndBtn;
+
+    private LinearLayout enderecoCheck;
 
     private ParseGeoPoint localizacao;
 
@@ -89,6 +90,8 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
         fotoCameraBtn = (Button) doarView.findViewById(R.id.btnFotoCamera);
         doarBtn = (Button) doarView.findViewById(R.id.btnDoar);
         addEndBtn = (Button) doarView.findViewById(R.id.btnAddAddress);
+
+        enderecoCheck = (LinearLayout) doarView.findViewById(R.id.enderecoCheck);
 
         fotoGaleiraBtn.setOnClickListener(this);
         fotoCameraBtn.setOnClickListener(this);
@@ -246,6 +249,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 //double[] result = data.getDoubleArrayExtra("position");
                 ArrayList<Double> coordenadas = (ArrayList<Double>) data.getSerializableExtra("coordenadas");
                 localizacao = new ParseGeoPoint(coordenadas.get(0), coordenadas.get(1));
+                enderecoCheck.setVisibility(View.VISIBLE);
             }
         }
 

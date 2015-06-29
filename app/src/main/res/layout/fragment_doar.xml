@@ -102,6 +102,24 @@
             android:layout_marginTop="50px"
             />
 
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/enderecoCheck"
+            android:visibility="gone">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_check"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Endereço adicionado"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
         <Button
             style="@style/BtnDefault"
             android:layout_width="fill_parent"
