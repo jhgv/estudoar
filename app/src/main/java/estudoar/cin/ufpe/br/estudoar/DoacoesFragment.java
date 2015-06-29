@@ -1,13 +1,11 @@
 package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -21,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
@@ -36,13 +34,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DoacoesFragment extends Fragment implements AbsListView.OnItemClickListener {
+
     private int filter;
+
+
     private ProgressBar spinner;
-    protected List<ParseObject> mDoacoes;
+    private List<ParseObject> mDoacoes;
     private OnFragmentInteractionListener mListener;
 
     private String currentUser = ParseUser.getCurrentUser().getObjectId();
     private String id_usuario = "";
+
+    private ParseGeoPoint currentPoint;
+
+    private boolean isGpsSearchActivated = false;
+
+    private LinearLayout buscaAtivadaTxt;
 
     /**
      * ListView/GridView do fragment
@@ -75,6 +82,8 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_doacoes, container, false);
+
+        buscaAtivadaTxt = (LinearLayout) view.findViewById(R.id.buscaAtivadaTxt);
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
@@ -113,12 +122,19 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
-        switch (id){
+        switch (id) {
             case R.id.local_search:
-                doGpsQuerySearch();
+                if(isGpsSearchActivated){
+                    isGpsSearchActivated = false;
+                    buscaAtivadaTxt.setVisibility(View.GONE);
+                }else{
+                    isGpsSearchActivated = true;
+                }
                 break;
         }
+        doQuery(query);
         return super.onOptionsItemSelected(item);
 
     }
@@ -130,7 +146,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
-        if(filter == 2 || filter == 3){
+        if (filter == 2 || filter == 3) {
             menu.findItem(R.id.local_search).setVisible(false);
         }
 
@@ -142,7 +158,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             public boolean onQueryTextChange(String newText) {
                 if (newText.length() == 0) {
                     doSimpleSearch();
-                } else if (newText.length() >= 4) {
+                } else {
                     if (filter == 3) {
                         doQuerySearchFavoritos(newText);
                     } else {
@@ -161,8 +177,8 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
     }
 
-    private void doSimpleSearch(){
-        if ( filter == 0 || filter == 1 || filter == 4) {
+    private void doSimpleSearch() {
+        if (filter == 0 || filter == 1 || filter == 4) {
             final ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
             if (filter == 1) {
@@ -295,42 +311,49 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     public void doQuery(ParseQuery<ParseObject> query) {
         spinner.setVisibility(View.VISIBLE);
         mListView.setVisibility(View.INVISIBLE);
+
+        if(isGpsSearchActivated){
+            setCurrentPosition();
+            query.whereWithinKilometers("localizacao", currentPoint, 15.0);
+
+        }
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
                 mListView.setVisibility(View.VISIBLE);
                 spinner.setVisibility(View.INVISIBLE);
 
-                if (doacoes.size() == 0){
-                    AlertDialog.Builder dig = new AlertDialog.Builder(getActivity());
-                    switch (filter) {
-                        case 0:
-                            dig.setMessage("Nenhum usuario publicou doacoes!");
-                            break;
-                        case 1:
-                            dig.setMessage("Voce ainda nao publicou doacoes!");
-                            break;
-                        case 2:
-                            dig.setMessage("Voce ainda nao tem favoritos!");
-                            break;
-                        case 4:
-                            dig.setMessage("Este usuario ainda nao publicou doacoes!");
-                            break;
-                    }
-
-                    dig.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            getActivity().finish();
-                        }
-                    });
-                    dig.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    });
-                    dig.show();
-
-                } else if (e == null) {
+//                if (doacoes.size() == 0){
+//                    AlertDialog.Builder dig = new AlertDialog.Builder(getActivity());
+//                    switch (filter) {
+////                        case 0:
+////                            dig.setMessage("Nenhum usuario publicou doacoes!");
+////                            break;
+//                        case 1:
+//                            dig.setMessage("Voce ainda nao publicou doacoes!");
+//                            break;
+//                        case 2:
+//                            dig.setMessage("Voce ainda nao tem favoritos!");
+//                            break;
+//                        case 4:
+//                            dig.setMessage("Este usuario ainda nao publicou doacoes!");
+//                            break;
+//                    }
+//
+//                    dig.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            getActivity().finish();
+//                        }
+//                    });
+//                    dig.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            // do nothing
+//                        }
+//                    });
+//                    dig.show();
+//
+//                } else if (e == null){
+                if (e == null) {
                     mDoacoes = doacoes;
                     DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes);
                     ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
@@ -367,22 +390,22 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                 mListView.setVisibility(View.VISIBLE);
                 spinner.setVisibility(View.INVISIBLE);
 
-                if(favts.size() == 0) {
+                if (favts.size() == 0) {
                     new AlertDialog.Builder(getActivity())
-                    .setMessage("Ninguem se interessou ainda por suas doacoes!")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            getActivity().finish();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // do nothing
-                        }
-                    })
-                    .show();
+                            .setMessage("Ninguem se interessou ainda por suas doacoes!")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    getActivity().finish();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // do nothing
+                                }
+                            })
+                            .show();
 
-                }else {
+                } else {
                     if (e == null) {
                         final List<ParseObject> favoritos = favts;
                         InteressadosAdapter adapter = new InteressadosAdapter(mListView.getContext(), favoritos);
@@ -407,12 +430,16 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         });
     }
 
-    public void doGpsQuerySearch(){
+
+
+    public void setCurrentPosition() {
         final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buscaAtivadaTxt.setVisibility(View.GONE);
             buildAlertMessageNoGps();
         } else {
+            buscaAtivadaTxt.setVisibility(View.VISIBLE);
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
             if (filter == 1) {
@@ -425,10 +452,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             Location myLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
             double longitude = myLocation.getLongitude();
             double latitude = myLocation.getLatitude();
-            ParseGeoPoint currentPoint = new ParseGeoPoint(latitude, longitude);
-            query.whereWithinKilometers("localizacao", currentPoint, 15.0);
-
-            doQuery(query);
+            currentPoint = new ParseGeoPoint(latitude, longitude);
 
         }
     }

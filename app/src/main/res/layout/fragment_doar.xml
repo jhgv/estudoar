@@ -33,7 +33,7 @@
             android:layout_marginTop="25dp"
             android:gravity="center_vertical"
             android:layout_gravity="center_horizontal"
-            android:background="#E8E8E8"
+            android:background="@color/estudoarBlue"
             />
 
         <Button
@@ -61,7 +61,6 @@
             android:id="@+id/categoria_label"
             android:layout_marginTop="25dp"
             android:textSize="18dp"
-            android:textColor="#FFF"
         />
 
         <Spinner
@@ -101,6 +100,24 @@
             android:id="@+id/btnAddAddress"
             android:layout_marginTop="50px"
             />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/enderecoCheck"
+            android:visibility="gone">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_check"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Endereço adicionado"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
 
         <Button
             style="@style/BtnDefault"

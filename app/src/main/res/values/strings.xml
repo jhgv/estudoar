@@ -70,6 +70,7 @@
     <string name="title_activity_favoritos">Doações Favoritas</string>
     <string name="title_activity_search">Procurar Doações</string>
     <string name="title_activity_add_endereco">Adicionar Endereço</string>
+    <string name="title_activity_base">BaseActivity</string>
 
 </resources>
 
