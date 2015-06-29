@@ -322,38 +322,38 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
                 mListView.setVisibility(View.VISIBLE);
                 spinner.setVisibility(View.INVISIBLE);
+                if (doacoes.size() == 0){
+                    AlertDialog.Builder dig = new AlertDialog.Builder(getActivity());
+                    switch (filter) {
+                        case 0:
+                            dig.setMessage("Nenhum usuario publicou doacoes!");
+                            break;
+                        case 1:
+                            dig.setMessage("Voce ainda nao publicou doacoes!");
+                            break;
+                        case 2:
+                            dig.setMessage("Voce ainda nao tem favoritos!");
+                            break;
+                        case 4:
+                            dig.setMessage("Este usuario ainda nao publicou doacoes!");
+                            break;
+                    }
 
-//                if (doacoes.size() == 0){
-//                    AlertDialog.Builder dig = new AlertDialog.Builder(getActivity());
-//                    switch (filter) {
-////                        case 0:
-////                            dig.setMessage("Nenhum usuario publicou doacoes!");
-////                            break;
-//                        case 1:
-//                            dig.setMessage("Voce ainda nao publicou doacoes!");
-//                            break;
-//                        case 2:
-//                            dig.setMessage("Voce ainda nao tem favoritos!");
-//                            break;
-//                        case 4:
-//                            dig.setMessage("Este usuario ainda nao publicou doacoes!");
-//                            break;
-//                    }
-//
-//                    dig.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            getActivity().finish();
-//                        }
-//                    });
-//                    dig.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            // do nothing
-//                        }
-//                    });
-//                    dig.show();
-//
-//                } else if (e == null){
-                if (e == null) {
+                    dig.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
+                        }
+                    });
+                    dig.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
+                        }
+                    });
+
+                    dig.show();
+
+                } else if (e == null){
+
                     mDoacoes = doacoes;
                     DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes);
                     ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
@@ -400,7 +400,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    // do nothing
+                                    getActivity().finish();
                                 }
                             })
                             .show();

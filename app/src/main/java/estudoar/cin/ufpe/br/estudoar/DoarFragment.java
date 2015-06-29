@@ -178,7 +178,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             doacao.put("descricao", descricao);
 
             if (fotoView.getDrawable() == null) {
-                //fotoView.setImageResource(R.drawable.doacao_icon);
+                fotoView.setImageResource(R.drawable.doacao_icon);
             }
 
             Bitmap foto = ((BitmapDrawable) fotoView.getDrawable()).getBitmap();

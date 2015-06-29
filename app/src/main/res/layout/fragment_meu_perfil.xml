@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/label_nome_usuario"
             android:textSize="19dp"
-            android:textColor="#FFF"
             android:text="Nome do Doador"
         />
 
@@ -28,8 +27,7 @@
             android:id="@+id/nome_usuario"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="19dp"
-            android:textColor="#FFF">
+            android:textSize="19dp">
         </TextView>
 
         <TextView
@@ -38,7 +36,6 @@
             android:id="@+id/label_email_usuario"
             android:layout_marginTop="25dp"
             android:textSize="19dp"
-            android:textColor="#FFF"
             android:text="E-mail">
         </TextView>
 
@@ -48,8 +45,7 @@
             android:id="@+id/email_usuario"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="19dp"
-            android:textColor="#FFF">
+            android:textSize="19dp">
         </TextView>
 
         <TextView
@@ -58,7 +54,6 @@
             android:id="@+id/label_telefone_usuario"
             android:layout_marginTop="25dp"
             android:textSize="19dp"
-            android:textColor="#FFF"
             android:text="Telefone">
         </TextView>
 
@@ -68,8 +63,7 @@
             android:id="@+id/telefone_usuario"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="19dp"
-            android:textColor="#FFF">
+            android:textSize="19dp">
         </TextView>
 
         <Button
