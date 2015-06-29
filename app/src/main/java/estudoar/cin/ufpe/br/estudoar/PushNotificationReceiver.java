@@ -36,10 +36,10 @@ public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
                             .setSmallIcon(R.drawable.ic_icon)
-                            .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 })
+                            .setVibrate(new long[] { 100, 100, 100, 100, 100 })
                             .setAutoCancel(true)
-                            .setContentTitle("Alguém curtiu uma de suas doações!")
-                            .setContentText("O usuário : " + name_interessado + " se interessou pela sua doação!");
+                            .setContentTitle("Novidades!")
+                            .setContentText(name_interessado + " está interessado em sua doação!");
 
             Intent resultIntent = new Intent();
             resultIntent.setClassName("estudoar.cin.ufpe.br.estudoar", "estudoar.cin.ufpe.br.estudoar.MeuPerfil");
