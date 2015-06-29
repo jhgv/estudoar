@@ -1,55 +1,77 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="estudoar.cin.ufpe.br.estudoar.HomePageFragment">
 
-    <LinearLayout
+    <TableLayout
         android:id="@+id/linear_layout_login"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/logo_login">
+        android:stretchColumns="*"
+        android:weightSum="4">
 
-        <Button
-            style="@style/BtnDefault"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/home_doar"
-            android:id="@+id/btnDoar"
-            android:layout_marginTop="100px"
-        />
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
 
-        <Button
-            style="@style/BtnDefault"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/home_procurar"
-            android:id="@+id/btnProcurar"
-            android:layout_marginTop="100px"
-        />
+            <Button
+                android:id="@+id/btnDoar"
+                style="@style/BtnDefault"
+                android:layout_width="wrap_content"
+                android:layout_height="115dp"
+                android:drawableTop="@drawable/ic_doar"
+                android:paddingTop="10dp"
+                android:text="@string/home_doar"
+                android:layout_margin="3dp"/>
 
-        <Button
-            style="@style/BtnDefault"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Meus Favoritos"
-            android:id="@+id/btnFavoritos"
-            android:layout_marginTop="100px"
-            />
+            <Button
+                android:id="@+id/btnProcurar"
+                style="@style/BtnDefault"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:paddingTop="10dp"
+                android:drawableTop="@drawable/ic_procurar_doacao"
+                android:text="@string/home_procurar"
+                android:layout_margin="3dp"/>
+        </TableRow>
 
-        <Button
-            style="@style/BtnDefault"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Interessados"
-            android:id="@+id/btnInteressados"
-            android:layout_marginTop="100px"
-            />
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/btnFavoritos"
+                style="@style/BtnDefault"
+                android:layout_width="wrap_content"
+                android:layout_height="115dp"
+                android:drawableTop="@drawable/ic_favs"
+                android:paddingTop="10dp"
+                android:text="Meus Favoritos"
+                android:layout_margin="3dp"/>
+
+            <Button
+                android:id="@+id/btnInteressados"
+                style="@style/BtnDefault"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:drawablePadding="10dp"
+                android:drawableTop="@drawable/ic_interessados"
+                android:paddingTop="10dp"
+                android:text="Interessados"
+                android:layout_margin="3dp"/>
+
+        </TableRow>
+
+    </TableLayout>
 
 
 </RelativeLayout>

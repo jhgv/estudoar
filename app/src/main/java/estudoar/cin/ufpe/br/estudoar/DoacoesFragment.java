@@ -45,6 +45,8 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     private String currentUser = ParseUser.getCurrentUser().getObjectId();
     private String id_usuario = "";
 
+    private ParseGeoPoint currentPoint;
+
     private boolean isGpsSearchActivated = false;
 
     private LinearLayout buscaAtivadaTxt;
@@ -120,12 +122,19 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
         switch (id) {
             case R.id.local_search:
-                doGpsQuerySearch();
+                if(isGpsSearchActivated){
+                    isGpsSearchActivated = false;
+                    buscaAtivadaTxt.setVisibility(View.GONE);
+                }else{
+                    isGpsSearchActivated = true;
+                }
                 break;
         }
+        doQuery(query);
         return super.onOptionsItemSelected(item);
 
     }
@@ -302,6 +311,12 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     public void doQuery(ParseQuery<ParseObject> query) {
         spinner.setVisibility(View.VISIBLE);
         mListView.setVisibility(View.INVISIBLE);
+
+        if(isGpsSearchActivated){
+            setCurrentPosition();
+            query.whereWithinKilometers("localizacao", currentPoint, 15.0);
+
+        }
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
@@ -415,12 +430,16 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         });
     }
 
-    public void doGpsQuerySearch() {
+
+
+    public void setCurrentPosition() {
         final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buscaAtivadaTxt.setVisibility(View.GONE);
             buildAlertMessageNoGps();
         } else {
+            buscaAtivadaTxt.setVisibility(View.VISIBLE);
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
             if (filter == 1) {
@@ -433,11 +452,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             Location myLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
             double longitude = myLocation.getLongitude();
             double latitude = myLocation.getLatitude();
-            ParseGeoPoint currentPoint = new ParseGeoPoint(latitude, longitude);
-            query.whereWithinKilometers("localizacao", currentPoint, 15.0);
-            isGpsSearchActivated = true;
-            buscaAtivadaTxt.setVisibility(View.VISIBLE);
-            doQuery(query);
+            currentPoint = new ParseGeoPoint(latitude, longitude);
 
         }
     }

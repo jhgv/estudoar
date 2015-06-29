@@ -37,6 +37,7 @@ public class DoacaoAdapter extends ArrayAdapter {
             holder = new ViewHolder();
             holder.nomeDoacao = (TextView) convertView.findViewById(R.id.materialName);
             holder.descricaoDoacao = (TextView) convertView.findViewById(R.id.materialDesc);
+            holder.categoriaDoacao = (TextView) convertView.findViewById(R.id.materialCateg);
             holder.imagemDoacao = (ImageView) convertView.findViewById(R.id.materialImage);
             convertView.setTag(holder);
         } else {
@@ -49,6 +50,10 @@ public class DoacaoAdapter extends ArrayAdapter {
         // pega o nome do material
         String username = doacaoObject.getString("nome");
         holder.nomeDoacao.setText(username);
+
+        // pega a descricao do material
+        String categoria = doacaoObject.getString("categoria");
+        holder.categoriaDoacao.setText(categoria);
 
         // pega a descricao do material
         String status = doacaoObject.getString("descricao");
@@ -68,6 +73,7 @@ public class DoacaoAdapter extends ArrayAdapter {
     public static class ViewHolder {
         TextView nomeDoacao;
         TextView descricaoDoacao;
+        TextView categoriaDoacao;
         ImageView imagemDoacao;
     }
 

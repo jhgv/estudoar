@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -209,6 +210,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                         goToVerDoacao();
                         getActivity().finish();
                     } else {
+                        Log.d("MyApp Error", e.getMessage());
                         Toast.makeText(getActivity(), "Erro ao cadastrar", Toast.LENGTH_SHORT).show();
                     }
                 }

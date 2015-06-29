@@ -6,7 +6,8 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/materialImage"/>
+        android:id="@+id/materialImage"
+        android:src="@drawable/ic_favs"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,12 +19,22 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/materialName"
-            android:textSize="25dp"/>
+            android:textSize="23dp"
+            android:text="Nome do material"/>
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/materialDesc"/>
+            android:id="@+id/materialCateg"
+            android:textSize="18dp"
+            android:textColor="@color/estudoarGreen"
+            android:text="Categoria"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/materialDesc"
+            android:text="breve descrição do material "/>
 
     </LinearLayout>
 
