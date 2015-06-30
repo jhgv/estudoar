@@ -34,8 +34,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/materialDesc"/>
-            <!--android:text="breve descrição do material--> "
+            <!--android:text="breve descrição do material"-->
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/materialStatus"
+        android:src="@drawable/ic_favs"/>
 
 </LinearLayout>
