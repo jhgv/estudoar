@@ -15,13 +15,14 @@
         android:id="@+id/linear_layout_doar"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp">
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/label_nome_doacao"
-            android:textSize="18dp"
+            android:textSize="19dp"
             android:textColor="#FFF"
             android:text="Nome"
             />
@@ -32,7 +33,7 @@
             android:id="@+id/nome_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             android:textColor="#FFF">
         </TextView>
 
@@ -41,7 +42,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/labelfotoDoacao"
             android:layout_marginTop="25dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             android:textColor="#FFF"
             android:text="Foto">
         </TextView>
@@ -61,7 +62,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/label_categoria_doacao"
             android:layout_marginTop="25dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             android:textColor="#FFF"
             android:text="Categoria"
             />
@@ -72,7 +73,7 @@
             android:id="@+id/categoria_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             android:textColor="#FFF"
             />
 
@@ -81,7 +82,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/label_assunto_doacao"
             android:layout_marginTop="25dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             android:textColor="#FFF"
             android:text="Assunto"
             />
@@ -92,7 +93,7 @@
             android:id="@+id/assunto_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             android:textColor="#FFF"
             />
 
@@ -101,7 +102,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/categoria"
             android:layout_marginTop="25dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             android:textColor="#FFF"
             android:text="Descrição"
             />
@@ -112,16 +113,44 @@
             android:id="@+id/descricao_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             android:textColor="#FFF"
             />
 
-        <CheckBox android:id="@+id/checkbox_Disponivel"
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50px"
+            android:id="@+id/label_status"
+            android:layout_marginTop="25dp"
             android:textSize="19dp"
+            android:textColor="#FFF"
+            android:text="Status"
             />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/iconStatus"
+                android:layout_alignParentLeft="true"
+                />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/status_doacao"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="-3dp"
+                android:textSize="19dp"
+                android:textColor="#FFF"
+                />
+        </LinearLayout>
 
         <Button
             style="@style/BtnDefault"
@@ -129,8 +158,7 @@
             android:layout_height="wrap_content"
             android:text="Quero"
             android:id="@+id/btnQuero"
-            android:layout_marginTop="50px"
-            android:layout_marginBottom="50px"
+            android:layout_marginTop="25dp"
             />
 
         <Button
@@ -139,8 +167,7 @@
             android:layout_height="wrap_content"
             android:text="Contato Doador"
             android:id="@+id/btnContatoDoador"
-            android:layout_marginTop="50px"
-            android:layout_marginBottom="50px"
+            android:layout_marginTop="25dp"
             />
 
         <Button
@@ -149,8 +176,7 @@
             android:layout_height="wrap_content"
             android:text="Deletar Doação"
             android:id="@+id/btnDeletarDoacao"
-            android:layout_marginTop="50px"
-            android:layout_marginBottom="50px"
+            android:layout_marginTop="25dp"
             />
 
     </LinearLayout>

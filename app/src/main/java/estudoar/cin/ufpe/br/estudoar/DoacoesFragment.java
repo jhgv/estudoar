@@ -1,6 +1,7 @@
 package estudoar.cin.ufpe.br.estudoar;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
@@ -23,12 +24,20 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +51,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     private List<ParseObject> mDoacoes;
     private OnFragmentInteractionListener mListener;
 
-    private String currentUser = ParseUser.getCurrentUser().getObjectId();
+    private ParseUser currentUser = ParseUser.getCurrentUser();
     private String id_usuario = "";
 
     private ParseGeoPoint currentPoint;
@@ -182,7 +191,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             final ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
             if (filter == 1) {
-                query.whereEqualTo("doador", currentUser);
+                query.whereEqualTo("doador", currentUser.getObjectId());
             } else if (filter == 4) {
                 query.whereEqualTo("doador", id_usuario);
             }
@@ -190,7 +199,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
         } else if (filter == 2) {
             ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
-            queryFavoritos.whereEqualTo("interessado", currentUser);
+            queryFavoritos.whereEqualTo("interessado", currentUser.getObjectId());
 
             ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
             queryDoacoes.whereMatchesKeyInQuery("objectId", "doacao", queryFavoritos);
@@ -199,7 +208,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
         } else if (filter == 3) {
             ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
-            queryDoacoes.whereEqualTo("doador", currentUser);
+            queryDoacoes.whereEqualTo("doador", currentUser.getObjectId());
 
             ParseQuery<ParseObject> queryInteressados = ParseQuery.getQuery("Favoritos");
             queryInteressados.whereMatchesKeyInQuery("doacao", "objectId", queryDoacoes);
@@ -231,12 +240,12 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
 
         if (filter == 1) {
-            mainQuery.whereEqualTo("doador", currentUser);
+            mainQuery.whereEqualTo("doador", currentUser.getObjectId());
         } else if (filter == 4) {
             mainQuery.whereEqualTo("doador", id_usuario);
         } else if (filter == 2) {
             ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
-            queryFavoritos.whereEqualTo("interessado", currentUser);
+            queryFavoritos.whereEqualTo("interessado", currentUser.getObjectId());
             mainQuery.whereMatchesKeyInQuery("objectId", "doacao", queryFavoritos);
         }
 
@@ -289,7 +298,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         queries.add(queryNome);
 
         ParseQuery<ParseObject> queryDoacoes = ParseQuery.or(queries);
-        queryDoacoes.whereEqualTo("doador", currentUser);
+        queryDoacoes.whereEqualTo("doador", currentUser.getObjectId());
 
         ParseQuery<ParseObject> queryDoacoesFavoritadas = ParseQuery.getQuery("Favoritos");
         queryDoacoesFavoritadas.whereMatchesKeyInQuery("doacao", "objectId", queryDoacoes);
@@ -349,13 +358,13 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                             getActivity().finish();
                         }
                     });
-
+                    dig.setCancelable(false);
                     dig.show();
 
                 } else if (e == null){
 
                     mDoacoes = doacoes;
-                    DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes);
+                    DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes, filter);
                     ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
 
                     mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -403,6 +412,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                                 getActivity().finish();
                             }
                         })
+                        .setCancelable(false)
                         .show();
 
                     //menu_materiais.findItem(R.id.local_search).setVisible(false);
@@ -417,11 +427,87 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                             @Override
                             public void onItemClick(AdapterView<?> arg0, View arg1, int position,
                                                     long arg3) {
-                                ParseObject favorito = (ParseObject) favoritos.get(position);
+                                final ParseObject favorito = (ParseObject) favoritos.get(position);
+                                final String id_interessado = favorito.getString("interessado");
 
-                                Intent i = new Intent(getActivity(), MeuPerfil.class);
-                                i.putExtra("id_usuario", (String) favorito.get("interessado"));
-                                startActivity(i);
+                                ParseQuery<ParseUser> queryInteressado = ParseUser.getQuery();
+                                queryInteressado.whereContains("objectId", id_interessado);
+
+                                queryInteressado.getFirstInBackground(new GetCallback<ParseUser>() {
+                                    public void done(ParseUser interessado, ParseException e) {
+                                        if (e == null) {
+
+                                            ParseQuery queryNotify = ParseInstallation.getQuery();
+
+                                            final ParsePush androidPush = new ParsePush();
+                                            androidPush.setQuery(queryNotify);
+
+                                            final JSONObject data = new JSONObject();
+                                            try {
+                                                data.put("doador_id", currentUser.getObjectId());
+                                                data.put("interessado_id", id_interessado);
+                                                data.put("doacao_id", favorito.getString("doacao"));
+                                                data.put("action", 2);
+                                            } catch(JSONException ej) {
+                                                ej.printStackTrace();
+                                            }
+
+                                            new AlertDialog.Builder(getActivity())
+                                            .setMessage("Deseja doar este material para " + interessado.getString("name") + "?")
+                                                    .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            Toast.makeText(getActivity(), "Solicitacao Aprovada", Toast.LENGTH_SHORT).show();
+
+                                                            favorito.put("status", "S");
+                                                            favorito.saveInBackground();
+                                                            try {
+                                                                data.put("status", currentUser.getString("name") + " aprovou sua solicitação!");
+                                                            } catch (JSONException e1) {}
+
+                                                            androidPush.setData(data);
+                                                            androidPush.sendInBackground();
+
+                                                            Intent intent = getActivity().getIntent();
+                                                            getActivity().finish();
+                                                            startActivity(intent);
+                                                        }
+                                                    })
+                                                    .setNegativeButton("Nao", new DialogInterface.OnClickListener() {
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            Toast.makeText(getActivity(), "Solicitacao Recusada", Toast.LENGTH_SHORT).show();
+
+                                                            favorito.put("status", "N");
+                                                            favorito.saveInBackground();
+
+                                                            try {
+                                                                data.put("status", currentUser.getString("name") + " recusou sua solicitação!");
+                                                            } catch (JSONException e1) {}
+
+                                                            androidPush.setData(data);
+                                                            androidPush.sendInBackground();
+
+                                                            Intent intent = getActivity().getIntent();
+                                                            getActivity().finish();
+                                                            startActivity(intent);
+                                                        }
+                                                    })
+                                                    .setNeutralButton("Ver Interessado",new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            Intent i = new Intent(getActivity(), MeuPerfil.class);
+                                                            i.putExtra("id_usuario",id_interessado);
+                                                            startActivity(i);
+                                                        }
+                                                    })
+                                                    .show();
+
+                                        } else {
+                                            Log.d("doacao", "Error: " + e.getMessage());
+                                            Toast.makeText(getActivity(), "Erro ao recuperar usuario interessado", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+
                             }
                         });
                     } else {
@@ -445,7 +531,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
             if (filter == 1) {
-                query.whereEqualTo("doador", currentUser);
+                query.whereEqualTo("doador", currentUser.getObjectId());
             } else if (filter == 4) {
                 query.whereEqualTo("doador", id_usuario);
             }

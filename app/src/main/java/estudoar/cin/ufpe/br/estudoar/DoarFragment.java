@@ -201,8 +201,6 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                 doacao.put("localizacao", localizacao);
             }
 
-            doacao.put("disponivel", true);
-
             doacao.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
