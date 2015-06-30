@@ -146,7 +146,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
-        if (filter == 2 || filter == 3) {
+        if (filter == 2 || filter == 3 ) {
             menu.findItem(R.id.local_search).setVisible(false);
         }
 
@@ -392,18 +392,20 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
                 if (favts.size() == 0) {
                     new AlertDialog.Builder(getActivity())
-                            .setMessage("Ninguem se interessou ainda por suas doacoes!")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    getActivity().finish();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    getActivity().finish();
-                                }
-                            })
-                            .show();
+                        .setMessage("Ninguem se interessou ainda por suas doacoes!")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                getActivity().finish();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                getActivity().finish();
+                            }
+                        })
+                        .show();
+
+                    //menu_materiais.findItem(R.id.local_search).setVisible(false);
 
                 } else {
                     if (e == null) {

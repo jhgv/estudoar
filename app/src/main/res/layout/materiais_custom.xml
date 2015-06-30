@@ -19,22 +19,22 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/materialName"
-            android:textSize="23dp"
-            android:text="Nome do material"/>
+            android:textSize="23dp"/>
+            <!--android:text="Nome do material"-->
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/materialCateg"
             android:textSize="18dp"
-            android:textColor="@color/estudoarGreen"
-            android:text="Categoria"/>
+            android:textColor="@color/estudoarGreen" />
+            <!--android:text="Categoria"-->
 
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/materialDesc"
-            android:text="breve descrição do material "/>
+            android:id="@+id/materialDesc"/>
+            <!--android:text="breve descrição do material--> "
 
     </LinearLayout>
 
