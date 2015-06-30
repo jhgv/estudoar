@@ -139,6 +139,10 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".AnalisarPedidoActivity"
+            android:label="@string/title_activity_analisar_pedido" >
+        </activity>
     </application>
 
 </manifest>

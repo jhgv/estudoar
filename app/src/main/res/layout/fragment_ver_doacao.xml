@@ -116,6 +116,13 @@
             android:textColor="#FFF"
             />
 
+        <CheckBox android:id="@+id/checkbox_Disponivel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50px"
+            android:textSize="19dp"
+            />
+
         <Button
             style="@style/BtnDefault"
             android:layout_width="fill_parent"

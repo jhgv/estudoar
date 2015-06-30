@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,6 +59,8 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
     private TextView descricao;
 
     private ImageView foto;
+
+    private CheckBox checkDisp;
 
     private Button queroBtn;
     private Button contatoBtn;
@@ -94,6 +97,9 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
         foto = (ImageView) doacaoView.findViewById(R.id.foto_doacao);
 
+        checkDisp = (CheckBox) doacaoView.findViewById(R.id.checkbox_Disponivel);
+        checkDisp.setEnabled(false);
+
         queroBtn = (Button) doacaoView.findViewById(R.id.btnQuero);
         contatoBtn = (Button) doacaoView.findViewById(R.id.btnContatoDoador);
         deletarBtn = (Button) doacaoView.findViewById(R.id.btnDeletarDoacao);
@@ -121,6 +127,16 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                     categoria.setText(doacaoAtual.getString("categoria"));
                     assunto.setText(doacaoAtual.getString("assunto"));
                     descricao.setText(doacaoAtual.getString("descricao"));
+
+                    if(doacao.getBoolean("disponivel") == true){
+                        checkDisp.setChecked(true);
+                        checkDisp.setText("Disponível");
+                        checkDisp.setTextColor(Color.GREEN);
+                    }else{
+                        checkDisp.setChecked(false);
+                        checkDisp.setText("Indisponível");
+                        checkDisp.setTextColor(Color.RED);
+                    }
 
                     final ParseFile image_file = (ParseFile) doacaoAtual.getParseFile("foto");
 
