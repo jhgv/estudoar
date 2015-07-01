@@ -26,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,9 +57,11 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
     private TextView assunto;
     private TextView descricao;
 
-    private ImageView foto;
+    private TextView label_status;
+    private TextView status;
 
-    private CheckBox checkDisp;
+    private ImageView foto;
+    private ImageView icon_status;
 
     private Button queroBtn;
     private Button contatoBtn;
@@ -71,7 +72,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
     private String id_doador;
 
-    boolean minhaDoacao = false;
+    private boolean minhaDoacao = false;
 
     private int mId = 1;
 
@@ -95,10 +96,11 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         assunto = (TextView) doacaoView.findViewById(R.id.assunto_doacao);
         descricao = (TextView) doacaoView.findViewById(R.id.descricao_doacao);
 
-        foto = (ImageView) doacaoView.findViewById(R.id.foto_doacao);
+        label_status  = (TextView) doacaoView.findViewById(R.id.label_status);
+        status = (TextView) doacaoView.findViewById(R.id.status_doacao);
+        icon_status = (ImageView) doacaoView.findViewById(R.id.iconStatus);
 
-        checkDisp = (CheckBox) doacaoView.findViewById(R.id.checkbox_Disponivel);
-        checkDisp.setEnabled(false);
+        foto = (ImageView) doacaoView.findViewById(R.id.foto_doacao);
 
         queroBtn = (Button) doacaoView.findViewById(R.id.btnQuero);
         contatoBtn = (Button) doacaoView.findViewById(R.id.btnContatoDoador);
@@ -111,8 +113,14 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         if (id_doador.equals(currentUser.getObjectId())){
             contatoBtn.setText("Editar Doação");
             queroBtn.setVisibility(View.GONE);
+
+            label_status.setVisibility(View.GONE);
+            status.setVisibility(View.GONE);
+            icon_status.setVisibility(View.GONE);
+
             minhaDoacao = true;
         }else{
+            contatoBtn.setVisibility(View.GONE);
             deletarBtn.setVisibility(View.GONE);
         }
 
@@ -127,16 +135,6 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                     categoria.setText(doacaoAtual.getString("categoria"));
                     assunto.setText(doacaoAtual.getString("assunto"));
                     descricao.setText(doacaoAtual.getString("descricao"));
-
-                    if(doacao.getBoolean("disponivel") == true){
-                        checkDisp.setChecked(true);
-                        checkDisp.setText("Disponível");
-                        checkDisp.setTextColor(Color.GREEN);
-                    }else{
-                        checkDisp.setChecked(false);
-                        checkDisp.setText("Indisponível");
-                        checkDisp.setTextColor(Color.RED);
-                    }
 
                     final ParseFile image_file = (ParseFile) doacaoAtual.getParseFile("foto");
 
@@ -172,8 +170,30 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                             public void done(ParseObject favorito, ParseException e) {
                                 if (favorito != null) {
                                     queroBtn.setText("Não Quero");
+
+                                    label_status.setVisibility(View.VISIBLE);
+                                    String situacao = favorito.getString("status");
+                                    switch (situacao){
+                                        case "E":
+                                            status.setText("Em Espera");
+                                            icon_status.setImageResource(R.drawable.ic_waitng);
+                                            break;
+                                        case "S":
+                                            status.setText("Aceito");
+                                            icon_status.setImageResource(R.drawable.ic_accepted);
+                                            contatoBtn.setVisibility(View.VISIBLE);
+                                            break;
+                                        case "N":
+                                            status.setText("Recusado");
+                                            icon_status.setImageResource(R.drawable.ic_refused);
+                                            break;
+                                    }
+                                    status.setVisibility(View.VISIBLE);
+
                                 } else {
-                                    //Toast.makeText(getActivity(), "Erro ao favoritar!", Toast.LENGTH_SHORT).show();
+                                    label_status.setVisibility(View.GONE);
+                                    status.setVisibility(View.GONE);
+                                    icon_status.setVisibility(View.GONE);
                                 }
                             }
                         });
@@ -199,7 +219,6 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                 btnClose.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View arg0) {
-
                         nagDialog.dismiss();
                     }
                 });
@@ -259,6 +278,10 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                         public void done(ParseException e) {
                             if(e == null){
                                 Toast.makeText(getActivity(), "Favorito deletado com sucesso", Toast.LENGTH_SHORT).show();
+                                label_status.setVisibility(View.GONE);
+                                status.setVisibility(View.GONE);
+                                icon_status.setVisibility(View.GONE);
+
                             }else{
                                 Toast.makeText(getActivity(), "Erro ao deletar o favorito", Toast.LENGTH_SHORT).show();
                             }
@@ -271,12 +294,21 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
                     fvt.put("interessado", currentUser.getObjectId());
                     fvt.put("doacao", doacaoAtual.getObjectId());
+                    fvt.put("status", "E");
 
                     fvt.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
                                 queroBtn.setText("Não Quero");
+
+                                label_status.setVisibility(View.VISIBLE);
+                                status.setText("Em Espera");
+                                status.setVisibility(View.VISIBLE);
+
+                                icon_status.setImageResource(R.drawable.ic_waitng);
+                                icon_status.setVisibility(View.VISIBLE);
+
                                 Toast.makeText(getActivity(), "Doação Salva em Favoritos", Toast.LENGTH_SHORT).show();
 
                                 ParseQuery queryNotify = ParseInstallation.getQuery();
@@ -288,6 +320,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                                     data.put("doador_id", id_doador);
                                     data.put("interessado_id", currentUser.getObjectId());
                                     data.put("interessado_name",currentUser.getUsername());
+                                    data.put("action", 1);
                                 } catch(JSONException ej) {
                                     ej.printStackTrace();
                                 }

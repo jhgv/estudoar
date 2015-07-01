@@ -24,9 +24,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textSize="23sp"
-            android:text="Nome do material"/>
-
-
+            />
+            <!--android:text="Nome do material"-->
 
             <TextView
                 android:id="@+id/materialCateg"
@@ -36,23 +35,21 @@
                 android:textSize="18sp" />
             <!--android:text="Categoria"-->
 
-            <TextView
-                android:id="@+id/materialDesc"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/materialDesc"/>
             <!--android:text="breve descrição do material"-->
-
 
         </LinearLayout>
 
         <ImageView
-            android:layout_marginRight="10dp"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@drawable/ic_waitng"
+            android:layout_marginTop="10dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/materialStatus"
-            android:layout_alignParentRight="true"/>
-
+            android:layout_alignParentRight="true"
+        />
 
     </RelativeLayout>
 

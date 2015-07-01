@@ -8,9 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,16 +26,18 @@ import java.util.List;
 public class DoacaoAdapter extends ArrayAdapter {
     protected Context mContext;
     protected List mDoacoes;
+    protected int mFilter;
 
-    public DoacaoAdapter(Context context, List doacoes) {
+    public DoacaoAdapter(Context context, List doacoes, int filter) {
         super(context, R.layout.materiais_custom, doacoes);
         mContext = context;
         mDoacoes = doacoes;
+        mFilter = filter;
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        final ViewHolder holder;
 
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.materiais_custom, null);
@@ -39,6 +46,7 @@ public class DoacaoAdapter extends ArrayAdapter {
             holder.descricaoDoacao = (TextView) convertView.findViewById(R.id.materialDesc);
             holder.categoriaDoacao = (TextView) convertView.findViewById(R.id.materialCateg);
             holder.imagemDoacao = (ImageView) convertView.findViewById(R.id.materialImage);
+            holder.statusDoacao = (ImageView) convertView.findViewById(R.id.materialStatus);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -51,13 +59,39 @@ public class DoacaoAdapter extends ArrayAdapter {
         String username = doacaoObject.getString("nome");
         holder.nomeDoacao.setText(username);
 
-        // pega a descricao do material
+        // pega a categoria do material
         String categoria = doacaoObject.getString("categoria");
         holder.categoriaDoacao.setText(categoria);
 
         // pega a descricao do material
-        String status = doacaoObject.getString("descricao");
-        holder.descricaoDoacao.setText(status);
+        String descricao = doacaoObject.getString("descricao");
+        holder.descricaoDoacao.setText(descricao);
+
+        if(mFilter == 2) {
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Favoritos");
+            query.whereEqualTo("doacao", doacaoObject.getObjectId());
+            query.whereEqualTo("interessado", ParseUser.getCurrentUser().getObjectId());
+            query.getFirstInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject favoritoObject, ParseException e) {
+                    if (e == null) {
+                        String status = favoritoObject.getString("status");
+                        switch (status){
+                            case "E":
+                                holder.statusDoacao.setImageResource(R.drawable.ic_waitng);
+                                break;
+                            case "S":
+                                holder.statusDoacao.setImageResource(R.drawable.ic_accepted);
+                                break;
+                            case "N":
+                                holder.statusDoacao.setImageResource(R.drawable.ic_refused);
+                                break;
+                        }
+                    }
+                }
+            });
+        }else{
+            holder.statusDoacao.setVisibility(View.GONE);
+        }
 
         // pega a imagem do material
         ParseFile foto = (ParseFile) doacaoObject.get("foto");
@@ -75,6 +109,7 @@ public class DoacaoAdapter extends ArrayAdapter {
         TextView descricaoDoacao;
         TextView categoriaDoacao;
         ImageView imagemDoacao;
+        ImageView statusDoacao;
     }
 
 }

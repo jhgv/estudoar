@@ -41,6 +41,7 @@ public class InteressadosAdapter extends ArrayAdapter {
             holder.nomeDoador = (TextView) convertView.findViewById(R.id.materialName);
             holder.nomeDoacao = (TextView) convertView.findViewById(R.id.materialDesc);
             holder.imagemDoacao = (ImageView) convertView.findViewById(R.id.materialImage);
+            holder.statusDoacao = (ImageView) convertView.findViewById(R.id.materialStatus);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -54,7 +55,7 @@ public class InteressadosAdapter extends ArrayAdapter {
         queryUser.getFirstInBackground(new GetCallback<ParseUser>() {
             public void done(ParseUser interessado, ParseException e) {
                 if (e == null) {
-                    holder.nomeDoador.setText(interessado.getUsername());
+                    holder.nomeDoador.setText(interessado.getString("name"));
                 } else {
                     Toast.makeText(context, "Erro ao recuperar usuário interessado", Toast.LENGTH_SHORT).show();
                 }
@@ -79,6 +80,19 @@ public class InteressadosAdapter extends ArrayAdapter {
             }
         });
 
+        String status = favoritoObject.getString("status");
+        switch (status){
+            case "E":
+                holder.statusDoacao.setImageResource(R.drawable.ic_waitng);
+                break;
+            case "S":
+                holder.statusDoacao.setImageResource(R.drawable.ic_accepted);
+                break;
+            case "N":
+                holder.statusDoacao.setImageResource(R.drawable.ic_refused);
+                break;
+        }
+
         return convertView;
     }
 
@@ -86,6 +100,7 @@ public class InteressadosAdapter extends ArrayAdapter {
         TextView nomeDoador;
         TextView nomeDoacao;
         ImageView imagemDoacao;
+        ImageView statusDoacao;
     }
 
 }

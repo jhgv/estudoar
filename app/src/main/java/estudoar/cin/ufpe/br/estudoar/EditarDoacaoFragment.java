@@ -26,7 +26,6 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,9 +50,9 @@ import java.util.ArrayList;
 
 public class EditarDoacaoFragment extends Fragment implements View.OnClickListener{
 
-    public static final int GET_FROM_GALLERY = 3;
     private final int GET_PICTURE_CODE = 1;
     private final int GET_LOCATION_CODE = 2;
+    public static final int GET_FROM_GALLERY = 3;
 
     private EditText nomeImput;
     private EditText assuntoImput;
@@ -72,8 +71,6 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
     private String categoriaSelecionada;
 
     private ImageView fotoView;
-
-    private CheckBox checkDisp;
 
     public EditarDoacaoFragment() {
         // Required empty public constructor
@@ -95,18 +92,6 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
         descricaoImput = (EditText) editarDoacaoView.findViewById(R.id.descricao_doacao_editar);
 
         fotoView = (ImageView) editarDoacaoView.findViewById(R.id.fotoViewEditar);
-
-        checkDisp = (CheckBox) editarDoacaoView.findViewById(R.id.checkbox_Disponivel);
-        /*checkDisp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-
-                }else{
-
-                }
-            }
-        });*/
 
         categorias_spinner = (Spinner) editarDoacaoView.findViewById(R.id.spinner_doacao_editar);
 
@@ -152,7 +137,6 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
 
                     assuntoImput.setText(doacao.getString("assunto"));
                     descricaoImput.setText(doacao.getString("descricao"));
-                    checkDisp.setChecked(doacao.getBoolean("disponivel"));
 
                     final ParseFile image_file = (ParseFile) doacao.getParseFile("foto");
 
@@ -229,13 +213,11 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
         String assunto = assuntoImput.getText().toString().trim();
         String descricao = descricaoImput.getText().toString().trim();
         Bitmap foto = ((BitmapDrawable)fotoView.getDrawable()).getBitmap();
-        boolean disponivel = checkDisp.isChecked();
 
         doacao_editada.put("nome", nome);
         doacao_editada.put("categoria", categoriaSelecionada);
         doacao_editada.put("assunto", assunto);
         doacao_editada.put("descricao", descricao);
-        doacao_editada.put("disponivel", disponivel);
 
         if (foto == null){
             doacao_editada.put("foto",null);
@@ -301,7 +283,7 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-            } else if (requestCode == 1) {
+           } else if (requestCode == GET_PICTURE_CODE) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 fotoView.setImageBitmap(bitmap);
             }else if (requestCode == GET_LOCATION_CODE){
