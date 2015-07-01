@@ -35,11 +35,11 @@
                 android:textSize="18sp" />
             <!--android:text="Categoria"-->
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/materialDesc"/>
-            <!--android:text="breve descrição do material"-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/materialDesc"/>
+                <!--android:text="breve descrição do material"-->
 
         </LinearLayout>
 
