@@ -24,7 +24,7 @@
 
     <EditText
         style="@style/LoginSignupEditText"
-        android:id="@+id/endereco"
+        android:id="@+id/enderecoQuery"
         android:layout_width="fill_parent"
         android:hint="@string/add_address"
         android:inputType="text" />

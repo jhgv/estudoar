@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,7 +30,9 @@ public class AddEnderecoActivity extends Activity implements OnMapReadyCallback 
     double longitude, latitude;
     Location myLocation;
 
-    Button btnAddLocal;
+    private Button btnAddLocal;
+    private Button btnAddByAddress;
+    private EditText enderecoQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,8 @@ public class AddEnderecoActivity extends Activity implements OnMapReadyCallback 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.gMap);
         mapFragment.getMapAsync(this);
+
+        enderecoQuery = (EditText) findViewById(R.id.enderecoQuery);
 
         btnAddLocal = (Button) findViewById(R.id.btnGetLocal);
         btnAddLocal.setOnClickListener(new View.OnClickListener(){
@@ -53,6 +59,20 @@ public class AddEnderecoActivity extends Activity implements OnMapReadyCallback 
 
             }
         });
+
+        btnAddByAddress = (Button) findViewById(R.id.getEndereco);
+        btnAddByAddress.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                String enderecoTxt = enderecoQuery.getText().toString();
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + enderecoTxt);
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
+            }
+        });
+
 
     }
 
