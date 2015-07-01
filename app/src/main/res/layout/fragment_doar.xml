@@ -33,7 +33,7 @@
             android:layout_marginTop="25dp"
             android:gravity="center_vertical"
             android:layout_gravity="center_horizontal"
-            android:background="@color/estudoarBlue"
+            android:background="@drawable/doacao_icon"
             />
 
         <Button

@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:id="@+id/label_nome_doacao"
             android:textSize="18dp"
-            android:textColor="#FFF"
             android:text="Nome"
             />
 
@@ -42,7 +41,6 @@
             android:id="@+id/labelfotoDoacao"
             android:layout_marginTop="25dp"
             android:textSize="18dp"
-            android:textColor="#FFF"
             android:text="Foto">
         </TextView>
 
@@ -54,6 +52,7 @@
             android:gravity="center_vertical"
             android:layout_gravity="center_horizontal"
             android:background="#E8E8E8"
+            android:src="@drawable/doacao_icon"
             />
 
         <TextView
@@ -62,7 +61,6 @@
             android:id="@+id/label_categoria_doacao"
             android:layout_marginTop="25dp"
             android:textSize="18dp"
-            android:textColor="#FFF"
             android:text="Categoria"
             />
 
@@ -73,7 +71,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:textSize="18dp"
-            android:textColor="#FFF"
             />
 
         <TextView
@@ -82,7 +79,6 @@
             android:id="@+id/label_assunto_doacao"
             android:layout_marginTop="25dp"
             android:textSize="18dp"
-            android:textColor="#FFF"
             android:text="Assunto"
             />
 
@@ -93,7 +89,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:textSize="18dp"
-            android:textColor="#FFF"
             />
 
         <TextView
@@ -102,7 +97,6 @@
             android:id="@+id/categoria"
             android:layout_marginTop="25dp"
             android:textSize="18dp"
-            android:textColor="#FFF"
             android:text="Descrição"
             />
 
@@ -113,7 +107,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
             android:textSize="18dp"
-            android:textColor="#FFF"
             />
 
         <CheckBox android:id="@+id/checkbox_Disponivel"

@@ -384,6 +384,13 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     private void doQueryInteressados(ParseQuery<ParseObject> queryInteressados) {
         mListView.setVisibility(View.INVISIBLE);
         spinner.setVisibility(View.VISIBLE);
+
+        if(isGpsSearchActivated){
+            setCurrentPosition();
+            queryInteressados.whereWithinKilometers("localizacao", currentPoint, 15.0);
+
+        }
+
         queryInteressados.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> favts, com.parse.ParseException e) {
