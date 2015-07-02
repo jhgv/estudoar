@@ -244,14 +244,17 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-            } else if (requestCode == 1) {
+            } else if (requestCode == GET_PICTURE_CODE) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 fotoView.setImageBitmap(bitmap);
             }else if (requestCode == GET_LOCATION_CODE){
-                //double[] result = data.getDoubleArrayExtra("position");
-                ArrayList<Double> coordenadas = (ArrayList<Double>) data.getSerializableExtra("coordenadas");
-                localizacao = new ParseGeoPoint(coordenadas.get(0), coordenadas.get(1));
-                enderecoCheck.setVisibility(View.VISIBLE);
+                if(localizacao == null){
+                    //double[] result = data.getDoubleArrayExtra("position");
+                    ArrayList<Double> coordenadas = (ArrayList<Double>) data.getSerializableExtra("coordenadas");
+                    localizacao = new ParseGeoPoint(coordenadas.get(0), coordenadas.get(1));
+                    enderecoCheck.setVisibility(View.VISIBLE);
+                    addEndBtn.setText("Remover Endereço");
+                }
             }
         }
 
@@ -281,13 +284,21 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
     }
 
     public void openMaps(View v) {
-        final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(localizacao != null) {
+            localizacao = null;
+            Toast.makeText(getActivity(), "Endereço Removido!", Toast.LENGTH_SHORT).show();
+            addEndBtn.setText("Adicionar Endereço");
+            enderecoCheck.setVisibility(View.GONE);
 
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps();
-        } else {
-            Intent i = new Intent(getActivity(), AddEnderecoActivity.class);
-            startActivityForResult(i, GET_LOCATION_CODE);
+        }else {
+            final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                buildAlertMessageNoGps();
+            } else {
+                Intent i = new Intent(getActivity(), AddEnderecoActivity.class);
+                startActivityForResult(i, GET_LOCATION_CODE);
+            }
         }
     }
 

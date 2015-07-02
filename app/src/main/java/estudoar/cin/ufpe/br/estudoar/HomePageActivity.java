@@ -67,8 +67,8 @@ public class HomePageActivity extends ActionBarActivity {
             case R.id.user_doacoes:
                 goToMinhasDoacoesPage();
                 break;
-            case R.id.user_favoritos:
-                goToMeusFavoritosPage();
+            case R.id.menu_principal:
+                goToMenuPrincipal();
                 break;
         }
 
@@ -93,32 +93,7 @@ public class HomePageActivity extends ActionBarActivity {
         startActivity(i);
     }
 
-    public void goToMeusFavoritosPage(){
-        Intent i = new Intent(this, DoacoesActivity.class);
-        i.putExtra("filter",2);
-        startActivity(i);
+    public void goToMenuPrincipal(){
     }
-
-/*
-    public void goToVerDoacaoPage(View view){
-
-        Toast.makeText(this, "ID Desconhecido!", Toast.LENGTH_LONG).show();
-
-        final Intent i = new Intent(HomePageActivity.this, VerDoacaoActivity.class);
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
-        query.whereEqualTo("doador", currentUser);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject doacao, ParseException e) {
-                if (e == null) {
-                    i.putExtra("id_doacao", doacao.getObjectId());
-                    startActivity(i);
-                } else {
-                    Toast.makeText(HomePageActivity.this, "Você ainda não fez uma doação!", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-*/
 
 }

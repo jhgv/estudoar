@@ -32,8 +32,7 @@
             android:id="@+id/nome_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="19dp"
-            android:textColor="#FFF">
+            android:textSize="19dp">
         </TextView>
 
         <TextView
@@ -41,7 +40,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/labelfotoDoacao"
             android:layout_marginTop="25dp"
-            android:textSize="18dp">
+            android:textSize="19dp"
+            android:text="Foto">
+
         </TextView>
 
         <ImageView
@@ -51,7 +52,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:layout_gravity="center_horizontal"
-            android:background="#E8E8E8"
+            android:background="#FFF"
             android:src="@drawable/doacao_icon"
             />
 
@@ -60,7 +61,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/label_categoria_doacao"
             android:layout_marginTop="25dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
+            android:text="Categoria"
             />
 
         <TextView
@@ -69,7 +71,7 @@
             android:id="@+id/categoria_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             />
 
         <TextView
@@ -77,7 +79,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/label_assunto_doacao"
             android:layout_marginTop="25dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
+            android:text="Assunto"
             />
 
         <TextView
@@ -86,7 +89,7 @@
             android:id="@+id/assunto_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             />
 
         <TextView
@@ -94,7 +97,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/categoria"
             android:layout_marginTop="25dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
+            android:text="Descrição"
             />
 
         <TextView
@@ -103,7 +107,7 @@
             android:id="@+id/descricao_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             />
 
         <TextView
@@ -112,12 +116,11 @@
             android:id="@+id/label_status"
             android:layout_marginTop="25dp"
             android:textSize="19dp"
-            android:textColor="#FFF"
             android:text="Status"
             />
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="15dp">
@@ -131,13 +134,12 @@
                 />
 
             <TextView
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/status_doacao"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="-3dp"
+                android:layout_gravity="center_vertical"
                 android:textSize="19dp"
-                android:textColor="#FFF"
                 />
         </LinearLayout>
 

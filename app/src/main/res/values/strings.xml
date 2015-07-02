@@ -45,7 +45,7 @@
     <string name="doar_cadastrar">Doar</string>
     <string name="doar_add_endereco">Adicionar Endereço</string>
     <string name="add_local_address">Escolher Local Atual</string>
-    <string name="add_address">Escreva o Endereco de entrega</string>
+    <string name="add_address">Escreva o endereco de entrega</string>
     <string name="spinner_categoria">Escolha uma categoria</string>
     <string name="assunto_doar">Assunto</string>
     <string name="descricao_doar">Descricao</string>
