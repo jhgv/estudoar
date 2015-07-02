@@ -188,8 +188,8 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             byte[] image = stream.toByteArray();
 
             // Create the ParseFile
-            String fileName = nome + ".jpg";
-            ParseFile file = new ParseFile(fileName.replaceAll("\\s+",""), image);
+            String fileName = currentUser.getObjectId() + "_" + (int) System.currentTimeMillis() + ".jpg";
+            ParseFile file = new ParseFile(fileName, image);
             // Upload the image into Parse Cloud
             file.saveInBackground();
 

@@ -25,6 +25,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     private EditText uLogin;
     private EditText uPassword;
     private EditText uEmail;
+    private EditText uPhone;
 
     private Button btnSignup;
 
@@ -43,6 +44,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         uLogin = (EditText) signup.findViewById(R.id.uLogin);
         uPassword = (EditText) signup.findViewById(R.id.uPassword);
         uEmail = (EditText) signup.findViewById(R.id.uEmail);
+        uPhone = (EditText) signup.findViewById(R.id.uPhoneNumber);
         btnSignup = (Button) signup.findViewById(R.id.btnSignup);
 
         btnSignup.setOnClickListener(this);
@@ -68,12 +70,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
         String username = uLogin.getText().toString().trim();
         String password = uPassword.getText().toString().trim();
         String email = uEmail.getText().toString().trim();
+        String phone = uPhone.getText().toString().trim();
 
         ParseUser user = new ParseUser();
         user.put("name", name);
         user.setUsername(username);
         user.setPassword(password);
         user.setEmail(email);
+        user.put("telefone",phone);
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
