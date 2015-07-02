@@ -22,9 +22,8 @@
             android:id="@+id/nome_doacao_editar"
             android:layout_width="fill_parent"
             android:hint="@string/doar_nome"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             >
-            <requestFocus />
         </EditText>
 
         <ImageView
@@ -78,7 +77,7 @@
             android:id="@+id/assunto_doacao_editar"
             android:layout_width="fill_parent"
             android:hint="@string/assunto_doar"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             android:layout_marginTop="25dp"
             />
 
@@ -88,7 +87,7 @@
             android:layout_width="fill_parent"
             android:layout_height="300px"
             android:hint="@string/descricao_doar"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             android:gravity="top"
             android:layout_marginTop="25dp"
             />

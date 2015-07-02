@@ -10,6 +10,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -335,38 +336,38 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
                 mListView.setVisibility(View.VISIBLE);
                 spinner.setVisibility(View.INVISIBLE);
-//                if (doacoes.size() == 0){
-//                    AlertDialog.Builder dig = new AlertDialog.Builder(getActivity());
-//                    switch (filter) {
-//                        case 0:
-//                            dig.setMessage("Nenhum usuario publicou doacoes!");
-//                            break;
-//                        case 1:
-//                            dig.setMessage("Voce ainda nao publicou doacoes!");
-//                            break;
-//                        case 2:
-//                            dig.setMessage("Voce ainda nao tem favoritos!");
-//                            break;
-//                        case 4:
-//                            dig.setMessage("Este usuario ainda nao publicou doacoes!");
-//                            break;
-//                    }
-//
-//                    dig.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            getActivity().finish();
-//                        }
-//                    });
-//                    dig.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            getActivity().finish();
-//                        }
-//                    });
-//                    dig.setCancelable(false);
-//                    dig.show();
-//
-//                } else if (e == null){
-                if (e == null){
+                if (doacoes.size() == 0){
+                    AlertDialog.Builder dig = new AlertDialog.Builder(getActivity());
+                    switch (filter) {
+                        case 0:
+                            dig.setMessage("Nenhum usuario publicou doacoes!");
+                            break;
+                        case 1:
+                            dig.setMessage("Voce ainda nao publicou doacoes!");
+                            break;
+                        case 2:
+                            dig.setMessage("Voce ainda nao tem favoritos!");
+                            break;
+                        case 4:
+                            dig.setMessage("Este usuario ainda nao publicou doacoes!");
+                            break;
+                    }
+
+                    dig.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
+                        }
+                    });
+                    dig.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            getActivity().finish();
+                        }
+                    });
+                    dig.setCancelable(false);
+                    dig.show();
+
+
+                }else if (e == null){
 
                     mDoacoes = doacoes;
                     DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes, filter);
@@ -471,8 +472,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                                                             favorito.put("status", "S");
                                                             favorito.saveInBackground();
                                                             try {
-                                                                data.put("status", currentUser.getString("name") + " aprovou sua solicita" +
-                                                                        "ção!");
+                                                                data.put("status", currentUser.getString("name") + " aprovou sua solicitacao!");
                                                             } catch (JSONException e1) {}
 
                                                             androidPush.setData(data);
@@ -491,7 +491,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                                                             favorito.saveInBackground();
 
                                                             try {
-                                                                data.put("status", currentUser.getString("name") + " recusou sua solicitação!");
+                                                                data.put("status", currentUser.getString("name") + " recusou sua solicitacao!");
                                                             } catch (JSONException e1) {}
 
                                                             androidPush.setData(data);
@@ -552,7 +552,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Seu GPS está desligado, você deseja ativar?")
+        builder.setMessage("Seu GPS está desligado, voce deseja ativar?")
                 .setCancelable(false)
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {

@@ -51,6 +51,14 @@
             android:hint="@string/login_password"
             android:drawableLeft="@drawable/ic_password"/>
 
+        <EditText
+            style="@style/LoginSignupEditText"
+            android:layout_width="fill_parent"
+            android:inputType="number"
+            android:id="@+id/uPhoneNumber"
+            android:hint="Telefone"
+            android:drawableLeft="@drawable/common_full_open_on_phone"/>
+
         <Button
             style="@style/BtnDefault"
             android:layout_width="fill_parent"

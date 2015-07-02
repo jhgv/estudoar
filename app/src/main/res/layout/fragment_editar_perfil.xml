@@ -22,7 +22,7 @@
             android:text="Nome"
             android:id="@+id/label_nome_usuario_editar"
             android:layout_marginTop="10dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             />
 
         <EditText
@@ -30,8 +30,8 @@
             android:id="@+id/nome_editar"
             android:layout_width="fill_parent"
             android:hint="@string/doar_nome"
-            android:inputType="text">
-            <requestFocus />
+            android:inputType="textCapSentences"
+            android:layout_marginTop="10dp">
         </EditText>
 
         <TextView
@@ -40,7 +40,7 @@
             android:text="Email"
             android:id="@+id/label_email_editar"
             android:layout_marginTop="25dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             />
 
         <EditText
@@ -48,8 +48,8 @@
             android:id="@+id/email_editar"
             android:layout_width="fill_parent"
             android:hint="@string/signup_email"
-            android:inputType="text"
-            android:layout_marginTop="50px"
+            android:layout_marginTop="10dp"
+            android:inputType="textCapSentences"
             />
 
         <TextView
@@ -58,16 +58,16 @@
             android:text="Telefone"
             android:id="@+id/label_telefone_editar"
             android:layout_marginTop="25dp"
-            android:textSize="18dp"
+            android:textSize="19dp"
             />
 
         <EditText
             style="@style/LoginSignupEditText"
             android:id="@+id/telefone_editar"
             android:layout_width="fill_parent"
-            android:hint="@string/signup_email"
-            android:inputType="text"
-            android:layout_marginTop="50px"
+            android:hint="Telefone"
+            android:inputType="number"
+            android:layout_marginTop="10dp"
             />
 
         <Button
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:text="Editar Informações"
             android:id="@+id/btnEditar"
-            android:layout_marginTop="100px"
+            android:layout_marginTop="25dp"
             />
 
     </LinearLayout>
