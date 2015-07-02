@@ -11,7 +11,7 @@ import com.parse.ParsePush;
 import com.parse.PushService;
 import com.parse.SaveCallback;
 
-public class LiveUpdateApplication extends Application {
+public class EstudoarApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();

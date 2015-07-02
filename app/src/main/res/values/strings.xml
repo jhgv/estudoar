@@ -39,7 +39,7 @@
     <string name="forgot_request">Requisitar senha</string>
     <string name="home_doar">Doar</string>
     <string name="home_procurar">Procurar</string>
-    <string name="title_activity_doar">DoarActivity</string>
+    <string name="title_activity_doar">Doar Material</string>
     <string name="doar_nome">Nome do material</string>
     <string name="doar_foto">Publicar Foto</string>
     <string name="doar_cadastrar">Doar</string>
@@ -63,15 +63,16 @@
     <string name="search_hint">Buscar por material</string>
 
 <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_ver_doacao">Doação</string>
-    <string name="title_activity_materiais">MateriaisActivity</string>
+    <string name="title_activity_materiais">Materiais</string>
+    <string name="title_activity_favotires">Favoritos</string>
+    <string name="title_activity_my_donations">Minhas doações</string>
+    <string name="title_activity_interested">Interessados</string>
     <string name="title_activity_meu_perfil">Perfil</string>
     <string name="title_activity_favoritos">Doações Favoritas</string>
     <string name="title_activity_search">Procurar Doações</string>
     <string name="title_activity_add_endereco">Adicionar Endereço</string>
-    <string name="title_activity_base">BaseActivity</string>
-    <string name="title_activity_analisar_pedido">AnalisarPedidoActivity</string>
+    <string name="title_activity_analisar_pedido">Analisar Pedido</string>
 
 </resources>
 

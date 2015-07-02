@@ -33,7 +33,7 @@
         android:required="true" />
 
     <application
-        android:name=".LiveUpdateApplication"
+        android:name=".EstudoarApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -69,27 +69,27 @@
         </activity>
         <activity
             android:name=".HomePageActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
             android:label="@string/app_name">
         </activity>
         <activity
             android:name=".DoarActivity"
-            android:label="@string/title_activity_doar" >
+            android:label="@string/title_activity_doar"
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".VerDoacaoActivity"
-            android:label="@string/title_activity_ver_doacao" >
+            android:label="@string/title_activity_ver_doacao"
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".MeuPerfil"
-            android:label="@string/title_activity_meu_perfil" >
+            android:label="@string/title_activity_meu_perfil"
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".DoacoesActivity"
-            android:label="@string/app_name" >
+            android:label="@string/title_activity_materiais"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -101,12 +101,12 @@
         </activity>
         <activity
             android:name=".SearchResultsActivity"
-            android:label="@string/title_activity_search" >
+            android:label="@string/title_activity_search"
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".AddEnderecoActivity"
-            android:label="@string/title_activity_add_endereco" >
+            android:label="@string/title_activity_add_endereco"
             android:screenOrientation="portrait">
         </activity>
 

@@ -52,6 +52,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
     private ParseUser currentUser = ParseUser.getCurrentUser();
     private String id_usuario = "";
+    private String activityTitle = "";
 
     private ParseGeoPoint currentPoint;
 
@@ -100,14 +101,17 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
         Intent intent = getActivity().getIntent();
         filter = intent.getExtras().getInt("filter");
+        activityTitle = intent.getExtras().getString("title");
 
         if (filter == 4) {
+            getActivity().setTitle(R.string.title_activity_my_donations);
             id_usuario = intent.getExtras().getString("id_usuario");
         }
-
 //        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 //            doQuerySearch(intent.getStringExtra(SearchManager.QUERY));
 //        }
+
+        getActivity().setTitle(activityTitle);
 
         doSimpleSearch();
 

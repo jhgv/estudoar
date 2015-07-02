@@ -83,18 +83,21 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
     public void goToProcurarPage(View view) {
         Intent i = new Intent(getActivity(), DoacoesActivity.class);
         i.putExtra("filter",0);
+        i.putExtra("title", "Materiais");
         startActivity(i);
     }
 
     public void goToFavoritosPage(View view) {
         Intent i = new Intent(getActivity(), DoacoesActivity.class);
         i.putExtra("filter",2);
+        i.putExtra("title", "Favoritos");
         startActivity(i);
     }
 
     public void goToInteressadosPage(View view){
         Intent i = new Intent(getActivity(), DoacoesActivity.class);
         i.putExtra("filter",3);
+        i.putExtra("title", "Interessados");
         startActivity(i);
     }
 
