@@ -345,12 +345,6 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
         Intent i = new Intent(getActivity(), MeuPerfil.class);
         i.putExtra("id_usuario",id_doador);
         startActivity(i);
-        /*FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-        transaction.replace(R.id.fragment_ver_doacao, new ContatoDoadorFragment());
-        transaction.addToBackStack(null);
-        transaction.commit();*/
     }
 
     public void goToEditarDoacao(View view){

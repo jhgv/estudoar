@@ -137,6 +137,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                 if(isGpsSearchActivated){
                     isGpsSearchActivated = false;
                     buscaAtivadaTxt.setVisibility(View.GONE);
+
                 }else{
                     isGpsSearchActivated = true;
                 }
@@ -154,7 +155,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
-        if (filter == 2 || filter == 3 ) {
+        if (filter != 0 ) {
             menu.findItem(R.id.local_search).setVisible(false);
         }
 
@@ -374,12 +375,11 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                             ParseObject doacao = (ParseObject) mDoacoes.get(position);
 
                             Intent i = new Intent(getActivity(), VerDoacaoActivity.class);
-
                             String doador = (String) doacao.get("doador");
                             i.putExtra("id_doacao", doacao.getObjectId());
                             i.putExtra("id_doador", doador);
-
                             startActivity(i);
+
                         }
                     });
 
@@ -397,7 +397,6 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         if(isGpsSearchActivated){
             setCurrentPosition();
             queryInteressados.whereWithinKilometers("localizacao", currentPoint, 15.0);
-
         }
 
         queryInteressados.findInBackground(new FindCallback<ParseObject>() {
@@ -468,7 +467,8 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                                                             favorito.put("status", "S");
                                                             favorito.saveInBackground();
                                                             try {
-                                                                data.put("status", currentUser.getString("name") + " aprovou sua solicitação!");
+                                                                data.put("status", currentUser.getString("name") + " aprovou sua solicita" +
+                                                                        "ção!");
                                                             } catch (JSONException e1) {}
 
                                                             androidPush.setData(data);
@@ -536,12 +536,6 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         } else {
             buscaAtivadaTxt.setVisibility(View.VISIBLE);
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
-
-            if (filter == 1) {
-                query.whereEqualTo("doador", currentUser.getObjectId());
-            } else if (filter == 4) {
-                query.whereEqualTo("doador", id_usuario);
-            }
 
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
             Location myLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);

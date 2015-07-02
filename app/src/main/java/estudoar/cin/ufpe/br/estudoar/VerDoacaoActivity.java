@@ -69,8 +69,8 @@ public class VerDoacaoActivity extends ActionBarActivity {
             case R.id.user_doacoes:
                 goToMinhasDoacoesPage();
                 break;
-            case R.id.user_favoritos:
-                goToMeusFavoritosPage();
+            case R.id.menu_principal:
+                goToMenuPrincipal();
                 break;
         }
 
@@ -96,11 +96,11 @@ public class VerDoacaoActivity extends ActionBarActivity {
         startActivity(i);
     }
 
-    public void goToMeusFavoritosPage(){
-        Intent i = new Intent(this, DoacoesActivity.class);
-        i.putExtra("filter",2);
+    public void goToMenuPrincipal(){
+        Intent i = new Intent(this, HomePageActivity.class);
         startActivity(i);
     }
+
 }
 
 

@@ -39,7 +39,7 @@ public class InteressadosAdapter extends ArrayAdapter {
 
             holder = new ViewHolder();
             holder.nomeDoador = (TextView) convertView.findViewById(R.id.materialName);
-            holder.nomeDoacao = (TextView) convertView.findViewById(R.id.materialDesc);
+            holder.nomeDoacao = (TextView) convertView.findViewById(R.id.materialCateg);
             holder.imagemDoacao = (ImageView) convertView.findViewById(R.id.materialImage);
             holder.statusDoacao = (ImageView) convertView.findViewById(R.id.materialStatus);
             convertView.setTag(holder);

@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +63,8 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
     private Button fotoCameraBtn;
     private Button editarDoacaoBtn;
     private Button editarEnderecoBtn;
+
+    private LinearLayout enderecoCheck;
 
     private ParseGeoPoint localizacao;
     private ParseUser currentUser;
@@ -117,6 +120,8 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
         fotoCameraBtn = (Button) editarDoacaoView.findViewById(R.id.btnFotoCameraEditar);
         editarDoacaoBtn = (Button) editarDoacaoView.findViewById(R.id.btnEditarDoacao);
         editarEnderecoBtn = (Button) editarDoacaoView.findViewById(R.id.btnEditAddress);
+
+        enderecoCheck = (LinearLayout) editarDoacaoView.findViewById(R.id.editarEnderecoCheck);
 
         Intent intent = getActivity().getIntent();
 
@@ -287,9 +292,13 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 fotoView.setImageBitmap(bitmap);
             }else if (requestCode == GET_LOCATION_CODE){
-                //double[] result = data.getDoubleArrayExtra("position");
-                ArrayList<Double> coordenadas = (ArrayList<Double>) data.getSerializableExtra("coordenadas");
-                localizacao = new ParseGeoPoint(coordenadas.get(0), coordenadas.get(1));
+                if(localizacao == null){
+                    //double[] result = data.getDoubleArrayExtra("position");
+                    ArrayList<Double> coordenadas = (ArrayList<Double>) data.getSerializableExtra("coordenadas");
+                    localizacao = new ParseGeoPoint(coordenadas.get(0), coordenadas.get(1));
+                    enderecoCheck.setVisibility(View.VISIBLE);
+                    editarEnderecoBtn.setText("Remover Endereço");
+                }
             }
         }
 
@@ -319,13 +328,21 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
     }
 
     public void openMaps(View v) {
-        final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(localizacao != null) {
+            localizacao = null;
+            Toast.makeText(getActivity(), "Endereço Removido!", Toast.LENGTH_SHORT).show();
+            editarEnderecoBtn.setText("Adicionar Endereço");
+            enderecoCheck.setVisibility(View.GONE);
 
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            buildAlertMessageNoGps();
-        } else {
-            Intent i = new Intent(getActivity(), AddEnderecoActivity.class);
-            startActivityForResult(i, GET_LOCATION_CODE);
+        }else {
+            final LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                buildAlertMessageNoGps();
+            } else {
+                Intent i = new Intent(getActivity(), AddEnderecoActivity.class);
+                startActivityForResult(i, GET_LOCATION_CODE);
+            }
         }
     }
 

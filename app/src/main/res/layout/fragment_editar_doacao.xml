@@ -34,7 +34,7 @@
             android:layout_marginTop="25dp"
             android:gravity="center_vertical"
             android:layout_gravity="center_horizontal"
-            android:background="#E8E8E8"
+            android:background="#FFF"
             />
 
         <Button
@@ -92,6 +92,29 @@
             android:gravity="top"
             android:layout_marginTop="25dp"
             />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/editarEnderecoCheck"
+            android:visibility="gone"
+            android:layout_marginTop="25dp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_check"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Endereço Adicionado"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
 
         <Button
             style="@style/BtnDefault"
