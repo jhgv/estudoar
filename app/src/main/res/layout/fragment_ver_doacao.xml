@@ -95,7 +95,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/categoria"
+            android:id="@+id/label_descricao_doacao"
             android:layout_marginTop="25dp"
             android:textSize="19dp"
             android:text="Descrição"
@@ -138,6 +138,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/status_doacao"
                 android:layout_marginLeft="10dp"
+                android:layout_marginTop="-2dp"
                 android:layout_gravity="center_vertical"
                 android:textSize="19dp"
                 />

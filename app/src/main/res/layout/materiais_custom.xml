@@ -7,7 +7,8 @@
     <ImageView
         android:id="@+id/materialImage"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:src="@drawable/doacao_icon"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"

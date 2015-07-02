@@ -86,10 +86,8 @@
             style="@style/LoginSignupEditText"
             android:id="@+id/descricao_doar"
             android:layout_width="fill_parent"
-            android:layout_height="300px"
             android:hint="@string/descricao_doar"
             android:inputType="textCapSentences"
-            android:gravity="top"
             android:layout_marginTop="25dp"
         />
 

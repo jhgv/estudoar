@@ -121,6 +121,7 @@ public class MeuPerfilFragment extends Fragment implements View.OnClickListener 
             i.putExtra("filter",4);
             i.putExtra("id_usuario",id_usuario);
         }
+        i.putExtra("title", "Doacoes");
         startActivity(i);
     }
 

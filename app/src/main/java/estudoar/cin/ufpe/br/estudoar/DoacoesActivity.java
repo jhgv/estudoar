@@ -87,17 +87,20 @@ public class DoacoesActivity extends ActionBarActivity {
         Intent i = new Intent(this, MeuPerfil.class);
         i.putExtra("id_usuario",currentUser.getObjectId());
         startActivity(i);
+        finish();
     }
 
     public void goToMinhasDoacoesPage(){
         Intent i = new Intent(this, DoacoesActivity.class);
         i.putExtra("filter",1);
         startActivity(i);
+        finish();
     }
 
     public void goToMenuPrincipal(){
         Intent i = new Intent(this, HomePageActivity.class);
         startActivity(i);
+        finish();
     }
 
 }

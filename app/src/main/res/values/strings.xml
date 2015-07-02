@@ -39,7 +39,7 @@
     <string name="forgot_request">Requisitar senha</string>
     <string name="home_doar">Doar</string>
     <string name="home_procurar">Procurar</string>
-    <string name="title_activity_doar">Doar Material</string>
+    <string name="title_activity_doar">Doar</string>
     <string name="doar_nome">Nome do material</string>
     <string name="doar_foto">Publicar Foto</string>
     <string name="doar_cadastrar">Doar</string>
@@ -64,8 +64,8 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="title_activity_ver_doacao">Doação</string>
-    <string name="title_activity_materiais">Materiais</string>
-    <string name="title_activity_favotires">Favoritos</string>
+    <string name="title_activity_materiais">Doações</string>
+    <string name="title_activity_favotires">Meus Favoritos</string>
     <string name="title_activity_my_donations">Minhas doações</string>
     <string name="title_activity_interested">Interessados</string>
     <string name="title_activity_meu_perfil">Perfil</string>

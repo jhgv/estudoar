@@ -85,7 +85,6 @@
             style="@style/LoginSignupEditText"
             android:id="@+id/descricao_doacao_editar"
             android:layout_width="fill_parent"
-            android:layout_height="300px"
             android:hint="@string/descricao_doar"
             android:inputType="textCapSentences"
             android:gravity="top"

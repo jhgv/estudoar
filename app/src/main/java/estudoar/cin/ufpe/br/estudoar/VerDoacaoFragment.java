@@ -54,7 +54,9 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
     private TextView nome;
     private TextView categoria;
+    private TextView label_assunto;
     private TextView assunto;
+    private TextView label_descricao;
     private TextView descricao;
 
     private TextView label_status;
@@ -93,7 +95,11 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
         nome = (TextView) doacaoView.findViewById(R.id.nome_doacao);
         categoria = (TextView) doacaoView.findViewById(R.id.categoria_doacao);
+
+        label_assunto =(TextView) doacaoView.findViewById(R.id.label_assunto_doacao);
         assunto = (TextView) doacaoView.findViewById(R.id.assunto_doacao);
+
+        label_descricao =(TextView) doacaoView.findViewById(R.id.label_descricao_doacao);
         descricao = (TextView) doacaoView.findViewById(R.id.descricao_doacao);
 
         label_status  = (TextView) doacaoView.findViewById(R.id.label_status);
@@ -133,8 +139,22 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                     doacaoAtual = doacao;
                     nome.setText(doacaoAtual.getString("nome"));
                     categoria.setText(doacaoAtual.getString("categoria"));
-                    assunto.setText(doacaoAtual.getString("assunto"));
-                    descricao.setText(doacaoAtual.getString("descricao"));
+
+                    String assuntoStr = doacaoAtual.getString("assunto");
+                    if(assuntoStr.equals("")){
+                        label_assunto.setVisibility(View.GONE);
+                        assunto.setVisibility(View.GONE);
+                    }else{
+                        assunto.setText(assuntoStr);
+                    }
+
+                    String descricaoStr = doacaoAtual.getString("descricao");
+                    if(descricaoStr.equals("")){
+                        label_descricao.setVisibility(View.GONE);
+                        descricao.setVisibility(View.GONE);
+                    }else{
+                        descricao.setText(descricaoStr);
+                    }
 
                     final ParseFile image_file = (ParseFile) doacaoAtual.getParseFile("foto");
 
