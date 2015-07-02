@@ -133,16 +133,6 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
                 if (e == null) {
                     doacao_editada = doacao;
 
-                    nomeImput.setText(doacao.getString("nome"));
-
-                    String categoria_antiga = doacao.getString("categoria");
-                    ArrayAdapter myAdap = (ArrayAdapter) categorias_spinner.getAdapter();
-                    int spinnerPosition = myAdap.getPosition(categoria_antiga);
-                    categorias_spinner.setSelection(spinnerPosition);
-
-                    assuntoImput.setText(doacao.getString("assunto"));
-                    descricaoImput.setText(doacao.getString("descricao"));
-
                     final ParseFile image_file = (ParseFile) doacao.getParseFile("foto");
 
                     new Thread(new Runnable() {
@@ -155,17 +145,32 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
                                             public void done(byte[] data, ParseException e) {
                                                 if (e == null) {
                                                     Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,data.length);
-
                                                     if (bmp != null) fotoView.setImageBitmap(bmp);
                                                 }
                                             }
                                         });
                                     } else
-                                        fotoView.setPadding(10, 10, 10, 10);
+                                        fotoView.setPadding(15, 15, 15, 15);
                                 }
                             });
                         }
                     }).start();
+
+                    nomeImput.setText(doacao.getString("nome"));
+
+                    String categoria_antiga = doacao.getString("categoria");
+                    ArrayAdapter myAdap = (ArrayAdapter) categorias_spinner.getAdapter();
+                    int spinnerPosition = myAdap.getPosition(categoria_antiga);
+                    categorias_spinner.setSelection(spinnerPosition);
+
+                    assuntoImput.setText(doacao.getString("assunto"));
+                    descricaoImput.setText(doacao.getString("descricao"));
+
+                    localizacao = doacao.getParseGeoPoint("localizacao");
+                    if(localizacao != null){
+                        enderecoCheck.setVisibility(View.VISIBLE);
+                        editarEnderecoBtn.setText("Remover Endereço");
+                    }
 
                 } else Toast.makeText(getActivity(), "ID Desconhecido!", Toast.LENGTH_LONG).show();
             }
@@ -316,14 +321,12 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
                 btnClose.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View arg0) {
-
                         nagDialog.dismiss();
                     }
                 });
                 nagDialog.show();
             }
         });
-
 
     }
 
@@ -345,7 +348,6 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
             }
         }
     }
-
 
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

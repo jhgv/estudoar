@@ -59,6 +59,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
 
     private final int GET_PICTURE_CODE = 1;
     private final int GET_LOCATION_CODE = 2;
+    private boolean daGaleria = false;
 
     private Spinner categorias_spinner;
     private String categoriaSelecionada = "Livro";
@@ -184,7 +185,11 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             Bitmap foto = ((BitmapDrawable) fotoView.getDrawable()).getBitmap();
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             // Compress image to lower quality scale 1 - 100
-            foto.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+            int quality = 100;
+            if(daGaleria){
+                quality = 50;
+            }
+            foto.compress(Bitmap.CompressFormat.JPEG, quality, stream);
             byte[] image = stream.toByteArray();
 
             // Create the ParseFile
@@ -244,9 +249,12 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                daGaleria = true;
+
             } else if (requestCode == GET_PICTURE_CODE) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 fotoView.setImageBitmap(bitmap);
+
             }else if (requestCode == GET_LOCATION_CODE){
                 if(localizacao == null){
                     //double[] result = data.getDoubleArrayExtra("position");
@@ -280,7 +288,6 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-
     }
 
     public void openMaps(View v) {
@@ -301,7 +308,6 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             }
         }
     }
-
 
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

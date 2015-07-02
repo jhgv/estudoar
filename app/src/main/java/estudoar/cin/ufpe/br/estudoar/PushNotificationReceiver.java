@@ -53,13 +53,13 @@ public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
                             .setContentText(name_interessado + " está interessado em sua doação!");
 
             Intent resultIntent = new Intent();
-            resultIntent.setClassName("estudoar.cin.ufpe.br.estudoar", "estudoar.cin.ufpe.br.estudoar.MeuPerfil");
-            resultIntent.putExtra("id_usuario", id_interessado);
+            resultIntent.setClassName("estudoar.cin.ufpe.br.estudoar", "estudoar.cin.ufpe.br.estudoar.DoacoesActivity");
+            resultIntent.putExtra("filter",3);
             resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 
-            stackBuilder.addParentStack(MeuPerfil.class);
+            stackBuilder.addParentStack(DoacoesActivity.class);
             stackBuilder.addNextIntent(resultIntent);
             PendingIntent resultPendingIntent =
                     stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -68,7 +68,6 @@ public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             int id = (int) System.currentTimeMillis();
             mNotificationManager.notify(id, mBuilder.build());
-
 
         }else if(ParseUser.getCurrentUser().getObjectId().equals(id_interessado) && action == 2){
 
@@ -88,7 +87,7 @@ public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
 
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 
-            stackBuilder.addParentStack(MeuPerfil.class);
+            stackBuilder.addParentStack(VerDoacaoActivity.class);
             stackBuilder.addNextIntent(resultIntent);
             PendingIntent resultPendingIntent =
                     stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);

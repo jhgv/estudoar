@@ -58,6 +58,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     private ParseGeoPoint currentPoint;
 
     private boolean isGpsSearchActivated = false;
+    private boolean onCreate = true;
 
     private LinearLayout buscaAtivadaTxt;
 
@@ -108,15 +109,13 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
             getActivity().setTitle(R.string.title_activity_my_donations);
             id_usuario = intent.getExtras().getString("id_usuario");
         }
-//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-//            doQuerySearch(intent.getStringExtra(SearchManager.QUERY));
-//        }
 
         getActivity().setTitle(activityTitle);
 
         doSimpleSearch();
 
-        // Set OnItemClickListener so we can be notified on item clicks
+        onCreate = false;
+
         mListView.setOnItemClickListener(this);
 
         return view;
@@ -329,14 +328,14 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         if(isGpsSearchActivated){
             setCurrentPosition();
             query.whereWithinKilometers("localizacao", currentPoint, 15.0);
-
         }
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> doacoes, com.parse.ParseException e) {
                 mListView.setVisibility(View.VISIBLE);
                 spinner.setVisibility(View.INVISIBLE);
-                if (doacoes.size() == 0){
+                if (e == null && doacoes.size() == 0 && onCreate){
                     AlertDialog.Builder dig = new AlertDialog.Builder(getActivity());
                     switch (filter) {
                         case 0:
@@ -366,9 +365,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                     dig.setCancelable(false);
                     dig.show();
 
-
                 }else if (e == null){
-
                     mDoacoes = doacoes;
                     DoacaoAdapter adapter = new DoacaoAdapter(mListView.getContext(), mDoacoes, filter);
                     ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
@@ -399,18 +396,13 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         mListView.setVisibility(View.INVISIBLE);
         spinner.setVisibility(View.VISIBLE);
 
-        if(isGpsSearchActivated){
-            setCurrentPosition();
-            queryInteressados.whereWithinKilometers("localizacao", currentPoint, 15.0);
-        }
-
         queryInteressados.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> favts, com.parse.ParseException e) {
                 mListView.setVisibility(View.VISIBLE);
                 spinner.setVisibility(View.INVISIBLE);
 
-                if (favts.size() == 0) {
+                if (e == null && onCreate && favts.size() == 0) {
                     new AlertDialog.Builder(getActivity())
                         .setMessage("Ninguem se interessou ainda por suas doacoes!")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -428,8 +420,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
                     //menu_materiais.findItem(R.id.local_search).setVisible(false);
 
-                } else {
-                    if (e == null) {
+                } else if (e == null) {
                         final List<ParseObject> favoritos = favts;
                         InteressadosAdapter adapter = new InteressadosAdapter(mListView.getContext(), favoritos);
                         ((AdapterView<ListAdapter>) mListView).setAdapter(adapter);
@@ -525,7 +516,6 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                         Log.d("doacao", "Error: " + e.getMessage());
                     }
                 }
-            }
         });
     }
 
@@ -552,14 +542,14 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
     private void buildAlertMessageNoGps() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Seu GPS está desligado, voce deseja ativar?")
+        builder.setMessage("Seu GPS esta desligado, voce deseja ativar?")
                 .setCancelable(false)
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
                 })
-                .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Nao", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         dialog.cancel();
                     }

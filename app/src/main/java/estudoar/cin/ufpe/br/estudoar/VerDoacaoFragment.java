@@ -148,7 +148,6 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                                             public void done(byte[] data, ParseException e) {
                                                 if (e == null) {
                                                     Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,data.length);
-
                                                     if (bmp != null) foto.setImageBitmap(bmp);
                                                 }
                                             }
@@ -200,7 +199,8 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                     }
 
                 } else {
-                    Toast.makeText(getActivity(), "ID Desconhecido!", Toast.LENGTH_LONG).show();
+                    getActivity().finish();
+                    Toast.makeText(getActivity(), "Doação Desconhecida!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -281,13 +281,14 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                                 label_status.setVisibility(View.GONE);
                                 status.setVisibility(View.GONE);
                                 icon_status.setVisibility(View.GONE);
-
+                                queroBtn.setText("Quero");
+                                contatoBtn.setVisibility(View.GONE);
                             }else{
                                 Toast.makeText(getActivity(), "Erro ao deletar o favorito", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
-                    queroBtn.setText("Quero");
+
 
                 } else {
                     ParseObject fvt = new ParseObject("Favoritos");
@@ -358,7 +359,6 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
 
     public void deletarDoacao(){
         new AlertDialog.Builder(getActivity())
-                //.setTitle("Opa!")
                 .setMessage("Você deseja deletar esta doação?")
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {

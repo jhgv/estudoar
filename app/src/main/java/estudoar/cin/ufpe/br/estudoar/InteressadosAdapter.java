@@ -69,7 +69,7 @@ public class InteressadosAdapter extends ArrayAdapter {
                 if (e == null) {
                     holder.nomeDoacao.setText((String) doacao.get("nome"));
                     ParseFile foto = (ParseFile) doacao.get("foto");
-                    Log.d("foto", foto.getName() + " " + foto.getUrl());
+                    //Log.d("foto", foto.getName() + " " + foto.getUrl());
                     Picasso.with(context)
                             .load(foto.getUrl())
                             .resize(200, 200).centerCrop()

@@ -101,27 +101,4 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
         startActivity(i);
     }
 
-/*
-    public void goToVerDoacaoPage(View view){
-        ParseUser currentUser = ParseUser.getCurrentUser();
-
-        final Intent i = new Intent(getActivity(), VerDoacaoActivity.class);
-
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
-        query.whereEqualTo("doador", currentUser);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject doacao, ParseException e) {
-                if (e == null) {
-                    ParseUser doador = (ParseUser) doacao.get("doador");
-                    i.putExtra("id_doacao", doacao.getObjectId());
-                    i.putExtra("id_doador", doador.getObjectId());
-
-                    startActivity(i);
-                } else {
-                    Toast.makeText(getActivity(), "Você ainda não fez uma doação!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-    }*/
 }
