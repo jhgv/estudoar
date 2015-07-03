@@ -156,7 +156,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                         descricao.setText(descricaoStr);
                     }
 
-                    final ParseFile image_file = (ParseFile) doacaoAtual.getParseFile("foto");
+                    final ParseFile image_file = doacaoAtual.getParseFile("foto");
 
                     new Thread(new Runnable() {
                         public void run() {

@@ -190,6 +190,13 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        doSimpleSearch();
+    }
+
     private void doSimpleSearch() {
         if (filter == 0 || filter == 1 || filter == 4) {
             final ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
@@ -338,9 +345,9 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                 if (e == null && doacoes.size() == 0 && onCreate){
                     AlertDialog.Builder dig = new AlertDialog.Builder(getActivity());
                     switch (filter) {
-                        case 0:
+                        /*case 0:
                             dig.setMessage("Nenhum usuario publicou doacoes!");
-                            break;
+                            break;*/
                         case 1:
                             dig.setMessage("Voce ainda nao publicou doacoes!");
                             break;
@@ -458,7 +465,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                                             .setMessage("Deseja doar este material para " + interessado.getString("name") + "?")
                                                     .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int which) {
-                                                            Toast.makeText(getActivity(), "Solicitacao Aprovada", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getActivity(), "Pedido Aceito", Toast.LENGTH_SHORT).show();
 
                                                             favorito.put("status", "S");
                                                             favorito.saveInBackground();
@@ -476,7 +483,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                                                     })
                                                     .setNegativeButton("Nao", new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int which) {
-                                                            Toast.makeText(getActivity(), "Solicitacao Recusada", Toast.LENGTH_SHORT).show();
+                                                            Toast.makeText(getActivity(), "Pedido Recusado", Toast.LENGTH_SHORT).show();
 
                                                             favorito.put("status", "N");
                                                             favorito.saveInBackground();
@@ -505,7 +512,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
                                         } else {
                                             Log.d("doacao", "Error: " + e.getMessage());
-                                            Toast.makeText(getActivity(), "Erro ao recuperar usuario interessado", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(), "Erro ao recuperar usuario", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });

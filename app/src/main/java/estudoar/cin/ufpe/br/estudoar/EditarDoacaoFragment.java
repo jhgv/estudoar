@@ -43,6 +43,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -74,6 +75,7 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
     private String categoriaSelecionada;
 
     private ImageView fotoView;
+    private boolean daGaleria = false;
 
     public EditarDoacaoFragment() {
         // Required empty public constructor
@@ -133,30 +135,13 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
                 if (e == null) {
                     doacao_editada = doacao;
 
-                    final ParseFile image_file = (ParseFile) doacao.getParseFile("foto");
-
-                    new Thread(new Runnable() {
-                        public void run() {
-                            fotoView.post(new Runnable() {
-                                public void run() {
-                                    if (image_file != null) {
-                                        image_file.getDataInBackground(new GetDataCallback() {
-                                            @Override
-                                            public void done(byte[] data, ParseException e) {
-                                                if (e == null) {
-                                                    Bitmap bmp = BitmapFactory.decodeByteArray(data, 0,data.length);
-                                                    if (bmp != null) fotoView.setImageBitmap(bmp);
-                                                }
-                                            }
-                                        });
-                                    } else
-                                        fotoView.setPadding(15, 15, 15, 15);
-                                }
-                            });
-                        }
-                    }).start();
-
                     nomeImput.setText(doacao.getString("nome"));
+
+                    final ParseFile image_file = doacao.getParseFile("foto");
+
+                    Picasso.with(getActivity())
+                            .load(image_file.getUrl())
+                            .into(fotoView);
 
                     String categoria_antiga = doacao.getString("categoria");
                     ArrayAdapter myAdap = (ArrayAdapter) categorias_spinner.getAdapter();
@@ -172,7 +157,28 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
                         editarEnderecoBtn.setText("Remover Endereço");
                     }
 
-                } else Toast.makeText(getActivity(), "ID Desconhecido!", Toast.LENGTH_LONG).show();
+                } else Toast.makeText(getActivity(), "Doaçãoo Desconhecida!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        fotoView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final Dialog nagDialog = new Dialog(getActivity(),android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+                nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                nagDialog.setCancelable(false);
+                nagDialog.setContentView(R.layout.preview_image);
+                Button btnClose = (Button)nagDialog.findViewById(R.id.btnIvClose);
+                ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.iv_preview_image);
+                ivPreview.setImageDrawable(fotoView.getDrawable());
+                ivPreview.setBackgroundColor(Color.BLACK);
+
+                btnClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View arg0) {
+                        nagDialog.dismiss();
+                    }
+                });
+                nagDialog.show();
             }
         });
 
@@ -235,7 +241,11 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
             // Convert it to byte
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             // Compress image to lower quality scale 1 - 100
-            foto.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+            int quality = 100;
+            if(daGaleria){
+                quality = 20;
+            }
+            foto.compress(Bitmap.CompressFormat.JPEG, quality, stream);
             byte[] image = stream.toByteArray();
 
             // Create the ParseFile
@@ -259,7 +269,7 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
                     Toast.makeText(getActivity(), "Doação Modificada", Toast.LENGTH_SHORT).show();
                     goToVerDoacao();
                 } else {
-                    Toast.makeText(getActivity(), "Erro ao salvar alterações", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Erro ao Salvar", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -293,6 +303,8 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                daGaleria = true;
+
            } else if (requestCode == GET_PICTURE_CODE) {
                 Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                 fotoView.setImageBitmap(bitmap);
@@ -306,27 +318,6 @@ public class EditarDoacaoFragment extends Fragment implements View.OnClickListen
                 }
             }
         }
-
-        fotoView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                final Dialog nagDialog = new Dialog(getActivity(),android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
-                nagDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                nagDialog.setCancelable(false);
-                nagDialog.setContentView(R.layout.preview_image);
-                Button btnClose = (Button)nagDialog.findViewById(R.id.btnIvClose);
-                ImageView ivPreview = (ImageView)nagDialog.findViewById(R.id.iv_preview_image);
-                ivPreview.setImageDrawable(fotoView.getDrawable());
-                ivPreview.setBackgroundColor(Color.BLACK);
-
-                btnClose.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View arg0) {
-                        nagDialog.dismiss();
-                    }
-                });
-                nagDialog.show();
-            }
-        });
 
     }
 

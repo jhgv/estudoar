@@ -187,7 +187,7 @@ public class DoarFragment extends Fragment implements View.OnClickListener {
             // Compress image to lower quality scale 1 - 100
             int quality = 100;
             if(daGaleria){
-                quality = 50;
+                quality = 20;
             }
             foto.compress(Bitmap.CompressFormat.JPEG, quality, stream);
             byte[] image = stream.toByteArray();

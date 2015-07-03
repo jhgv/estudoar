@@ -32,7 +32,7 @@
             android:id="@+id/nome_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="19dp">
+            android:textSize="18dp">
         </TextView>
 
         <TextView
@@ -53,8 +53,8 @@
             android:gravity="center_vertical"
             android:layout_gravity="center_horizontal"
             android:background="#FFF"
-            android:src="@drawable/doacao_icon"
             />
+            <!--android:src="@drawable/doacao_icon"-->
 
         <TextView
             android:layout_width="fill_parent"
@@ -71,7 +71,7 @@
             android:id="@+id/categoria_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="19dp"
+            android:textSize="18dp"
             />
 
         <TextView
@@ -89,7 +89,7 @@
             android:id="@+id/assunto_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="19dp"
+            android:textSize="18dp"
             />
 
         <TextView
@@ -107,7 +107,7 @@
             android:id="@+id/descricao_doacao"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:textSize="19dp"
+            android:textSize="18dp"
             />
 
         <TextView
@@ -140,7 +140,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="-2dp"
                 android:layout_gravity="center_vertical"
-                android:textSize="19dp"
+                android:textSize="18dp"
                 />
         </LinearLayout>
 

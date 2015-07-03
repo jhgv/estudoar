@@ -93,6 +93,7 @@ public class DoacoesActivity extends ActionBarActivity {
     public void goToMinhasDoacoesPage(){
         Intent i = new Intent(this, DoacoesActivity.class);
         i.putExtra("filter",1);
+        i.putExtra("title", "Doacoes");
         startActivity(i);
         finish();
     }

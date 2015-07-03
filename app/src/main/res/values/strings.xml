@@ -41,7 +41,8 @@
     <string name="home_procurar">Procurar</string>
     <string name="title_activity_doar">Doar</string>
     <string name="doar_nome">Nome do material</string>
-    <string name="doar_foto">Publicar Foto</string>
+    <string name="doar_foto">Procurar Foto</string>
+    <string name="camera">Câmera</string>
     <string name="doar_cadastrar">Doar</string>
     <string name="doar_add_endereco">Adicionar Endereço</string>
     <string name="add_local_address">Escolher Local Atual</string>

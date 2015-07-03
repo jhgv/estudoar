@@ -94,8 +94,8 @@ public class DoacaoAdapter extends ArrayAdapter {
         }
 
         // pega a imagem do material
-        ParseFile foto = (ParseFile) doacaoObject.get("foto");
-        Log.d("foto", foto.getName() + " " + foto.getUrl());
+        ParseFile foto = doacaoObject.getParseFile("foto");
+        //Log.d("foto", foto.getName() + " " + foto.getUrl());
         Picasso.with(mContext)
                 .load(foto.getUrl())
                 .resize(200, 200).centerCrop()

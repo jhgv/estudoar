@@ -63,9 +63,19 @@
             android:layout_height="wrap_content"
             android:id="@+id/telefone_usuario"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginLeft="20dp"
             android:textSize="19dp">
         </TextView>
+
+        <Button
+            style="@style/BtnDefault"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Editar Informações"
+            android:id="@+id/btnEditarPerfil"
+            android:layout_marginTop="30dp"
+            />
 
         <Button
             style="@style/BtnDefault"
@@ -75,15 +85,6 @@
             android:id="@+id/btnMinhasDoacoes"
             android:layout_marginTop="30dp"
             />
-
-        <Button
-            style="@style/BtnDefault"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Editar Informações"
-            android:id="@+id/btnEditarPerfil"
-            android:layout_marginTop="30dp"
-        />
 
     </LinearLayout>
 
