@@ -64,7 +64,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener{
     }
 
     public void signupUser(View view){
-        final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Cadsatrando...", true);
+        final Dialog progressDialog = ProgressDialog.show(getActivity(), "", "Cadastrando...", true);
 
         String name = uName.getText().toString().trim();
         String username = uLogin.getText().toString().trim();

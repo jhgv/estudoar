@@ -57,7 +57,7 @@
             android:inputType="number"
             android:id="@+id/uPhoneNumber"
             android:hint="Telefone"
-            android:drawableLeft="@drawable/common_full_open_on_phone"/>
+            android:drawableLeft="@drawable/ic_phone"/>
 
         <Button
             style="@style/BtnDefault"

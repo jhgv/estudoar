@@ -121,8 +121,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     goToHomePage();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage(e.getMessage());
-                    builder.setTitle("Desculpe!");
+                    //builder.setMessage(e.getMessage());
+                    builder.setMessage("Usuario ou Senha incorreta!");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
