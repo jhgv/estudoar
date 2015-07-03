@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.utils;
 
 import android.content.Context;
 import android.util.Log;
@@ -19,6 +19,8 @@ import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import estudoar.cin.ufpe.br.estudoar.R;
 
 /**
  * Created by joaoveras on 06/06/2015.

@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="estudoar.cin.ufpe.br.estudoar.HomePageFragment">
+    tools:context="estudoar.cin.ufpe.br.estudoar.fragments.HomePageFragment">
 
     <TableLayout
         android:id="@+id/linear_layout_login"

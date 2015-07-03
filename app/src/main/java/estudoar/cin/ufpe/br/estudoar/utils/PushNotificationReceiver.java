@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.utils;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,6 +12,10 @@ import com.parse.ParseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import estudoar.cin.ufpe.br.estudoar.R;
+import estudoar.cin.ufpe.br.estudoar.activities.DoacoesActivity;
+import estudoar.cin.ufpe.br.estudoar.activities.VerDoacaoActivity;
 
 public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
 
@@ -53,7 +57,7 @@ public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
                             .setContentText(name_interessado + " está interessado em sua doação!");
 
             Intent resultIntent = new Intent();
-            resultIntent.setClassName("estudoar.cin.ufpe.br.estudoar", "estudoar.cin.ufpe.br.estudoar.DoacoesActivity");
+            resultIntent.setClassName("estudoar.cin.ufpe.br.estudoar", "estudoar.cin.ufpe.br.estudoar.activities.DoacoesActivity");
             resultIntent.putExtra("filter",3);
             resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -80,7 +84,7 @@ public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
                             .setContentText(status);
 
             Intent resultIntent = new Intent();
-            resultIntent.setClassName("estudoar.cin.ufpe.br.estudoar", "estudoar.cin.ufpe.br.estudoar.VerDoacaoActivity");
+            resultIntent.setClassName("estudoar.cin.ufpe.br.estudoar", "estudoar.cin.ufpe.br.estudoar.activities.VerDoacaoActivity");
             resultIntent.putExtra("id_doacao", id_doacao);
             resultIntent.putExtra("id_doador", id_doador);
             resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

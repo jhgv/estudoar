@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.fragments;
 
 import android.app.Dialog;
 import android.app.Fragment;
@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
+
+import estudoar.cin.ufpe.br.estudoar.R;
 
 
 public class ForgotPasswordFragment extends Fragment implements View.OnClickListener{

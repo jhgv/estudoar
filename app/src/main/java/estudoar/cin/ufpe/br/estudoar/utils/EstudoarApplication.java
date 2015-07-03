@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.utils;
 
 import android.app.Application;
 import android.util.Log;
@@ -10,6 +10,8 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParsePush;
 import com.parse.PushService;
 import com.parse.SaveCallback;
+
+import estudoar.cin.ufpe.br.estudoar.MeuPerfil;
 
 public class EstudoarApplication extends Application {
     @Override
