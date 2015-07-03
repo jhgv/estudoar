@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -30,6 +30,9 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.Collection;
+
+import estudoar.cin.ufpe.br.estudoar.R;
+import estudoar.cin.ufpe.br.estudoar.activities.HomePageActivity;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 

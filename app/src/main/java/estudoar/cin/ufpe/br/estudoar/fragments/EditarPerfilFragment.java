@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.fragments;
 
 
 import android.app.Dialog;
@@ -12,14 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.parse.SignUpCallback;
+
+import estudoar.cin.ufpe.br.estudoar.R;
 
 public class EditarPerfilFragment extends Fragment implements View.OnClickListener {
 

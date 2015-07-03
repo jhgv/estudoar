@@ -1,19 +1,22 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.parse.ParseUser;
 
+import estudoar.cin.ufpe.br.estudoar.fragments.HomePageFragment;
+import estudoar.cin.ufpe.br.estudoar.MeuPerfil;
+import estudoar.cin.ufpe.br.estudoar.R;
 
-public class VerDoacaoActivity extends ActionBarActivity {
+
+public class HomePageActivity extends ActionBarActivity {
 
     protected Fragment fragment;
     private ParseUser currentUser;
@@ -21,7 +24,7 @@ public class VerDoacaoActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ver_doacao);
+        setContentView(R.layout.activity_home_page);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -34,16 +37,15 @@ public class VerDoacaoActivity extends ActionBarActivity {
             if (savedInstanceState != null){
                 fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
             }else{
-                fragment = new VerDoacaoFragment();
-                ft.add(R.id.fragment_ver_doacao,fragment);
+                fragment = new HomePageFragment();
+                ft.add(R.id.fragment_home_page,fragment);
                 ft.commit();
             }
-
         }else {
             redirectToLogin();
         }
-    }
 
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,11 +81,10 @@ public class VerDoacaoActivity extends ActionBarActivity {
 
     public void redirectToLogin(){
         ParseUser.logOut();
-        Intent i = new Intent(this, LoginActivity.class);
+        Intent i = new Intent(HomePageActivity.this, LoginActivity.class);
         startActivity(i);
         finish();
     }
-
     public void goToMeuPerfilPage(){
         Intent i = new Intent(this, MeuPerfil.class);
         i.putExtra("id_usuario",currentUser.getObjectId());
@@ -98,10 +99,6 @@ public class VerDoacaoActivity extends ActionBarActivity {
     }
 
     public void goToMenuPrincipal(){
-        Intent i = new Intent(this, HomePageActivity.class);
-        startActivity(i);
     }
 
 }
-
-

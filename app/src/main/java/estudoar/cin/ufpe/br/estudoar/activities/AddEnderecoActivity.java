@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -23,6 +23,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+
+import estudoar.cin.ufpe.br.estudoar.R;
 
 
 public class AddEnderecoActivity extends Activity implements OnMapReadyCallback {

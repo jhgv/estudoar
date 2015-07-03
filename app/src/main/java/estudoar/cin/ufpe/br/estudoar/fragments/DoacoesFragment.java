@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -10,7 +10,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -41,6 +40,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import estudoar.cin.ufpe.br.estudoar.utils.DoacaoAdapter;
+import estudoar.cin.ufpe.br.estudoar.utils.InteressadosAdapter;
+import estudoar.cin.ufpe.br.estudoar.MeuPerfil;
+import estudoar.cin.ufpe.br.estudoar.R;
+import estudoar.cin.ufpe.br.estudoar.activities.VerDoacaoActivity;
 
 public class DoacoesFragment extends Fragment implements AbsListView.OnItemClickListener {
 

@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
+
+import estudoar.cin.ufpe.br.estudoar.R;
 
 
 public class SearchResultsActivity extends Activity implements SearchView.OnQueryTextListener {

@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import estudoar.cin.ufpe.br.estudoar.R;
+import estudoar.cin.ufpe.br.estudoar.activities.DoacoesActivity;
+import estudoar.cin.ufpe.br.estudoar.activities.DoarActivity;
 
 
 public class HomePageFragment extends Fragment implements View.OnClickListener {

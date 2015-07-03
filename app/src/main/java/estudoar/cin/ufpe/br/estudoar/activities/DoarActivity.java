@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -6,13 +6,18 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.parse.ParseUser;
 
+import estudoar.cin.ufpe.br.estudoar.fragments.DoarFragment;
+import estudoar.cin.ufpe.br.estudoar.MeuPerfil;
+import estudoar.cin.ufpe.br.estudoar.R;
 
-public class HomePageActivity extends ActionBarActivity {
+
+public class DoarActivity extends ActionBarActivity {
 
     protected Fragment fragment;
     private ParseUser currentUser;
@@ -20,7 +25,7 @@ public class HomePageActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_doar);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -29,12 +34,11 @@ public class HomePageActivity extends ActionBarActivity {
         currentUser = ParseUser.getCurrentUser();
 
         if (currentUser != null) {
-
             if (savedInstanceState != null){
                 fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
             }else{
-                fragment = new HomePageFragment();
-                ft.add(R.id.fragment_home_page,fragment);
+                fragment = new DoarFragment();
+                ft.add(R.id.fragment_doar_cadastro,fragment);
                 ft.commit();
             }
         }else {
@@ -75,12 +79,24 @@ public class HomePageActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        try {
+            getFragmentManager().putFragment(outState, "fragment", fragment);
+        }catch (Exception e){
+            Log.d("My App", e.getMessage());
+        }
+    }
+
     public void redirectToLogin(){
         ParseUser.logOut();
-        Intent i = new Intent(HomePageActivity.this, LoginActivity.class);
+        Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
     }
+
     public void goToMeuPerfilPage(){
         Intent i = new Intent(this, MeuPerfil.class);
         i.putExtra("id_usuario",currentUser.getObjectId());
@@ -95,6 +111,8 @@ public class HomePageActivity extends ActionBarActivity {
     }
 
     public void goToMenuPrincipal(){
+        Intent i = new Intent(this, HomePageActivity.class);
+        startActivity(i);
     }
 
 }

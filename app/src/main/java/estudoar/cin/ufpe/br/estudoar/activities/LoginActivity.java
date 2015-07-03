@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.activities;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -11,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.parse.ParseFacebookUtils;
+
+import estudoar.cin.ufpe.br.estudoar.fragments.LoginFragment;
+import estudoar.cin.ufpe.br.estudoar.R;
 
 public class LoginActivity extends Activity {
 
