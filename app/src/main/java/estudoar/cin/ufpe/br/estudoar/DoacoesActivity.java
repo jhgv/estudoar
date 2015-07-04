@@ -55,8 +55,6 @@ public class DoacoesActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
 
         switch (id){
-            case R.id.action_settings:
-                break;
             case R.id.local_search:
                 break;
             case R.id.user_logout:
