@@ -1,38 +1,26 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.fragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.app.ProgressDialog;
-import android.app.TaskStackBuilder;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.DeleteCallback;
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -42,15 +30,17 @@ import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.parse.PushService;
 import com.parse.SaveCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
+import estudoar.cin.ufpe.br.estudoar.R;
+import estudoar.cin.ufpe.br.estudoar.activities.MeuPerfilActivity;
 
 public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
+
+    private final int NOTIFICAR_DOADOR = 1;
 
     private TextView nome;
     private TextView categoria;
@@ -296,14 +286,14 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                     favorito.deleteInBackground(new DeleteCallback() {
                         @Override
                         public void done(ParseException e) {
-                            if(e == null){
+                            if (e == null) {
                                 Toast.makeText(getActivity(), "Favorito deletado com sucesso", Toast.LENGTH_SHORT).show();
                                 label_status.setVisibility(View.GONE);
                                 status.setVisibility(View.GONE);
                                 icon_status.setVisibility(View.GONE);
                                 queroBtn.setText("Quero");
                                 contatoBtn.setVisibility(View.GONE);
-                            }else{
+                            } else {
                                 Toast.makeText(getActivity(), "Erro ao deletar o favorito", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -341,7 +331,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
                                     data.put("doador_id", id_doador);
                                     data.put("interessado_id", currentUser.getObjectId());
                                     data.put("interessado_name",currentUser.getUsername());
-                                    data.put("action", 1);
+                                    data.put("action", NOTIFICAR_DOADOR);
                                 } catch(JSONException ej) {
                                     ej.printStackTrace();
                                 }
@@ -363,7 +353,7 @@ public class VerDoacaoFragment extends Fragment implements View.OnClickListener{
     }
 
     public void goToContatoDoador(){
-        Intent i = new Intent(getActivity(), MeuPerfil.class);
+        Intent i = new Intent(getActivity(), MeuPerfilActivity.class);
         i.putExtra("id_usuario",id_doador);
         startActivity(i);
     }

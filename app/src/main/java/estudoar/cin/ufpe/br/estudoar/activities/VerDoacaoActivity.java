@@ -1,26 +1,30 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.parse.ParseUser;
 
+import estudoar.cin.ufpe.br.estudoar.R;
+import estudoar.cin.ufpe.br.estudoar.fragments.VerDoacaoFragment;
 
-public class HomePageActivity extends ActionBarActivity {
 
+public class VerDoacaoActivity extends ActionBarActivity {
+
+    private final int MEU_PERFIL = 1;
     protected Fragment fragment;
     private ParseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_page);
+        setContentView(R.layout.activity_ver_doacao);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -33,15 +37,16 @@ public class HomePageActivity extends ActionBarActivity {
             if (savedInstanceState != null){
                 fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
             }else{
-                fragment = new HomePageFragment();
-                ft.add(R.id.fragment_home_page,fragment);
+                fragment = new VerDoacaoFragment();
+                ft.add(R.id.fragment_ver_doacao,fragment);
                 ft.commit();
             }
+
         }else {
             redirectToLogin();
         }
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,24 +82,29 @@ public class HomePageActivity extends ActionBarActivity {
 
     public void redirectToLogin(){
         ParseUser.logOut();
-        Intent i = new Intent(HomePageActivity.this, LoginActivity.class);
+        Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
     }
+
     public void goToMeuPerfilPage(){
-        Intent i = new Intent(this, MeuPerfil.class);
+        Intent i = new Intent(this, MeuPerfilActivity.class);
         i.putExtra("id_usuario",currentUser.getObjectId());
         startActivity(i);
     }
 
     public void goToMinhasDoacoesPage(){
         Intent i = new Intent(this, DoacoesActivity.class);
-        i.putExtra("filter",1);
+        i.putExtra("filter", MEU_PERFIL);
         i.putExtra("title", "Doacoes");
         startActivity(i);
     }
 
     public void goToMenuPrincipal(){
+        Intent i = new Intent(this, HomePageActivity.class);
+        startActivity(i);
     }
 
 }
+
+

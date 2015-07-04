@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import estudoar.cin.ufpe.br.estudoar.R;
+import estudoar.cin.ufpe.br.estudoar.activities.DoacoesActivity;
+import estudoar.cin.ufpe.br.estudoar.activities.DoarActivity;
+
 
 public class HomePageFragment extends Fragment implements View.OnClickListener {
 
@@ -15,6 +19,10 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
     private Button procurarBtn;
     private Button favoritosBtn;
     private Button interessadosBtn;
+
+    public final int SEM_FILTRO = 0;
+    public final int MEUS_FAVORITOS = 2;
+    public final int MEUS_INTERESSADOS = 3;
 
     public HomePageFragment() {
         // Required empty public constructor
@@ -82,21 +90,21 @@ public class HomePageFragment extends Fragment implements View.OnClickListener {
 
     public void goToProcurarPage(View view) {
         Intent i = new Intent(getActivity(), DoacoesActivity.class);
-        i.putExtra("filter",0);
+        i.putExtra("filter",SEM_FILTRO);
         i.putExtra("title", "Doacoes");
         startActivity(i);
     }
 
     public void goToFavoritosPage(View view) {
         Intent i = new Intent(getActivity(), DoacoesActivity.class);
-        i.putExtra("filter",2);
+        i.putExtra("filter",MEUS_FAVORITOS);
         i.putExtra("title", "Meus Favoritos");
         startActivity(i);
     }
 
     public void goToInteressadosPage(View view){
         Intent i = new Intent(getActivity(), DoacoesActivity.class);
-        i.putExtra("filter",3);
+        i.putExtra("filter", MEUS_INTERESSADOS);
         i.putExtra("title", "Interessados");
         startActivity(i);
     }

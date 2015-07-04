@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.utils;
 
 import android.content.Context;
 import android.util.Log;
@@ -20,13 +20,15 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-/**
- * Created by joaoveras on 06/06/2015.
- */
+import estudoar.cin.ufpe.br.estudoar.R;
+
+
 public class DoacaoAdapter extends ArrayAdapter {
     protected Context mContext;
     protected List mDoacoes;
     protected int mFilter;
+
+    public final int MEUS_FAVORITOS = 2;
 
     public DoacaoAdapter(Context context, List doacoes, int filter) {
         super(context, R.layout.materiais_custom, doacoes);
@@ -67,7 +69,7 @@ public class DoacaoAdapter extends ArrayAdapter {
         String descricao = doacaoObject.getString("descricao");
         holder.descricaoDoacao.setText(descricao);
 
-        if(mFilter == 2) {
+        if(mFilter == MEUS_FAVORITOS) {
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Favoritos");
             query.whereEqualTo("doacao", doacaoObject.getObjectId());
             query.whereEqualTo("interessado", ParseUser.getCurrentUser().getObjectId());

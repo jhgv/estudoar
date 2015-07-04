@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.fragments;
 
 
 import android.app.Dialog;
@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import estudoar.cin.ufpe.br.estudoar.R;
 
 
 public class RegisterFragment extends Fragment implements View.OnClickListener{

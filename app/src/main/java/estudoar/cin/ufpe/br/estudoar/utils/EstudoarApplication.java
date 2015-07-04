@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.utils;
 
 import android.app.Application;
 import android.util.Log;
@@ -10,6 +10,9 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParsePush;
 import com.parse.PushService;
 import com.parse.SaveCallback;
+
+import estudoar.cin.ufpe.br.estudoar.activities.MeuPerfilActivity;
+
 
 public class EstudoarApplication extends Application {
     @Override
@@ -36,7 +39,7 @@ public class EstudoarApplication extends Application {
                 }
             }
         });
-        PushService.setDefaultPushCallback(this, MeuPerfil.class);
+        PushService.setDefaultPushCallback(this, MeuPerfilActivity.class);
         //Inicializa a integracao do parse com o facebook
         //FacebookSdk.sdkInitialize(getApplicationContext());
         ParseFacebookUtils.initialize(this);

@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <!-- Para o google maps -->
@@ -33,7 +34,7 @@
         android:required="true" />
 
     <application
-        android:name=".EstudoarApplication"
+        android:name=".utils.EstudoarApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -58,7 +59,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -68,29 +69,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomePageActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name">
+            android:name=".activities.HomePageActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".DoarActivity"
+            android:name=".activities.DoarActivity"
             android:label="@string/title_activity_doar"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".VerDoacaoActivity"
+            android:name=".activities.VerDoacaoActivity"
             android:label="@string/title_activity_ver_doacao"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".MeuPerfil"
-            android:label="@string/title_activity_meu_perfil"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name=".DoacoesActivity"
+            android:name=".activities.DoacoesActivity"
             android:label="@string/title_activity_materiais"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -100,14 +96,14 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".SearchResultsActivity"
+            android:name=".activities.SearchResultsActivity"
             android:label="@string/title_activity_search"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".AddEnderecoActivity"
+            android:name=".activities.AddEnderecoActivity"
             android:label="@string/title_activity_add_endereco"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
 
         <service android:name="com.parse.PushService" />
@@ -129,7 +125,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".PushNotificationReceiver"
+            android:name=".utils.PushNotificationReceiver"
             android:enabled="true"
             android:exported="false" >
             <intent-filter>
@@ -139,6 +135,10 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".activities.MeuPerfilActivity"
+            android:label="@string/title_activity_meu_perfil" >
+        </activity>
     </application>
 
 </manifest>

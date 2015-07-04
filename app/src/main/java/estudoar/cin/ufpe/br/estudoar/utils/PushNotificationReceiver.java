@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.utils;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,7 +13,15 @@ import com.parse.ParseUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import estudoar.cin.ufpe.br.estudoar.R;
+import estudoar.cin.ufpe.br.estudoar.activities.DoacoesActivity;
+import estudoar.cin.ufpe.br.estudoar.activities.VerDoacaoActivity;
+
 public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
+
+    public final int MEUS_INTERESSADOS = 3;
+    public final int NOTIFICAR_DOADOR = 1;
+    public final int NOTIFICAR_INTERESSADO = 2;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -43,7 +51,7 @@ public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
 
 
         //Toast.makeText(context, "O usuário : " + name_interessado + " se interessou pela sua doação!", Toast.LENGTH_SHORT).show();
-        if (id_doador.equals(ParseUser.getCurrentUser().getObjectId()) && action == 1) {
+        if (id_doador.equals(ParseUser.getCurrentUser().getObjectId()) && action == NOTIFICAR_DOADOR) {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
                             .setSmallIcon(R.drawable.ic_icon)
@@ -53,8 +61,8 @@ public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
                             .setContentText(name_interessado + " está interessado em sua doação!");
 
             Intent resultIntent = new Intent();
-            resultIntent.setClassName("estudoar.cin.ufpe.br.estudoar", "estudoar.cin.ufpe.br.estudoar.DoacoesActivity");
-            resultIntent.putExtra("filter",3);
+            resultIntent.setClassName("estudoar.cin.ufpe.br.estudoar", "estudoar.cin.ufpe.br.estudoar.activities.DoacoesActivity");
+            resultIntent.putExtra("filter", MEUS_INTERESSADOS);
             resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -69,7 +77,7 @@ public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
             int id = (int) System.currentTimeMillis();
             mNotificationManager.notify(id, mBuilder.build());
 
-        }else if(ParseUser.getCurrentUser().getObjectId().equals(id_interessado) && action == 2){
+        }else if(ParseUser.getCurrentUser().getObjectId().equals(id_interessado) && action == NOTIFICAR_INTERESSADO){
 
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
@@ -80,7 +88,7 @@ public class PushNotificationReceiver extends ParsePushBroadcastReceiver {
                             .setContentText(status);
 
             Intent resultIntent = new Intent();
-            resultIntent.setClassName("estudoar.cin.ufpe.br.estudoar", "estudoar.cin.ufpe.br.estudoar.VerDoacaoActivity");
+            resultIntent.setClassName("estudoar.cin.ufpe.br.estudoar", "estudoar.cin.ufpe.br.estudoar.activities.VerDoacaoActivity");
             resultIntent.putExtra("id_doacao", id_doacao);
             resultIntent.putExtra("id_doador", id_doador);
             resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

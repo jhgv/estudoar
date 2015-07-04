@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -11,38 +11,47 @@ import android.view.MenuItem;
 
 import com.parse.ParseUser;
 
+import estudoar.cin.ufpe.br.estudoar.fragments.HomePageFragment;
+import estudoar.cin.ufpe.br.estudoar.R;
 
-public class DoacoesActivity extends ActionBarActivity {
 
+public class HomePageActivity extends ActionBarActivity {
+
+    private final int MEU_PERFIL = 1;
     protected Fragment fragment;
-    protected FragmentManager fm;
-
     private ParseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home_page);
 
-        fm = getFragmentManager();
+        FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-        fragment = new DoacoesFragment();
-
-        if (!fragment.isInLayout()) {
-            fm.beginTransaction().replace(R.id.fragment_doacoes, fragment, "mContent").commit();
-        }
 
         currentUser = ParseUser.getCurrentUser();
 
-        setContentView(R.layout.activity_materiais);
+        if (currentUser != null) {
+
+            if (savedInstanceState != null){
+                fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
+            }else{
+                fragment = new HomePageFragment();
+                ft.add(R.id.fragment_home_page,fragment);
+                ft.commit();
+            }
+        }else {
+            redirectToLogin();
+        }
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_materiais, menu);
-
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.menu_home_page, menu);
+        return true;
     }
 
     @Override
@@ -52,11 +61,7 @@ public class DoacoesActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-
         switch (id){
-            case R.id.local_search:
-                break;
             case R.id.user_logout:
                 redirectToLogin();
                 break;
@@ -76,30 +81,24 @@ public class DoacoesActivity extends ActionBarActivity {
 
     public void redirectToLogin(){
         ParseUser.logOut();
-        Intent i = new Intent(this, LoginActivity.class);
+        Intent i = new Intent(HomePageActivity.this, LoginActivity.class);
         startActivity(i);
         finish();
     }
-
     public void goToMeuPerfilPage(){
-        Intent i = new Intent(this, MeuPerfil.class);
+        Intent i = new Intent(this, MeuPerfilActivity.class);
         i.putExtra("id_usuario",currentUser.getObjectId());
         startActivity(i);
-        finish();
     }
 
     public void goToMinhasDoacoesPage(){
         Intent i = new Intent(this, DoacoesActivity.class);
-        i.putExtra("filter",1);
+        i.putExtra("filter", MEU_PERFIL);
         i.putExtra("title", "Doacoes");
         startActivity(i);
-        finish();
     }
 
     public void goToMenuPrincipal(){
-        Intent i = new Intent(this, HomePageActivity.class);
-        startActivity(i);
-        finish();
     }
 
 }

@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -9,30 +9,23 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import estudoar.cin.ufpe.br.estudoar.fragments.DoarFragment;
+import estudoar.cin.ufpe.br.estudoar.R;
 
-import java.util.List;
 
+public class DoarActivity extends ActionBarActivity {
 
-public class MeuPerfil extends ActionBarActivity {
-
+    private final int MEU_PERFIL = 1;
     protected Fragment fragment;
     private ParseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meu_perfil);
+        setContentView(R.layout.activity_doar);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -41,15 +34,13 @@ public class MeuPerfil extends ActionBarActivity {
         currentUser = ParseUser.getCurrentUser();
 
         if (currentUser != null) {
-
             if (savedInstanceState != null){
                 fragment = getFragmentManager().getFragment(savedInstanceState, "fragment");
             }else{
-                fragment = new MeuPerfilFragment();
-                ft.add(R.id.fragment_meu_perfil,fragment);
+                fragment = new DoarFragment();
+                ft.add(R.id.fragment_doar_cadastro,fragment);
                 ft.commit();
             }
-
         }else {
             redirectToLogin();
         }
@@ -88,22 +79,33 @@ public class MeuPerfil extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        try {
+            getFragmentManager().putFragment(outState, "fragment", fragment);
+        }catch (Exception e){
+            Log.d("My App", e.getMessage());
+        }
+    }
+
     public void redirectToLogin(){
         ParseUser.logOut();
-        Intent i = new Intent(MeuPerfil.this, LoginActivity.class);
+        Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         finish();
     }
 
     public void goToMeuPerfilPage(){
-        Intent i = new Intent(this, MeuPerfil.class);
+        Intent i = new Intent(this, MeuPerfilActivity.class);
         i.putExtra("id_usuario",currentUser.getObjectId());
         startActivity(i);
     }
 
     public void goToMinhasDoacoesPage(){
         Intent i = new Intent(this, DoacoesActivity.class);
-        i.putExtra("filter",1);
+        i.putExtra("filter", MEU_PERFIL);
         i.putExtra("title", "Doacoes");
         startActivity(i);
     }

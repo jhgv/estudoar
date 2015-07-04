@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -39,6 +39,10 @@ import com.parse.SaveCallback;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import estudoar.cin.ufpe.br.estudoar.activities.AddEnderecoActivity;
+import estudoar.cin.ufpe.br.estudoar.R;
+import estudoar.cin.ufpe.br.estudoar.activities.VerDoacaoActivity;
 
 public class DoarFragment extends Fragment implements View.OnClickListener {
 

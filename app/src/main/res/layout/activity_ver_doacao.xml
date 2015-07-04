@@ -4,7 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="estudoar.cin.ufpe.br.estudoar.VerDoacaoActivity">
+    tools:context="estudoar.cin.ufpe.br.estudoar.activities.VerDoacaoActivity">
 
     <FrameLayout
         android:id="@+id/fragment_ver_doacao"

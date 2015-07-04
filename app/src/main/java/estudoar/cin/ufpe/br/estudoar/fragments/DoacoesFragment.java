@@ -1,4 +1,4 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.fragments;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -10,7 +10,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,10 +41,23 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import estudoar.cin.ufpe.br.estudoar.activities.MeuPerfilActivity;
+import estudoar.cin.ufpe.br.estudoar.utils.DoacaoAdapter;
+import estudoar.cin.ufpe.br.estudoar.utils.InteressadosAdapter;
+import estudoar.cin.ufpe.br.estudoar.R;
+import estudoar.cin.ufpe.br.estudoar.activities.VerDoacaoActivity;
+
 public class DoacoesFragment extends Fragment implements AbsListView.OnItemClickListener {
 
     private int filter;
 
+    public final int SEM_FILTRO = 0;
+    public final int MEU_PERFIL = 1;
+    public final int MEUS_FAVORITOS = 2;
+    public final int MEUS_INTERESSADOS = 3;
+    public final int OUTRO_PERFIL = 4;
+
+    public final int NOTIFICAR_INTERESSADO = 2;
 
     private ProgressBar spinner;
     private List<ParseObject> mDoacoes;
@@ -105,8 +117,8 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         filter = intent.getExtras().getInt("filter");
         activityTitle = intent.getExtras().getString("title");
 
-        if (filter == 4) {
-            getActivity().setTitle(R.string.title_activity_my_donations);
+        if (filter == OUTRO_PERFIL) {
+            getActivity().setTitle("Doacoes");
             id_usuario = intent.getExtras().getString("id_usuario");
         }
 
@@ -159,7 +171,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
 
-        if (filter != 0 ) {
+        if (filter != SEM_FILTRO ) {
             menu.findItem(R.id.local_search).setVisible(false);
         }
 
@@ -172,7 +184,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                 if (newText.length() == 0) {
                     doSimpleSearch();
                 } else {
-                    if (filter == 3) {
+                    if (filter == MEUS_INTERESSADOS) {
                         doQuerySearchFavoritos(newText);
                     } else {
                         doQuerySearchDoacoes(newText);
@@ -198,17 +210,17 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
     }
 
     private void doSimpleSearch() {
-        if (filter == 0 || filter == 1 || filter == 4) {
+        if (filter == SEM_FILTRO || filter == MEU_PERFIL || filter == OUTRO_PERFIL) {
             final ParseQuery<ParseObject> query = ParseQuery.getQuery("Doacao");
 
-            if (filter == 1) {
+            if (filter == MEU_PERFIL) {
                 query.whereEqualTo("doador", currentUser.getObjectId());
-            } else if (filter == 4) {
+            } else if (filter == OUTRO_PERFIL) {
                 query.whereEqualTo("doador", id_usuario);
             }
             doQuery(query);
 
-        } else if (filter == 2) {
+        } else if (filter == MEUS_FAVORITOS) {
             ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
             queryFavoritos.whereEqualTo("interessado", currentUser.getObjectId());
 
@@ -217,7 +229,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
             doQuery(queryDoacoes);
 
-        } else if (filter == 3) {
+        } else if (filter == MEUS_INTERESSADOS) {
             ParseQuery<ParseObject> queryDoacoes = ParseQuery.getQuery("Doacao");
             queryDoacoes.whereEqualTo("doador", currentUser.getObjectId());
 
@@ -250,11 +262,11 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
 
         ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
 
-        if (filter == 1) {
+        if (filter == MEU_PERFIL) {
             mainQuery.whereEqualTo("doador", currentUser.getObjectId());
-        } else if (filter == 4) {
+        } else if (filter == OUTRO_PERFIL) {
             mainQuery.whereEqualTo("doador", id_usuario);
-        } else if (filter == 2) {
+        } else if (filter == MEUS_FAVORITOS) {
             ParseQuery<ParseObject> queryFavoritos = ParseQuery.getQuery("Favoritos");
             queryFavoritos.whereEqualTo("interessado", currentUser.getObjectId());
             mainQuery.whereMatchesKeyInQuery("objectId", "doacao", queryFavoritos);
@@ -296,26 +308,25 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
         ParseQuery<ParseUser> queryUserName = ParseUser.getQuery();
         queryUserName.whereContains("name", querySearch);
 
-        List<ParseQuery<ParseUser>> queriesUser = new ArrayList<ParseQuery<ParseUser>>();
-        queriesUser.add(queryUserNickName);
-        queriesUser.add(queryUserName);
+        List<ParseQuery<ParseUser>> queriesUsers = new ArrayList<ParseQuery<ParseUser>>();
+        queriesUsers.add(queryUserNickName);
+        queriesUsers.add(queryUserName);
 
-        ParseQuery<ParseUser> queryUsuarios = ParseQuery.or(queriesUser);
+        ParseQuery<ParseUser> queryUsuarios = ParseQuery.or(queriesUsers);
+
+        ParseQuery<ParseObject> queryDoacao = ParseQuery.getQuery("Doacao");
+        queryDoacao.whereEqualTo("doador", currentUser.getObjectId());
 
         ParseQuery<ParseObject> queryNome = ParseQuery.getQuery("Doacao");
         queryNome.whereContains("nome", querySearch);
-
-        List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
-        queries.add(queryNome);
-
-        ParseQuery<ParseObject> queryDoacoes = ParseQuery.or(queries);
-        queryDoacoes.whereEqualTo("doador", currentUser.getObjectId());
+        queryNome.whereEqualTo("doador", currentUser.getObjectId());
 
         ParseQuery<ParseObject> queryDoacoesFavoritadas = ParseQuery.getQuery("Favoritos");
-        queryDoacoesFavoritadas.whereMatchesKeyInQuery("doacao", "objectId", queryDoacoes);
+        queryDoacoesFavoritadas.whereMatchesKeyInQuery("doacao", "objectId", queryNome);
 
         ParseQuery<ParseObject> queryUsuariosInteressados = ParseQuery.getQuery("Favoritos");
         queryUsuariosInteressados.whereMatchesKeyInQuery("interessado", "objectId", queryUsuarios);
+        queryUsuariosInteressados.whereMatchesKeyInQuery("doacao", "objectId", queryDoacao);
 
         List<ParseQuery<ParseObject>> mainQueries = new ArrayList<ParseQuery<ParseObject>>();
         mainQueries.add(queryDoacoesFavoritadas);
@@ -345,16 +356,16 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                 if (e == null && doacoes.size() == 0 && onCreate){
                     AlertDialog.Builder dig = new AlertDialog.Builder(getActivity());
                     switch (filter) {
-                        /*case 0:
+                        /*case SEM_FILTRO:
                             dig.setMessage("Nenhum usuario publicou doacoes!");
                             break;*/
-                        case 1:
+                        case MEU_PERFIL:
                             dig.setMessage("Voce ainda nao publicou doacoes!");
                             break;
-                        case 2:
+                        case MEUS_FAVORITOS:
                             dig.setMessage("Voce ainda nao tem favoritos!");
                             break;
-                        case 4:
+                        case OUTRO_PERFIL:
                             dig.setMessage("Este usuario ainda nao publicou doacoes!");
                             break;
                     }
@@ -456,7 +467,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                                                 data.put("doador_id", currentUser.getObjectId());
                                                 data.put("interessado_id", id_interessado);
                                                 data.put("doacao_id", favorito.getString("doacao"));
-                                                data.put("action", 2);
+                                                data.put("action", NOTIFICAR_INTERESSADO);
                                             } catch(JSONException ej) {
                                                 ej.printStackTrace();
                                             }
@@ -503,7 +514,7 @@ public class DoacoesFragment extends Fragment implements AbsListView.OnItemClick
                                                     .setNeutralButton("Ver Interessado",new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
-                                                            Intent i = new Intent(getActivity(), MeuPerfil.class);
+                                                            Intent i = new Intent(getActivity(), MeuPerfilActivity.class);
                                                             i.putExtra("id_usuario",id_interessado);
                                                             startActivity(i);
                                                         }

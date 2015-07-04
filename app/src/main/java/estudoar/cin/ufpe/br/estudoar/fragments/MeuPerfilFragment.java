@@ -1,9 +1,10 @@
-package estudoar.cin.ufpe.br.estudoar;
+package estudoar.cin.ufpe.br.estudoar.fragments;
 
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,7 +19,13 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import estudoar.cin.ufpe.br.estudoar.R;
+import estudoar.cin.ufpe.br.estudoar.activities.DoacoesActivity;
+
 public class MeuPerfilFragment extends Fragment implements View.OnClickListener {
+
+    public final int MEU_PERFIL = 1;
+    public final int OUTRO_PERFIL = 4;
 
     private Button editarBtn;
     private Button usuarioDoacoesBtn;
@@ -56,17 +63,17 @@ public class MeuPerfilFragment extends Fragment implements View.OnClickListener 
         usuarioDoacoesBtn.setOnClickListener(this);
 
         editarBtn = (Button) meuPerfilView.findViewById(R.id.btnEditarPerfil);
+        editarBtn.setOnClickListener(this);
 
         if(current_user.getObjectId().equals(id_usuario)){
             meu_perfil = true;
-            editarBtn.setOnClickListener(this);
 
             nome.setText(current_user.getString("name"));
             email.setText(current_user.getEmail());
             telefone.setText(current_user.getString("telefone"));
 
         }else{
-            editarBtn.setVisibility(View.GONE);
+            editarBtn.setText("Ligar");
 
             ParseQuery<ParseUser> query = ParseUser.getQuery();
             query.whereEqualTo("objectId", id_usuario);
@@ -116,9 +123,9 @@ public class MeuPerfilFragment extends Fragment implements View.OnClickListener 
     public void goToMinhasDoacoesPage(View v) {
         Intent i = new Intent(getActivity(), DoacoesActivity.class);
         if(meu_perfil){
-            i.putExtra("filter",1);
+            i.putExtra("filter",MEU_PERFIL);
         }else{
-            i.putExtra("filter",4);
+            i.putExtra("filter",OUTRO_PERFIL);
             i.putExtra("id_usuario",id_usuario);
         }
         i.putExtra("title", "Doacoes");
@@ -126,13 +133,18 @@ public class MeuPerfilFragment extends Fragment implements View.OnClickListener 
     }
 
     public void goToEditarPerfilPage(View v) {
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-        transaction.replace(R.id.fragment_meu_perfil, new EditarPerfilFragment());
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
+        if(meu_perfil){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+            transaction.replace(R.id.fragment_meu_perfil, new EditarPerfilFragment());
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }else{
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + telefone.getText()));
+            startActivity(intent);
+        }
 
+    }
 
 }
